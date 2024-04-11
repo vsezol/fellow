@@ -1,20 +1,18 @@
-import Chat from '../widgets/chat';
-import MessageInput from '../widgets/message-input';
+import { StrictMode } from 'react';
+import { Provider } from 'react-redux';
+import { RouterProvider } from 'react-router-dom';
+import { store } from '../store';
 import './globals.css';
 import './icons';
+import { router } from './router';
 
 export function App() {
   return (
-    <div className="container h-screen mx-auto ">
-      <div className="flex flex-col h-full max-w-2xl mx-auto py-4">
-        <div className="flex-grow">
-          <Chat />
-        </div>
-        <div>
-          <MessageInput />
-        </div>
-      </div>
-    </div>
+    <StrictMode>
+      <Provider store={store}>
+        <RouterProvider router={router} />
+      </Provider>
+    </StrictMode>
   );
 }
 

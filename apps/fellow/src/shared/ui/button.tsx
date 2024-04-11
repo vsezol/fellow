@@ -7,6 +7,7 @@ export type ButtonProps = {
   ariaLabel?: string;
   color?: Color;
   type?: 'submit' | 'reset' | 'button';
+  disabled?: boolean;
 } & PropsWithChildren;
 
 const sizeClass: Partial<Record<Size, string>> = {
@@ -30,12 +31,18 @@ export const Button = ({
   ariaLabel,
   color = 'ghost',
   type = 'button',
+  disabled = false,
 }: ButtonProps) => {
   return (
     <button
       aria-label={ariaLabel}
       type={type}
-      className={clsx('btn', colorClass?.[color], sizeClass?.[size])}
+      className={clsx(
+        'btn',
+        disabled && 'btn-disabled',
+        colorClass?.[color],
+        sizeClass?.[size]
+      )}
     >
       {children}
     </button>

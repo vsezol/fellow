@@ -1,4 +1,4 @@
-export default function Chat() {
+export default function MessagesList() {
   return (
     <div className="flex flex-col">
       <div className="chat chat-start">
