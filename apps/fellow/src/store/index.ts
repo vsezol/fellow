@@ -1,10 +1,12 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
+import { chatsSlice } from '../entity/chats';
 import { userSlice } from '../entity/user';
 import { getState, saveState } from './storage-sync';
 
 export const rootReducer = combineReducers({
   user: userSlice.reducer,
+  chats: chatsSlice.reducer,
 });
 
 export const store = configureStore({

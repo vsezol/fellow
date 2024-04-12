@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
         lazy: () => import('../pages/user'),
       },
       {
-        path: ':name',
+        path: ':chat',
         lazy: () => import('../pages/chat'),
       },
     ],
