@@ -2,7 +2,12 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { chatsSlice } from '../entity/chats';
 import { userSlice } from '../entity/user';
-import { getState, saveState } from './storage-sync';
+import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
+
+const storageOptions: StorageOptions = {
+  name: 'FELLOW',
+  version: 0,
+};
 
 export const rootReducer = combineReducers({
   user: userSlice.reducer,
@@ -10,10 +15,10 @@ export const rootReducer = combineReducers({
 });
 
 export const store = configureStore({
-  preloadedState: getState(),
+  preloadedState: getStorageState(storageOptions),
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(saveState),
+    getDefaultMiddleware().concat(saveStateToStorage(storageOptions)),
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

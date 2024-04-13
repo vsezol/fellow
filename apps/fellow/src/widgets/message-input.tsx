@@ -3,18 +3,26 @@ import { KeyboardEvent } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '../shared/ui';
 
-interface MessageInput {
+interface MessageInputForm {
   text: string;
 }
 
-export default function MessageInput() {
+interface MessageInputProps {
+  onSend: (text: string) => unknown;
+}
+
+export default function MessageInput({ onSend }: MessageInputProps) {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isValid },
-  } = useForm<MessageInput>();
+  } = useForm<MessageInputForm>();
 
-  const onSubmit: SubmitHandler<MessageInput> = (data) => console.log(data);
+  const onSubmit: SubmitHandler<MessageInputForm> = ({ text }) => {
+    onSend(text);
+    reset();
+  };
 
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== 'Enter' || event.shiftKey) {

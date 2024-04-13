@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 export interface UserState {
   name: string;
@@ -8,8 +8,10 @@ const initialState: UserState = {
   name: '',
 };
 
+const SLICE_NAME = 'user';
+
 export const userSlice = createSlice({
-  name: 'user',
+  name: SLICE_NAME,
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
@@ -17,3 +19,7 @@ export const userSlice = createSlice({
     },
   },
 });
+
+const selectSelf = (state: { [SLICE_NAME]: UserState }) => state[SLICE_NAME];
+
+export const selectUserName = createSelector(selectSelf, (state) => state.name);

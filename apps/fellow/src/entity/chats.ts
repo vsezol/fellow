@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
 
 export interface ChatMessage {
   from: string;
@@ -14,22 +14,40 @@ export interface AddMessagePayload {
   message: ChatMessage;
 }
 
-export type ChatsState = Record<string, Chat>;
+export type ChatsState = {
+  current: string | undefined;
+  chats: Record<string, Chat>;
+};
 
-const initialState: ChatsState = {};
+const SLICE_NAME = 'chats';
+
+const initialState: ChatsState = {
+  current: undefined,
+  chats: {},
+};
 
 export const chatsSlice = createSlice({
-  name: 'chats',
+  name: SLICE_NAME,
   initialState,
   reducers: {
+    setCurrent: (state, action: PayloadAction<string>) => {
+      state.current = action.payload;
+    },
     addMessage: (state, action: PayloadAction<AddMessagePayload>) => {
       const { chat, message } = action.payload;
 
-      state[chat] ||= {
+      state.chats[chat] ||= {
         messages: [],
       };
 
-      state[chat].messages.push(message);
+      state.chats[chat].messages.push(message);
     },
   },
 });
+
+const selectSelf = (state: { [SLICE_NAME]: ChatsState }) => state[SLICE_NAME];
+
+export const selectCurrentChat = createSelector(
+  selectSelf,
+  (state) => state.current
+);
