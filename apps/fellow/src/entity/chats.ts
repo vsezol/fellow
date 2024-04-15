@@ -1,4 +1,14 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { OutputSelector, PayloadAction, createSlice } from '@reduxjs/toolkit';
+import {
+  createSelectFromSelf,
+  createSelectSelf,
+  createSliceSelectorWithTypes,
+} from '../shared';
+
+export interface ChatsState {
+  current: string | undefined;
+  chats: Partial<Record<string, Chat>>;
+}
 
 export interface ChatMessage {
   from: string;
@@ -14,12 +24,10 @@ export interface AddMessagePayload {
   message: ChatMessage;
 }
 
-export type ChatsState = {
-  current: string | undefined;
-  chats: Record<string, Chat>;
-};
-
-const SLICE_NAME = 'chats';
+export interface ChatPreview {
+  name: string;
+  lastMessage: ChatMessage | undefined;
+}
 
 const initialState: ChatsState = {
   current: undefined,
@@ -27,11 +35,19 @@ const initialState: ChatsState = {
 };
 
 export const chatsSlice = createSlice({
-  name: SLICE_NAME,
+  name: 'chats',
   initialState,
   reducers: {
     setCurrent: (state, action: PayloadAction<string>) => {
       state.current = action.payload;
+    },
+    addChat: (state, action: PayloadAction<string>) => {
+      state.chats[action.payload] ||= {
+        messages: [],
+      };
+    },
+    deleteChat: (state, action: PayloadAction<string>) => {
+      state.chats[action.payload] = undefined;
     },
     addMessage: (state, action: PayloadAction<AddMessagePayload>) => {
       const { chat, message } = action.payload;
@@ -40,14 +56,27 @@ export const chatsSlice = createSlice({
         messages: [],
       };
 
-      state.chats[chat].messages.push(message);
+      state.chats?.[chat]?.messages.push(message);
     },
   },
 });
 
-const selectSelf = (state: { [SLICE_NAME]: ChatsState }) => state[SLICE_NAME];
+const selectSelf = createSelectSelf(chatsSlice);
+const selectFromSelf = createSelectFromSelf(chatsSlice);
+const createSliceSelector = createSliceSelectorWithTypes(chatsSlice);
 
-export const selectCurrentChat = createSelector(
-  selectSelf,
-  (state) => state.current
+export const selectCurrentChat = selectFromSelf((state) => state.current);
+
+export const selectCurrentMessages = selectFromSelf(
+  ({ chats, current }) => chats?.[current ?? '']?.messages
 );
+
+export const selectChats: OutputSelector<[typeof selectSelf], ChatPreview[]> =
+  createSliceSelector(selectSelf, (state) =>
+    Object.keys(state.chats)
+      .filter((key) => state.chats[key] !== undefined)
+      .map((key) => ({
+        name: key,
+        lastMessage: state.chats?.[key]?.messages.at(-1),
+      }))
+  );

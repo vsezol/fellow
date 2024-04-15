@@ -1,12 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { chatsSlice } from '../entity/chats';
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  chatsSlice,
+  selectChats,
+  selectCurrentMessages,
+} from '../entity/chats';
 import { selectUserName } from '../entity/user';
 import { useWebSocket } from '../shared';
 import { useAppSelector } from '../store';
-import MessageInput from '../widgets/message-input';
-import MessagesList from '../widgets/messages-list';
+import { AddChatInput } from '../widgets/add-chat-input';
+import { Conversation } from '../widgets/conversation';
+import { ConversationPreview } from '../widgets/conversation-preview';
 
 interface Message {
   from: string;
@@ -16,8 +21,25 @@ interface Message {
 
 export const Component = () => {
   const dispatch = useDispatch();
-  const { chat } = useParams();
+  const { chatName } = useParams();
   const userName = useAppSelector(selectUserName);
+  const currentMessages = useAppSelector(selectCurrentMessages);
+  const chats = useAppSelector(selectChats);
+  const hasSelectedChat = typeof chatName === 'string';
+  const [selectedChat, setSelectedChat] = useState<string>();
+  const navigate = useNavigate();
+
+  const selectChat = (chatName: string) => {
+    navigate(`/chat/${chatName}`);
+    setSelectedChat(chatName);
+    dispatch(chatsSlice.actions.setCurrent(chatName));
+  };
+
+  const deleteChat = (chatName: string) => {
+    navigate(`/chat`);
+    setSelectedChat(undefined);
+    dispatch(chatsSlice.actions.deleteChat(chatName));
+  };
 
   const send = useWebSocket({
     url: 'ws://localhost:5001',
@@ -37,21 +59,21 @@ export const Component = () => {
   });
 
   useEffect(() => {
-    if (!chat) {
+    if (!chatName) {
       return;
     }
 
-    dispatch(chatsSlice.actions.setCurrent(chat));
+    dispatch(chatsSlice.actions.setCurrent(chatName));
   }, []);
 
   const sendMessage = (text: string) => {
-    if (!chat || !userName || !text) {
+    if (!chatName || !userName || !text) {
       return;
     }
 
     dispatch(
       chatsSlice.actions.addMessage({
-        chat,
+        chat: chatName,
         message: {
           from: userName,
           text,
@@ -61,7 +83,7 @@ export const Component = () => {
 
     const message: Message = {
       from: userName,
-      to: chat,
+      to: chatName,
       text,
     };
 
@@ -69,12 +91,36 @@ export const Component = () => {
   };
 
   return (
-    <div className="flex flex-col h-full max-w-2xl mx-auto">
-      <div className="flex-grow">
-        <MessagesList />
+    <div className="flex flex-row gap-4 justify-center h-full">
+      <div className="flex flex-col h-full gap-2 w-60 flex-none">
+        <AddChatInput />
+        <div className="flex flex-col flex-1 gap-2 overflow-y-scroll pr-4">
+          {chats.map((chat) => (
+            <ConversationPreview
+              key={chat.name}
+              chatName={chat.name}
+              currentUserName={userName}
+              message={chat.lastMessage}
+              selected={selectedChat === chat.name}
+              onClick={() => selectChat(chat.name)}
+              onDelete={() => deleteChat(chat.name)}
+            ></ConversationPreview>
+          ))}
+        </div>
       </div>
-      <div>
-        <MessageInput onSend={sendMessage} />
+
+      <div className="flex-grow">
+        {hasSelectedChat ? (
+          <Conversation
+            currentUserName={userName}
+            messages={currentMessages ?? []}
+            onSendMessage={sendMessage}
+          />
+        ) : (
+          <p className="flex flex-row h-full justify-center items-center opacity-70">
+            Выберите чат, и начните общаться!
+          </p>
+        )}
       </div>
     </div>
   );

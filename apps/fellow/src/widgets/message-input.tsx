@@ -43,7 +43,7 @@ export default function MessageInput({ onSend }: MessageInputProps) {
         {...register('text', { required: true, maxLength: 300, minLength: 1 })}
         rows={1}
         className="textarea textarea-primary w-full max-h-28"
-        placeholder="Enter message"
+        placeholder="Введите сообщение"
       ></textarea>
 
       <Button size="md" color="primary" type="submit" disabled={!isValid}>

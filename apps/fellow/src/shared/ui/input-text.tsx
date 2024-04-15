@@ -1,9 +1,11 @@
+import clsx from 'clsx';
 import {
   ChangeEventHandler,
   FocusEventHandler,
   ForwardedRef,
   forwardRef,
 } from 'react';
+import { Color, Size } from './types';
 
 export interface InputTextProps {
   onChange: ChangeEventHandler;
@@ -14,16 +16,41 @@ export interface InputTextProps {
   required?: boolean;
   disabled?: boolean;
   placeholder?: string;
+  size?: Size;
+  color?: Color;
 }
 
+const sizeClass: Record<Size, string> = {
+  xs: 'input-xs',
+  sm: 'input-sm',
+  md: 'input-md',
+  lg: 'input-lg',
+};
+
+const colorClass: Record<Color, string> = {
+  neutral: 'input-neutral',
+  primary: 'input-primary',
+  secondary: 'input-secondary',
+  accent: 'input-accent',
+  ghost: 'input-ghost',
+  link: 'input-link',
+};
+
 export const InputText = forwardRef(
-  (props: InputTextProps, ref: ForwardedRef<HTMLInputElement>) => {
+  (
+    { size = 'md', color = 'primary', ...props }: InputTextProps,
+    ref: ForwardedRef<HTMLInputElement>
+  ) => {
     return (
       <input
         {...props}
         ref={ref}
         type="text"
-        className="input input-primary input-bordered w-full"
+        className={clsx(
+          'input input-bordered w-full',
+          sizeClass?.[size],
+          colorClass?.[color]
+        )}
       />
     );
   }

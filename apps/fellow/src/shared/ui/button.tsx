@@ -1,13 +1,14 @@
 import { clsx } from 'clsx';
-import { PropsWithChildren } from 'react';
+import { PropsWithChildren, SyntheticEvent } from 'react';
 import { Color, Size } from './types';
 
 export type ButtonProps = {
-  size: Size;
+  size?: Size;
   ariaLabel?: string;
   color?: Color;
   type?: 'submit' | 'reset' | 'button';
   disabled?: boolean;
+  onClick?: (event: SyntheticEvent) => unknown;
 } & PropsWithChildren;
 
 const sizeClass: Partial<Record<Size, string>> = {
@@ -27,14 +28,16 @@ const colorClass: Partial<Record<Color, string>> = {
 
 export const Button = ({
   children,
-  size,
+  size = 'md',
   ariaLabel,
   color = 'ghost',
   type = 'button',
   disabled = false,
+  onClick,
 }: ButtonProps) => {
   return (
     <button
+      onClick={onClick}
       aria-label={ariaLabel}
       type={type}
       className={clsx(
@@ -44,7 +47,7 @@ export const Button = ({
         sizeClass?.[size]
       )}
     >
-      {children}
+      <div className="flex flex-row gap-2">{children}</div>
     </button>
   );
 };

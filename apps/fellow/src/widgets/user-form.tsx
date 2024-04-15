@@ -31,7 +31,7 @@ export const UserForm: FC = () => {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex sm:flex-row flex-col sm:gap-2 gap-4 w-full sm:max-w-md max-w-sm"
+      className="flex sm:flex-row flex-col sm:gap-2 gap-4 w-full"
     >
       <Controller
         name="name"
@@ -42,12 +42,12 @@ export const UserForm: FC = () => {
           maxLength: 15,
         }}
         render={({ field }) => (
-          <InputText {...field} placeholder="Enter your nickname" />
+          <InputText {...field} placeholder="Введите ваш ник" />
         )}
       />
 
       <Button size="md" color="primary" type="submit" disabled={!isValid}>
-        Done
+        Готово
       </Button>
     </form>
   );

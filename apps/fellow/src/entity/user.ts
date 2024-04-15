@@ -1,4 +1,5 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
+import { createSelectFromSelf } from '../shared';
 
 export interface UserState {
   name: string;
@@ -8,10 +9,8 @@ const initialState: UserState = {
   name: '',
 };
 
-const SLICE_NAME = 'user';
-
 export const userSlice = createSlice({
-  name: SLICE_NAME,
+  name: 'user',
   initialState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
@@ -20,6 +19,6 @@ export const userSlice = createSlice({
   },
 });
 
-const selectSelf = (state: { [SLICE_NAME]: UserState }) => state[SLICE_NAME];
+const selectFromSelf = createSelectFromSelf(userSlice);
 
-export const selectUserName = createSelector(selectSelf, (state) => state.name);
+export const selectUserName = selectFromSelf((state) => state.name);
