@@ -2,7 +2,7 @@ import { Outlet } from 'react-router-dom';
 
 export default function Layout() {
   return (
-    <div className="container h-screen mx-auto p-4">
+    <div className="lg:container h-screen mx-auto lg:p-4 p-0">
       <Outlet />
     </div>
   );

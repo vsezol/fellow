@@ -1,4 +1,12 @@
 export {
+  BREAKPOINTS,
+  BreakpointProvider,
+  BreakpointSwitcher,
+  useBreakpoint,
+} from './breakpoint';
+export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
+export { getDeclensionByNumber } from './get-declension-by-number';
+export {
   createSelectFromSelf,
   createSelectSelf,
   createSliceSelectorWithTypes,
