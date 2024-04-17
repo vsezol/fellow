@@ -48,10 +48,14 @@ export const Conversation = () => {
         </div>
 
         <div className="flex-1 flex flex-col items-center">
-          <div className="text-lg font-semibold">{currentChatName}</div>
-          <div className="text-sm font-light">
-            {messages.length} {messagesText}
-          </div>
+          {currentChatName && (
+            <>
+              <div className="text-lg font-semibold">{currentChatName}</div>
+              <div className="text-sm font-light">
+                {messages.length} {messagesText}
+              </div>
+            </>
+          )}
         </div>
 
         <div className="flex-1"></div>
