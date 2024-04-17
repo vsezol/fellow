@@ -38,7 +38,7 @@ export const chatsSlice = createSlice({
   name: 'chats',
   initialState,
   reducers: {
-    setCurrent: (state, action: PayloadAction<string>) => {
+    setCurrent: (state, action: PayloadAction<string | undefined>) => {
       state.current = action.payload;
     },
     addChat: (state, action: PayloadAction<string>) => {

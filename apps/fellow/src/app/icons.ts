@@ -1,6 +1,7 @@
 import { library } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {
+  faChevronLeft,
   faEllipsisVertical,
   faGear,
   faPaperPlane,
@@ -8,4 +9,11 @@ import {
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons';
 
-library.add(faPaperPlane, faPlus, faEllipsisVertical, faTrashCan, faGear);
+library.add(
+  faPaperPlane,
+  faPlus,
+  faEllipsisVertical,
+  faTrashCan,
+  faGear,
+  faChevronLeft
+);

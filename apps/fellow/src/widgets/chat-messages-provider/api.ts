@@ -44,5 +44,9 @@ function isMessage(
     return false;
   }
 
-  return Object.hasOwn(message, 'chat') && Object.hasOwn(message, 'message');
+  return (
+    Object.hasOwn(message, 'from') &&
+    Object.hasOwn(message, 'to') &&
+    Object.hasOwn(message, 'text')
+  );
 }
