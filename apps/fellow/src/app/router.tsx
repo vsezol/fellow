@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { Navigate, createBrowserRouter } from 'react-router-dom';
 import { withGuards } from '../shared';
 import { HasUserNameGuard } from './guards';
 import Layout from './layout';
@@ -8,6 +8,10 @@ export const router = createBrowserRouter([
     path: '/',
     element: <Layout />,
     children: [
+      {
+        path: '',
+        element: <Navigate to="chat" />,
+      },
       {
         path: 'user',
         lazy: () => import('../pages/user'),

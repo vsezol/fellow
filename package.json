@@ -2,8 +2,10 @@
   "name": "@fellow/source",
   "version": "0.0.0",
   "license": "MIT",
-  "scripts": {},
   "private": true,
+  "scripts": {
+    "build": "nx run fellow:build && cp ./dist/apps/fellow/index.html ./dist/apps/fellow/404.html"
+  },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",
     "@fortawesome/free-brands-svg-icons": "^6.5.1",
