@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { KeyboardEvent } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { disableMobileScroll, enableMobileScroll, isIOS } from '../shared';
 import { Button } from '../shared/ui';
 
 interface MessageInputForm {
@@ -33,6 +34,10 @@ export default function MessageInput({ onSend }: MessageInputProps) {
     handleSubmit(onSubmit)();
   };
 
+  const onFocus = () => isIOS() && disableMobileScroll();
+
+  const onBlur = () => isIOS() && enableMobileScroll();
+
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -40,7 +45,13 @@ export default function MessageInput({ onSend }: MessageInputProps) {
     >
       <textarea
         onKeyDown={onKeyDown}
-        {...register('text', { required: true, maxLength: 300, minLength: 1 })}
+        onFocus={onFocus}
+        {...register('text', {
+          required: true,
+          maxLength: 300,
+          minLength: 1,
+          onBlur,
+        })}
         rows={1}
         className="textarea textarea-primary w-full max-h-28"
         placeholder="Введите сообщение"

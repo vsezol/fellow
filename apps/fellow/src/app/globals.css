@@ -1,3 +1,18 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body,
+html {
+  position: fixed;
+  overflow: hidden;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+}
+
+.h-screen {
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+}

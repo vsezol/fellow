@@ -6,6 +6,8 @@ export {
 } from './breakpoint';
 export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
 export { getDeclensionByNumber } from './get-declension-by-number';
+export { isIOS } from './is-ios';
+export { disableMobileScroll, enableMobileScroll } from './scroll';
 export {
   createSelectFromSelf,
   createSelectSelf,

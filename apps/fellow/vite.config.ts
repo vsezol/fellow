@@ -8,12 +8,12 @@ export default defineConfig({
   cacheDir: '../../node_modules/.vite/apps/fellow',
   server: {
     port: 4200,
-    host: 'localhost',
+    host: true,
   },
 
   preview: {
     port: 4300,
-    host: 'localhost',
+    host: true,
   },
 
   plugins: [react(), nxViteTsPaths()],
