@@ -8,16 +8,16 @@ import { ConversationPreviewList } from '../widgets/conversation-preview-list';
 
 const slideLeftClasses: CSSTransitionClassNames = {
   enter: 'absolute translate-x-full',
-  enterActive: 'absolute transition-all duration-300 translate-x-0',
-  enterDone: 'absolute',
-  exit: 'absolute transition-all duration-300 translate-x-0',
-  exitActive: 'absolute -translate-x-full',
+  enterActive: 'absolute transition-all duration-1000 translate-x-[0]',
+  exit: 'absolute transition-all duration-1000 -translate-x-[100%]',
+  exitActive: 'absolute translate-x-0',
 };
 
 const slideRightClasses: CSSTransitionClassNames = {
   enter: 'absolute -translate-x-full',
-  enterActive: 'absolute transition-all duration-300 -translate-x-0',
-  exit: 'absolute transition-all duration-300 translate-x-full',
+  enterActive: 'absolute transition-all duration-1000 translate-x-0',
+  exit: 'absolute translate-x-0',
+  exitActive: 'absolute transition-all duration-1000 translate-x-full',
 };
 
 export default function ChatMobile() {
@@ -34,7 +34,7 @@ export default function ChatMobile() {
       <CSSTransition
         in={!currentChatName}
         nodeRef={conversationPreviewRef}
-        timeout={300}
+        timeout={1000}
         unmountOnExit
         classNames={transitionClasses}
       >
@@ -46,7 +46,7 @@ export default function ChatMobile() {
       <CSSTransition
         in={Boolean(currentChatName)}
         nodeRef={conversationRef}
-        timeout={300}
+        timeout={1000}
         unmountOnExit
         classNames={transitionClasses}
       >

@@ -10,7 +10,7 @@ export const Component = () => {
   const goToChats = () => navigate('/chat');
 
   return (
-    <div className="flex flex-col h-full mx-auto py-4 gap-4 items-center justify-center sm:max-w-md max-w-sm">
+    <div className="flex flex-col h-full mx-auto md:p-0 p-4 gap-4 items-center justify-center sm:max-w-md max-w-sm">
       <UserForm />
 
       {userName && (

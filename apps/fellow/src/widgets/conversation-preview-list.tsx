@@ -39,6 +39,14 @@ export const ConversationPreviewList = () => {
     dispatch(chatsSlice.actions.setCurrent(currentChatName));
   }, []);
 
+  useEffect(() => {
+    console.log('ConversationPreviewList - created');
+
+    return () => {
+      console.log('ConversationPreviewList - destroy');
+    };
+  }, []);
+
   return (
     <div className="flex flex-col h-full w-full gap-2">
       <AddChatInput />

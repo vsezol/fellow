@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentChatName, selectCurrentMessages } from '../entity/chats';
 import { selectUserName } from '../entity/user';
@@ -34,6 +35,14 @@ export const Conversation = () => {
       text,
     });
   };
+
+  useEffect(() => {
+    console.log('Conversation - created');
+
+    return () => {
+      console.log('Conversation - destroy');
+    };
+  }, []);
 
   return (
     <div className="flex flex-col h-full w-full gap-4 overflow-hidden rounded-lg">
