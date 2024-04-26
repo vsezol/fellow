@@ -22,6 +22,7 @@ export type {
 } from './slice-utils';
 export { getStorageState, saveStateToStorage } from './storage-sync';
 export type { StorageOptions } from './storage-sync';
+export { usePreferredThemeMetaSync } from './theme';
 export { useWebSocket } from './use-web-socket';
 export type { WebSocketClientOptions } from './web-socket-client';
 export { withGuards } from './with-guards';
