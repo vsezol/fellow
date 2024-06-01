@@ -7,12 +7,16 @@ import {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import { chatsSlice } from '../../entity/chats';
+import { selectUserName } from '../../entity/user';
 import { useWebSocket } from '../../shared';
-import { ChatMessageApi, parseMessageEvent, toAddMessagePayload } from './api';
+import { useAppSelector } from '../../store';
+import { SendChatMessageApi, isGetChatMessage } from './api';
 
-export type SendChatMessageApi = (message: ChatMessageApi) => void;
+const WEB_SOCKET_URL = `wss://chat-server.vsezol.com`;
 
-export const ChatMessagesApiContext = createContext<SendChatMessageApi>(
+export type SendChatMessage = (message: SendChatMessageApi) => void;
+
+export const ChatMessagesApiContext = createContext<SendChatMessage>(
   () => undefined
 );
 
@@ -24,25 +28,48 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
   const dispatch = useDispatch();
   const { addMessage } = chatsSlice.actions;
 
+  const userName = useAppSelector(selectUserName);
+
   const send = useWebSocket({
-    url: 'ws://localhost:5001',
+    url: `${WEB_SOCKET_URL}/chat?userId=${userName}`,
     message: (event) => {
       try {
-        const data = toAddMessagePayload(parseMessageEvent(event));
-        dispatch(addMessage(data));
+        const data = JSON.parse(event.data);
+
+        if (!isGetChatMessage(data)) {
+          return;
+        }
+
+        dispatch(
+          addMessage({
+            chat: data.from,
+            message: {
+              from: data.from,
+              text: data.message,
+            },
+          })
+        );
       } catch {
         console.error('Error while parsing message event');
       }
     },
   });
 
-  const sendChatMessage: SendChatMessageApi = useCallback(
-    (message) => {
+  const sendChatMessage: SendChatMessage = useCallback(
+    (data) => {
       // TODO delete message if error
-      send(JSON.stringify(message));
-      dispatch(addMessage(toAddMessagePayload(message)));
+      send(JSON.stringify(data));
+      dispatch(
+        addMessage({
+          chat: data.to,
+          message: {
+            from: userName,
+            text: data.message,
+          },
+        })
+      );
     },
-    [send, dispatch, addMessage]
+    [send, dispatch, addMessage, userName]
   );
 
   return (

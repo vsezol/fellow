@@ -1,52 +1,19 @@
-import { AddMessagePayload } from '../../entity/chats';
-
-export interface ChatMessageApi {
-  from: string;
+export interface SendChatMessageApi {
   to: string;
-  text: string;
+  message: string;
 }
 
-export const parseMessageEvent = (event: MessageEvent): ChatMessageApi => {
-  const message = JSON.parse(event.data);
+export interface GetChatMessageApi {
+  from: string;
+  message: string;
+}
 
-  if (!isMessage(message)) {
-    throw new Error('MessageEvent is not ChatMessageApi');
-  }
-
-  return message;
-};
-
-export const toAddMessagePayload = ({
-  to,
-  from,
-  text,
-}: ChatMessageApi): AddMessagePayload => ({
-  chat: to,
-  message: {
-    from,
-    text,
-  },
-});
-
-export const toChatMessageApi = ({
-  chat,
-  message,
-}: AddMessagePayload): ChatMessageApi => ({
-  to: chat,
-  from: message.from,
-  text: message.text,
-});
-
-function isMessage(
+export function isGetChatMessage(
   message: undefined | null | string | object
-): message is ChatMessageApi {
+): message is GetChatMessageApi {
   if (!message || typeof message !== 'object') {
     return false;
   }
 
-  return (
-    Object.hasOwn(message, 'from') &&
-    Object.hasOwn(message, 'to') &&
-    Object.hasOwn(message, 'text')
-  );
+  return Object.hasOwn(message, 'from') && Object.hasOwn(message, 'message');
 }

@@ -29,9 +29,8 @@ export const Conversation = () => {
     }
 
     sendChatMessage({
-      from: currentUserName,
       to: currentChatName,
-      text,
+      message: text,
     });
   };
 
