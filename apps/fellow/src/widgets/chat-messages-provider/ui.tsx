@@ -6,21 +6,21 @@ import {
   useContext,
 } from 'react';
 import { useDispatch } from 'react-redux';
+import useWebSocket from 'react-use-websocket';
 import { chatsSlice } from '../../entity/chats';
 import { selectUserName } from '../../entity/user';
-import { useWebSocket } from '../../shared';
 import { useAppSelector } from '../../store';
-import { SendChatMessageApi, isGetChatMessage } from './api';
+import { OutgoingChatMessage, isIncomingChatMessage } from './api';
 
 const WEB_SOCKET_URL = `wss://chat-server.vsezol.com`;
 
-export type SendChatMessage = (message: SendChatMessageApi) => void;
+export type SendChatMessageFn = (message: OutgoingChatMessage) => void;
 
-export const ChatMessagesApiContext = createContext<SendChatMessage>(
+export const ChatMessagesApiContext = createContext<SendChatMessageFn>(
   () => undefined
 );
 
-export const useSendChatMessageApi = () => useContext(ChatMessagesApiContext);
+export const useChatMessagesApi = () => useContext(ChatMessagesApiContext);
 
 export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
   children,
@@ -30,35 +30,38 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
 
   const userName = useAppSelector(selectUserName);
 
-  const send = useWebSocket({
-    url: `${WEB_SOCKET_URL}/chat?userId=${userName}`,
-    message: (event) => {
-      try {
-        const data = JSON.parse(event.data);
+  const { sendJsonMessage } = useWebSocket(
+    `${WEB_SOCKET_URL}/chat?userId=${userName}`,
+    {
+      onMessage: (event) => {
+        try {
+          const data = JSON.parse(event.data);
 
-        if (!isGetChatMessage(data)) {
-          return;
+          if (!isIncomingChatMessage(data)) {
+            return;
+          }
+
+          dispatch(
+            addMessage({
+              chat: data.from,
+              message: {
+                from: data.from,
+                text: data.message,
+              },
+            })
+          );
+        } catch {
+          console.error('Error while parsing message event');
         }
+      },
+    }
+  );
 
-        dispatch(
-          addMessage({
-            chat: data.from,
-            message: {
-              from: data.from,
-              text: data.message,
-            },
-          })
-        );
-      } catch {
-        console.error('Error while parsing message event');
-      }
-    },
-  });
-
-  const sendChatMessage: SendChatMessage = useCallback(
+  const sendChatMessage: SendChatMessageFn = useCallback(
     (data) => {
       // TODO delete message if error
-      send(JSON.stringify(data));
+      sendJsonMessage(data);
+
       dispatch(
         addMessage({
           chat: data.to,
@@ -69,7 +72,7 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
         })
       );
     },
-    [send, dispatch, addMessage, userName]
+    [sendJsonMessage, dispatch, addMessage, userName]
   );
 
   return (

@@ -1,19 +1,19 @@
-export interface SendChatMessageApi {
+export interface OutgoingChatMessage {
   to: string;
   message: string;
 }
 
-export interface GetChatMessageApi {
+export interface IncomingChatMessage {
   from: string;
   message: string;
 }
 
-export function isGetChatMessage(
-  message: undefined | null | string | object
-): message is GetChatMessageApi {
-  if (!message || typeof message !== 'object') {
+export function isIncomingChatMessage(
+  data: undefined | null | string | object
+): data is IncomingChatMessage {
+  if (!data || typeof data !== 'object') {
     return false;
   }
 
-  return Object.hasOwn(message, 'from') && Object.hasOwn(message, 'message');
+  return Object.hasOwn(data, 'from') && Object.hasOwn(data, 'message');
 }
