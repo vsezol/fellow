@@ -7,6 +7,7 @@ export {
 export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
 export { getDeclensionByNumber } from './get-declension-by-number';
 export { isIOS } from './is-ios';
+export { playPenisEffect } from './play-penis-effect';
 export { disableMobileScroll, enableMobileScroll } from './scroll';
 export {
   createSelectFromSelf,

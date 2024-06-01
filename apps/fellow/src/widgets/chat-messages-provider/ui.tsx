@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 import { chatsSlice } from '../../entity/chats';
 import { selectUserName } from '../../entity/user';
+import { playPenisEffect } from '../../shared';
 import { useAppSelector } from '../../store';
 import { OutgoingChatMessage, isIncomingChatMessage } from './api';
 
@@ -39,6 +40,10 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
 
           if (!isIncomingChatMessage(data)) {
             return;
+          }
+
+          if (data.message.includes(':penis:')) {
+            setTimeout(() => playPenisEffect(), 300);
           }
 
           dispatch(
