@@ -11,7 +11,11 @@ import { chatsSlice } from '../../entity/chats';
 import { selectUserName } from '../../entity/user';
 import { playPenisEffect } from '../../shared';
 import { useAppSelector } from '../../store';
-import { OutgoingChatMessage, isIncomingChatMessage } from './api';
+import {
+  OutgoingChatMessage,
+  isHistoryChatMessage,
+  isIncomingChatMessage,
+} from './api';
 
 const WEB_SOCKET_URL = `wss://chat-server.vsezol.com`;
 
@@ -38,23 +42,31 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
         try {
           const data = JSON.parse(event.data);
 
-          if (!isIncomingChatMessage(data)) {
-            return;
-          }
+          if (isHistoryChatMessage(data)) {
+            dispatch(
+              addMessage({
+                chat: userName === data.from ? data.to : data.from,
+                message: {
+                  from: data.from,
+                  text: data.message,
+                },
+              })
+            );
+          } else if (isIncomingChatMessage(data)) {
+            if (data.message.includes(':penis:')) {
+              setTimeout(() => playPenisEffect(), 300);
+            }
 
-          if (data.message.includes(':penis:')) {
-            setTimeout(() => playPenisEffect(), 300);
+            dispatch(
+              addMessage({
+                chat: data.from,
+                message: {
+                  from: data.from,
+                  text: data.message,
+                },
+              })
+            );
           }
-
-          dispatch(
-            addMessage({
-              chat: data.from,
-              message: {
-                from: data.from,
-                text: data.message,
-              },
-            })
-          );
         } catch {
           console.error('Error while parsing message event');
         }
