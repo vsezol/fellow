@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { chatsSlice } from '../entity/chats';
-import { userSlice } from '../entity/user';
+import { chatsSlice } from '../entities/chat';
+import { userSlice } from '../entities/user';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {

@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { SyntheticEvent } from 'react';
-import { ChatMessage } from '../entity/chats';
+import { ChatMessage } from '../entities/chat';
 import { Button } from '../shared';
 
 export interface ConversationPreviewProps {

@@ -7,17 +7,13 @@ import {
 } from 'react';
 import { useDispatch } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
-import { chatsSlice } from '../../entity/chats';
-import { selectUserName } from '../../entity/user';
 import { playPenisEffect } from '../../shared';
 import { useAppSelector } from '../../store';
-import {
-  OutgoingChatMessage,
-  isHistoryChatMessage,
-  isIncomingChatMessage,
-} from './api';
+import { chatsSlice } from '../chat';
+import { selectUserName } from '../user';
+import { OutgoingChatMessage, isIncomingChatMessage } from './api';
 
-const WEB_SOCKET_URL = `wss://chat-server.vsezol.com`;
+const WEB_SOCKET_URL = import.meta.env.VITE_WEB_SOCKET_URL;
 
 export type SendChatMessageFn = (message: OutgoingChatMessage) => void;
 
@@ -25,7 +21,7 @@ export const ChatMessagesApiContext = createContext<SendChatMessageFn>(
   () => undefined
 );
 
-export const useChatMessagesApi = () => useContext(ChatMessagesApiContext);
+export const useSendChatMessage = () => useContext(ChatMessagesApiContext);
 
 export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
   children,
@@ -42,31 +38,23 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
         try {
           const data = JSON.parse(event.data);
 
-          if (isHistoryChatMessage(data)) {
-            dispatch(
-              addMessage({
-                chat: userName === data.from ? data.to : data.from,
-                message: {
-                  from: data.from,
-                  text: data.message,
-                },
-              })
-            );
-          } else if (isIncomingChatMessage(data)) {
-            if (data.message.includes(':penis:')) {
-              setTimeout(() => playPenisEffect(), 300);
-            }
-
-            dispatch(
-              addMessage({
-                chat: data.from,
-                message: {
-                  from: data.from,
-                  text: data.message,
-                },
-              })
-            );
+          if (!isIncomingChatMessage(data)) {
+            return;
           }
+
+          if (data.message.includes(':penis:')) {
+            setTimeout(() => playPenisEffect(), 300);
+          }
+
+          dispatch(
+            addMessage({
+              chat: userName === data.from ? data.to : data.from,
+              message: {
+                from: data.from,
+                text: data.message,
+              },
+            })
+          );
         } catch {
           console.error('Error while parsing message event');
         }
@@ -76,7 +64,6 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
 
   const sendChatMessage: SendChatMessageFn = useCallback(
     (data) => {
-      // TODO delete message if error
       sendJsonMessage(data);
 
       dispatch(

@@ -3,31 +3,8 @@ import {
   createSelectFromSelf,
   createSelectSelf,
   createSliceSelectorWithTypes,
-} from '../shared';
-
-export interface ChatsState {
-  current: string | undefined;
-  chats: Partial<Record<string, Chat>>;
-}
-
-export interface ChatMessage {
-  from: string;
-  text: string;
-}
-
-export interface Chat {
-  messages: ChatMessage[];
-}
-
-export interface AddMessagePayload {
-  chat: string;
-  message: ChatMessage;
-}
-
-export interface ChatPreview {
-  name: string;
-  lastMessage: ChatMessage | undefined;
-}
+} from '../../../shared';
+import { AddMessagePayload, ChatPreview, ChatsState } from './types';
 
 const initialState: ChatsState = {
   current: undefined,

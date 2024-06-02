@@ -1,4 +1,4 @@
-import { ChatMessage } from '../entity/chats';
+import { ChatMessage } from '../entities/chat';
 import { Message } from '../shared';
 
 export interface MessagesListProps {

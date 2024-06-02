@@ -1,4 +1,4 @@
-import { selectCurrentChatName } from '../entity/chats';
+import { selectCurrentChatName } from '../entities/chat';
 import { SlideTransition, SlideTransitionDirection } from '../shared';
 import { useAppSelector } from '../store';
 import { Conversation } from '../widgets/conversation';

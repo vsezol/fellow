@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { chatsSlice } from '../entity/chats';
+import { chatsSlice } from '../entities/chat';
 import { Button, InputText } from '../shared';
 
 interface AddChatInputForm {

@@ -1,10 +1,10 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
-import { selectCurrentChatName, selectCurrentMessages } from '../entity/chats';
-import { selectUserName } from '../entity/user';
+import { selectCurrentChatName, selectCurrentMessages } from '../entities/chat';
+import { useSendChatMessage } from '../entities/chat-message';
+import { selectUserName } from '../entities/user';
 import { Button, getDeclensionByNumber } from '../shared';
 import { useAppSelector } from '../store';
-import { useSendChatMessageApi } from './chat-messages-provider';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
 
@@ -13,7 +13,7 @@ export const Conversation = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentChatName = useAppSelector(selectCurrentChatName);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
-  const sendChatMessage = useSendChatMessageApi();
+  const sendChatMessage = useSendChatMessage();
 
   const messagesText = getDeclensionByNumber(messages.length, [
     'сообщение',
@@ -60,7 +60,7 @@ export const Conversation = () => {
         <div className="flex-1"></div>
       </div>
 
-      <div className="flex-grow flex-1 overflow-scroll px-8">
+      <div className="flex-grow flex-1 overflow-y-auto px-8">
         <MessagesList currentUserName={currentUserName} messages={messages} />
       </div>
 

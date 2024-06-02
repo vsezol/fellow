@@ -1,4 +1,4 @@
-import { selectCurrentChatName } from '../entity/chats';
+import { selectCurrentChatName } from '../entities/chat';
 import { useAppSelector } from '../store';
 import { Conversation } from '../widgets/conversation';
 import { ConversationPlaceholder } from '../widgets/conversation-placeholder';

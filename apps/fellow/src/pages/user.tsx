@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import { selectUserName } from '../entity/user';
+import { selectUserName } from '../entities/user';
 import { Button } from '../shared';
 import { useAppSelector } from '../store';
 import { UserForm } from '../widgets/user-form';

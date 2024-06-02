@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { userSlice } from '../entity/user';
+import { userSlice } from '../entities/user';
 import { Button, InputText } from '../shared/ui';
 import { useAppSelector } from '../store';
 
