@@ -16,6 +16,12 @@ const BreakpointContext = createContext<Breakpoint>('xs');
 
 export const useBreakpoint = () => useContext(BreakpointContext);
 
+export const useIsMobile = () => {
+  const breakpoint = useBreakpoint();
+
+  return breakpoint === 'xs' || breakpoint === 'sm';
+};
+
 export const BreakpointProvider: FC<PropsWithChildren> = ({ children }) => {
   const [width] = useWindowSize();
   const breakpoint = useMemo(() => getBreakpoint(width), [width]);

@@ -48,7 +48,7 @@ export default function MessageInput({ onSend }: MessageInputProps) {
         onFocus={onFocus}
         {...register('text', {
           required: true,
-          maxLength: 300,
+          maxLength: 2000,
           minLength: 1,
           onBlur,
         })}

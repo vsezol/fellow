@@ -14,7 +14,7 @@ export default function ChatMobile() {
   return (
     <div className="flex flex-column gap-4 justify-center h-full overflow-hidden relative">
       <SlideTransition visible={!currentChatName} direction={direction}>
-        <div className="p-3 h-full w-full">
+        <div className="p-2 pb-0 h-full w-full">
           <ConversationPreviewList />
         </div>
       </SlideTransition>

@@ -4,6 +4,7 @@ import {
   faChevronLeft,
   faEllipsisVertical,
   faGear,
+  faMessage,
   faPaperPlane,
   faPlus,
   faTrashCan,
@@ -15,5 +16,6 @@ library.add(
   faEllipsisVertical,
   faTrashCan,
   faGear,
-  faChevronLeft
+  faChevronLeft,
+  faMessage
 );

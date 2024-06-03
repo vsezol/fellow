@@ -3,6 +3,7 @@ export {
   BreakpointProvider,
   BreakpointSwitcher,
   useBreakpoint,
+  useIsMobile,
 } from './breakpoint';
 export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
 export { getDeclensionByNumber } from './get-declension-by-number';

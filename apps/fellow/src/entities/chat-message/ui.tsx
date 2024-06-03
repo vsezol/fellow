@@ -1,15 +1,10 @@
-import {
-  FC,
-  PropsWithChildren,
-  createContext,
-  useCallback,
-  useContext,
-} from 'react';
+import { FC, PropsWithChildren, createContext, useContext } from 'react';
 import { useDispatch } from 'react-redux';
 import useWebSocket from 'react-use-websocket';
 import { playPenisEffect } from '../../shared';
+import { playHeartEffect } from '../../shared/lib/play-heart-effect';
 import { useAppSelector } from '../../store';
-import { chatsSlice } from '../chat';
+import { chatsSlice, selectMessageById } from '../chat';
 import { selectUserName } from '../user';
 import { OutgoingChatMessage, isIncomingChatMessage } from './api';
 
@@ -27,6 +22,7 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
   children,
 }) => {
   const dispatch = useDispatch();
+  const state = useAppSelector((x) => x);
   const { addMessage } = chatsSlice.actions;
 
   const userName = useAppSelector(selectUserName);
@@ -42,16 +38,28 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
             return;
           }
 
-          if (data.message.includes(':penis:')) {
+          if (
+            data.message.includes(':penis:') &&
+            !selectMessageById(data.id)(state)
+          ) {
             setTimeout(() => playPenisEffect(), 300);
+          }
+
+          if (
+            data.message.includes(':heart:') &&
+            !selectMessageById(data.id)(state)
+          ) {
+            setTimeout(() => playHeartEffect(), 300);
           }
 
           dispatch(
             addMessage({
               chat: userName === data.from ? data.to : data.from,
               message: {
+                id: data.id,
                 from: data.from,
                 text: data.message,
+                timestamp: data.timestamp,
               },
             })
           );
@@ -62,25 +70,8 @@ export const ChatMessagesApiProvider: FC<PropsWithChildren> = ({
     }
   );
 
-  const sendChatMessage: SendChatMessageFn = useCallback(
-    (data) => {
-      sendJsonMessage(data);
-
-      dispatch(
-        addMessage({
-          chat: data.to,
-          message: {
-            from: userName,
-            text: data.message,
-          },
-        })
-      );
-    },
-    [sendJsonMessage, dispatch, addMessage, userName]
-  );
-
   return (
-    <ChatMessagesApiContext.Provider value={sendChatMessage}>
+    <ChatMessagesApiContext.Provider value={sendJsonMessage}>
       {children}
     </ChatMessagesApiContext.Provider>
   );

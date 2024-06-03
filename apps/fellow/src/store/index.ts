@@ -6,7 +6,7 @@ import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 0,
+  version: 1,
 };
 
 export const rootReducer = combineReducers({

@@ -12,11 +12,12 @@ export default function MessagesList({
 }: MessagesListProps) {
   return (
     <>
-      {messages.map(({ text, from }, index) => (
+      {messages.map(({ text, from, timestamp }, index) => (
         <Message
           key={index}
           side={from === currentUserName ? 'right' : 'left'}
           text={text}
+          date={new Date(timestamp)}
         />
       ))}
     </>

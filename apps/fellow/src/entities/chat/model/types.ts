@@ -1,6 +1,8 @@
 export interface ChatMessage {
+  id: string;
   from: string;
   text: string;
+  timestamp: string;
 }
 
 export interface Chat {

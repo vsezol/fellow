@@ -33,10 +33,13 @@ export const Message: FC<MessageProps> = ({
         </div>
       )}
       {author && <div className="chat-header flex-row">{author}</div>}
-      <div className="chat-bubble">{text}</div>
-      {timeString && (
-        <div className="chat-footer opacity-50 text-xs">{timeString}</div>
-      )}
+      <div className="chat-bubble">
+        <div className="break-words whitespace-pre-wrap">{text}</div>
+
+        {timeString && (
+          <div className="opacity-50 text-xs text-end pt-1">{timeString}</div>
+        )}
+      </div>
     </div>
   );
 };

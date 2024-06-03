@@ -4,6 +4,7 @@ export interface OutgoingChatMessage {
 }
 
 export interface IncomingChatMessage {
+  id: string;
   from: string;
   to: string;
   message: string;
@@ -18,6 +19,7 @@ export function isIncomingChatMessage(
   }
 
   return (
+    Object.hasOwn(data, 'id') &&
     Object.hasOwn(data, 'from') &&
     Object.hasOwn(data, 'to') &&
     Object.hasOwn(data, 'message') &&
