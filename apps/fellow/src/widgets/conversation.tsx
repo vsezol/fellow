@@ -1,10 +1,9 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useCallback, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentChatName, selectCurrentMessages } from '../entities/chat';
-import { useSendChatMessage } from '../entities/chat-message';
+import { sendChatMessage } from '../entities/chat/model/service';
 import { selectUserName } from '../entities/user';
-import { Button, PoopingMan, getDeclensionByNumber } from '../shared';
+import { Button, getDeclensionByNumber } from '../shared';
 import { useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
@@ -14,7 +13,6 @@ export const Conversation = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentChatName = useAppSelector(selectCurrentChatName);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
-  const sendChatMessage = useSendChatMessage();
 
   const messagesText = getDeclensionByNumber(messages.length, [
     'сообщение',
@@ -22,10 +20,10 @@ export const Conversation = () => {
     'сообщений',
   ]);
 
-  const [messageBox, setMessageBox] = useState<HTMLDivElement | null>(null);
-  const onMessageBoxRefChange = useCallback((box: HTMLDivElement | null) => {
-    setMessageBox(box);
-  }, []);
+  // const [messageBox, setMessageBox] = useState<HTMLDivElement | null>(null);
+  // const onMessageBoxRefChange = useCallback((box: HTMLDivElement | null) => {
+  //   setMessageBox(box);
+  // }, []);
 
   const goBack = () => navigate('/chat');
 
@@ -36,7 +34,7 @@ export const Conversation = () => {
 
     sendChatMessage({
       to: currentChatName,
-      message: text,
+      text,
     });
   };
 
@@ -51,7 +49,7 @@ export const Conversation = () => {
             </Button>
           </div>
 
-          <PoopingMan target={messageBox} />
+          {/* <PoopingMan target={messageBox} /> */}
         </div>
 
         <div className="flex-1 flex flex-col items-center">
@@ -72,7 +70,7 @@ export const Conversation = () => {
         <MessagesList currentUserName={currentUserName} messages={messages} />
       </div>
 
-      <div className="flex-initial px-4 pb-4" ref={onMessageBoxRefChange}>
+      <div className="flex-initial px-4 pb-4">
         <MessageInput onSend={sendMessage} />
       </div>
     </div>

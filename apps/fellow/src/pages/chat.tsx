@@ -1,8 +1,10 @@
 import { FC, Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { chatsSlice } from '../entities/chat';
-import { ChatMessagesApiProvider } from '../entities/chat-message';
+import { chatsSlice, useChatMessageHandler } from '../entities/chat';
+
+import { useApiEventHandler } from '../entities/api-event';
+import { useVisualEffectHandler } from '../entities/visual-effect';
 import { BreakpointSwitcher } from '../shared';
 
 const ChatMobile = lazy(() => import('./chat-mobile'));
@@ -16,20 +18,22 @@ export const Component: FC = () => {
     dispatch(chatsSlice.actions.setCurrent(chatName));
   }, [chatName, dispatch]);
 
+  useApiEventHandler();
+  useChatMessageHandler();
+  useVisualEffectHandler();
+
   return (
-    <ChatMessagesApiProvider>
-      <BreakpointSwitcher
-        xs={
-          <Suspense>
-            <ChatMobile />
-          </Suspense>
-        }
-        md={
-          <Suspense>
-            <ChatDesktop />
-          </Suspense>
-        }
-      />
-    </ChatMessagesApiProvider>
+    <BreakpointSwitcher
+      xs={
+        <Suspense>
+          <ChatMobile />
+        </Suspense>
+      }
+      md={
+        <Suspense>
+          <ChatDesktop />
+        </Suspense>
+      }
+    />
   );
 };

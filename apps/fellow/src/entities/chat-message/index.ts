@@ -1,2 +1,5 @@
-export type { IncomingChatMessage, OutgoingChatMessage } from './api';
-export { ChatMessagesApiProvider, useSendChatMessage } from './ui';
+export {
+  dispatchOutgoingMessage,
+  handleIncomingChatMessage,
+} from './model/service';
+export type { IncomingChatMessage, OutgoingChatMessage } from './model/types';

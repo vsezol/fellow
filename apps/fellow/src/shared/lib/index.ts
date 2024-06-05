@@ -9,6 +9,7 @@ export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
 export { getDeclensionByNumber } from './get-declension-by-number';
 export { isIOS } from './is-ios';
 export { playPenisEffect } from './play-penis-effect';
+export { playHeartEffect } from './play-heart-effect';
 export { disableMobileScroll, enableMobileScroll } from './scroll';
 export {
   createSelectFromSelf,
@@ -24,5 +25,7 @@ export type {
 } from './slice-utils';
 export { getStorageState, saveStateToStorage } from './storage-sync';
 export type { StorageOptions } from './storage-sync';
+export { Subject } from './subject';
+export type { Subscription, Unsubscribe } from './subject';
 export { usePreferredThemeMetaSync } from './theme';
 export { withGuards } from './with-guards';

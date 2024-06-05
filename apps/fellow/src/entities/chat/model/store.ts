@@ -68,16 +68,3 @@ export const selectChats: OutputSelector<[typeof selectSelf], ChatPreview[]> =
         lastMessage: state.chats?.[key]?.messages.at(-1),
       }))
   );
-
-export const selectMessageById = (id: string) =>
-  selectFromSelf((state) => {
-    for (const chatName of Object.keys(state.chats)) {
-      const message = state.chats[chatName]?.messages?.find((x) => x.id === id);
-
-      if (message) {
-        return message;
-      }
-    }
-
-    return undefined;
-  });
