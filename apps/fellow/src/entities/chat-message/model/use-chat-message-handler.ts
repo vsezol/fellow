@@ -1,9 +1,10 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../store';
-import { handleIncomingChatMessage } from '../../chat-message/model/service';
+import { chatsSlice } from '../../chat/model/store';
 import { selectUserName } from '../../user';
-import { chatsSlice } from '../model/store';
+import { incomingChatMessageToAddMessagePayload } from './mappers';
+import { handleIncomingChatMessage } from './service';
 
 export const useChatMessageHandler = () => {
   const dispatch = useDispatch();
@@ -14,17 +15,9 @@ export const useChatMessageHandler = () => {
     const { addMessage } = chatsSlice.actions;
 
     return handleIncomingChatMessage((data) => {
-      dispatch(
-        addMessage({
-          chat: userName === data.from ? data.to : data.from,
-          message: {
-            id: data.id,
-            from: data.from,
-            text: data.message,
-            timestamp: data.timestamp,
-          },
-        })
-      );
+      const payload = incomingChatMessageToAddMessagePayload(data, userName);
+
+      dispatch(addMessage(payload));
     });
   }, []);
 };

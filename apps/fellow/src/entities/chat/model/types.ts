@@ -23,8 +23,3 @@ export interface ChatPreview {
   name: string;
   lastMessage: ChatMessage | undefined;
 }
-
-export interface SendChatMessagePayload {
-  to: string;
-  text: string;
-}

@@ -1,17 +1,26 @@
 import { FC } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { userSlice } from '../entities/user';
+import {
+  selectUserName,
+  selectUserStatus,
+  useEditStatusMutation,
+  userSlice,
+} from '../entities/user';
 import { Button, InputText } from '../shared/ui';
 import { useAppSelector } from '../store';
 
 interface UserInput {
   name: string;
+  status: string;
 }
 
 export const UserForm: FC = () => {
   const dispatch = useDispatch();
-  const name = useAppSelector((state) => state.user.name);
+  const name = useAppSelector(selectUserName);
+  const status = useAppSelector(selectUserStatus);
+
+  const [editStatus] = useEditStatusMutation();
 
   const { setUser } = userSlice.actions;
 
@@ -22,16 +31,19 @@ export const UserForm: FC = () => {
   } = useForm<UserInput>({
     defaultValues: {
       name,
+      status,
     },
   });
 
-  const onSubmit: SubmitHandler<UserInput> = ({ name }) =>
-    dispatch(setUser({ name }));
+  const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
+    editStatus({ userId: name, status });
+    dispatch(setUser({ name, status }));
+  };
 
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex sm:flex-row flex-col sm:gap-2 gap-4 w-full"
+      className="flex flex-col gap-4 w-full"
     >
       <Controller
         name="name"
@@ -43,6 +55,17 @@ export const UserForm: FC = () => {
         }}
         render={({ field }) => (
           <InputText {...field} placeholder="Введите ваш ник" />
+        )}
+      />
+
+      <Controller
+        name="status"
+        control={control}
+        rules={{
+          maxLength: 15,
+        }}
+        render={({ field }) => (
+          <InputText {...field} placeholder="Введите ваш стаус" />
         )}
       />
 

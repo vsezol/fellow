@@ -45,6 +45,11 @@ export const chatsSlice = createSlice({
       }
 
       state.chats?.[chat]?.messages.push(message);
+
+      state.chats?.[chat]?.messages.sort(
+        (a, b) =>
+          new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
+      );
     },
   },
 });

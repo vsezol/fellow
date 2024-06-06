@@ -4,12 +4,21 @@ import react from '@vitejs/plugin-react';
 import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 
+const HTTP_API_URL = process.env.VITE_HTTP_API_URL;
+
 export default defineConfig({
   root: __dirname,
   cacheDir: '../../node_modules/.vite/apps/fellow',
   server: {
     port: 4200,
     host: true,
+    proxy: {
+      '/api': {
+        target: HTTP_API_URL,
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
   },
 
   preview: {

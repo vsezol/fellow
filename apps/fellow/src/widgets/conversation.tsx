@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useNavigate } from 'react-router-dom';
 import { selectCurrentChatName, selectCurrentMessages } from '../entities/chat';
-import { sendChatMessage } from '../entities/chat/model/service';
-import { selectUserName } from '../entities/user';
+import { dispatchOutgoingChatMessage } from '../entities/chat-message';
+import { selectUserName, useGetUserQuery } from '../entities/user';
 import { Button, getDeclensionByNumber } from '../shared';
 import { useAppSelector } from '../store';
 import MessageInput from './message-input';
@@ -13,6 +13,21 @@ export const Conversation = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentChatName = useAppSelector(selectCurrentChatName);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
+
+  const { data, isSuccess, isLoading } = useGetUserQuery(
+    currentChatName ?? '',
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  const getStatus = () => {
+    if (isSuccess && !isLoading && data?.status) {
+      return data.status;
+    }
+
+    return '';
+  };
 
   const messagesText = getDeclensionByNumber(messages.length, [
     'сообщение',
@@ -32,9 +47,9 @@ export const Conversation = () => {
       return;
     }
 
-    sendChatMessage({
+    dispatchOutgoingChatMessage({
       to: currentChatName,
-      text,
+      message: text,
     });
   };
 
@@ -55,7 +70,11 @@ export const Conversation = () => {
         <div className="flex-1 flex flex-col items-center">
           {currentChatName && (
             <>
-              <div className="text-lg font-semibold">{currentChatName}</div>
+              <div className="text-lg font-semibold">
+                {currentChatName}
+                <span className="text-accent pl-2">{getStatus()}</span>
+              </div>
+
               <div className="text-sm font-light">
                 {messages.length} {messagesText}
               </div>

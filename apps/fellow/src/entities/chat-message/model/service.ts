@@ -14,5 +14,8 @@ export const handleIncomingChatMessage = (
     sub(data);
   });
 
-export const dispatchOutgoingMessage = (data: OutgoingChatMessage) =>
-  dispatchOutgoingEvent(data);
+export const dispatchOutgoingChatMessage = (data: OutgoingChatMessage) =>
+  dispatchOutgoingEvent<OutgoingChatMessage>({
+    to: data.to,
+    message: data.message,
+  });

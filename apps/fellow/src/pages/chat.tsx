@@ -1,9 +1,13 @@
 import { FC, Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { chatsSlice, useChatMessageHandler } from '../entities/chat';
+import { chatsSlice } from '../entities/chat';
 
 import { useApiEventHandler } from '../entities/api-event';
+import {
+  useChatMessageHandler,
+  useChatMessageHistory,
+} from '../entities/chat-message';
 import { useVisualEffectHandler } from '../entities/visual-effect';
 import { BreakpointSwitcher } from '../shared';
 
@@ -21,6 +25,7 @@ export const Component: FC = () => {
   useApiEventHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
+  useChatMessageHistory();
 
   return (
     <BreakpointSwitcher

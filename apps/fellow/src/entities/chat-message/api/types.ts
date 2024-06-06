@@ -5,3 +5,8 @@ export interface IncomingChatMessage {
   message: string;
   timestamp: string;
 }
+
+export interface OutgoingChatMessage {
+  to: string;
+  text: string;
+}

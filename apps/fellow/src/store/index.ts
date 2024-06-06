@@ -1,25 +1,34 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { chatsSlice } from '../entities/chat';
-import { userSlice } from '../entities/user';
+import { chatMessageApi } from '../entities/chat-message/api/chat-message-api';
+import { userMessageApi, userSlice } from '../entities/user';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 1,
+  version: 2,
 };
 
 export const rootReducer = combineReducers({
   user: userSlice.reducer,
   chats: chatsSlice.reducer,
+  [chatMessageApi.reducerPath]: chatMessageApi.reducer,
+  [userMessageApi.reducerPath]: userMessageApi.reducer,
 });
 
 export const store = configureStore({
   preloadedState: getStorageState(storageOptions),
   reducer: rootReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(saveStateToStorage(storageOptions)),
+    getDefaultMiddleware()
+      .concat(saveStateToStorage(storageOptions))
+      .concat(chatMessageApi.middleware)
+      .concat(userMessageApi.middleware),
 });
+
+setupListeners(store.dispatch);
 
 export type RootState = ReturnType<typeof rootReducer>;
 export type AppStore = typeof store;

@@ -5,13 +5,13 @@ import { selectUserName } from '../../user';
 import { dispatchIncomingEvent, handleOutgoingEvent } from '../model/service';
 import { isIncomingApiEvent } from './is-incoming-api-event';
 
-const WEB_SOCKET_URL = import.meta.env.VITE_WEB_SOCKET_URL;
+const API_URL = import.meta.env.VITE_WEB_SOCKET_API_URL;
 
 export const useApiEventHandler = () => {
   const userName = useAppSelector(selectUserName);
 
   const { sendJsonMessage } = useWebSocket(
-    `${WEB_SOCKET_URL}/chat?userId=${userName}`,
+    `${API_URL}/chat?userId=${userName}`,
     {
       onMessage: (event) => {
         try {
