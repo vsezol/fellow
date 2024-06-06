@@ -43,7 +43,7 @@ interface EditStatusRequest {
 
 export const userMessageApi = createApi({
   reducerPath: 'userMessageApi',
-  baseQuery: fetchBaseQuery({ baseUrl: '/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_HTTP_API_URL }),
   endpoints: (builder) => ({
     getUser: builder.query<User, string>({
       query: (userName) => `user/${userName}`,
