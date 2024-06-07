@@ -9,7 +9,7 @@ export default function ChatDesktop() {
 
   return (
     <div className="flex flex-row gap-4 justify-center h-full">
-      <div className="w-80 flex-shrink-0">
+      <div className="w-64 flex-shrink-0">
         <ConversationPreviewList />
       </div>
 
