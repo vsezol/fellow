@@ -16,7 +16,7 @@ export const Conversation = () => {
 
   const { data, isSuccess, isLoading } = useGetUserQuery(
     currentChatName ?? '',
-    { skip: !currentChatName, refetchOnMountOrArgChange: true }
+    { skip: !currentChatName }
   );
 
   const getStatus = () => {

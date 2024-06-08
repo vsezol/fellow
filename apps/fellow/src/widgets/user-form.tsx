@@ -1,10 +1,10 @@
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import {
   selectUserName,
-  selectUserStatus,
   useEditStatusMutation,
+  useGetUserQuery,
   userSlice,
 } from '../entities/user';
 import { Button, InputText } from '../shared/ui';
@@ -18,9 +18,12 @@ interface UserInput {
 export const UserForm: FC = () => {
   const dispatch = useDispatch();
   const name = useAppSelector(selectUserName);
-  const status = useAppSelector(selectUserStatus);
 
   const [editStatus] = useEditStatusMutation();
+  const { data: userData, isSuccess } = useGetUserQuery(name, {
+    skip: !name,
+    refetchOnMountOrArgChange: true,
+  });
 
   const { setUser } = userSlice.actions;
 
@@ -28,16 +31,24 @@ export const UserForm: FC = () => {
     control,
     handleSubmit,
     formState: { isValid },
+    setValue,
   } = useForm<UserInput>({
     defaultValues: {
       name,
-      status,
     },
   });
 
+  useEffect(() => {
+    if (!isSuccess) {
+      return;
+    }
+
+    setValue('status', userData.status);
+  }, [userData, setValue, isSuccess]);
+
   const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
     editStatus({ username: name, status });
-    dispatch(setUser({ name, status }));
+    dispatch(setUser({ name }));
   };
 
   return (

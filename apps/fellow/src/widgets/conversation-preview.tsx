@@ -39,7 +39,6 @@ export const ConversationPreview = ({
 
   const { data, isSuccess, isLoading } = useGetUserQuery(chatName ?? '', {
     skip: !chatName,
-    pollingInterval: 3000,
   });
 
   const getStatus = () => {

@@ -8,6 +8,7 @@ import {
   useChatMessageHandler,
   useChatMessageHistory,
 } from '../entities/chat-message';
+import { useStatusChangeHandler } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
 import { BreakpointSwitcher } from '../shared';
 
@@ -26,6 +27,7 @@ export const Component: FC = () => {
   useChatMessageHandler();
   useVisualEffectHandler();
   useChatMessageHistory();
+  useStatusChangeHandler();
 
   return (
     <BreakpointSwitcher
