@@ -16,9 +16,7 @@ export const Conversation = () => {
 
   const { data, isSuccess, isLoading } = useGetUserQuery(
     currentChatName ?? '',
-    {
-      refetchOnMountOrArgChange: true,
-    }
+    { skip: !currentChatName, refetchOnMountOrArgChange: true }
   );
 
   const getStatus = () => {
@@ -56,7 +54,7 @@ export const Conversation = () => {
   return (
     <div className="flex flex-col h-full w-full gap-4 overflow-hidden rounded-lg">
       <div className="flex-initial flex flex-row justify-between bg-base-300 w-full p-2">
-        <div className="flex-1 text-primary flex flex-row">
+        <div className="text-primary flex flex-row">
           <div className="md:hidden">
             <Button size="md" onClick={goBack}>
               <FontAwesomeIcon size="lg" icon="chevron-left" />
@@ -82,7 +80,7 @@ export const Conversation = () => {
           )}
         </div>
 
-        <div className="flex-1"></div>
+        <div></div>
       </div>
 
       <div className="flex-grow flex-1 overflow-y-auto px-8">

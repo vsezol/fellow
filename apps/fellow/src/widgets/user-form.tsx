@@ -36,7 +36,7 @@ export const UserForm: FC = () => {
   });
 
   const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
-    editStatus({ userId: name, status });
+    editStatus({ username: name, status });
     dispatch(setUser({ name, status }));
   };
 

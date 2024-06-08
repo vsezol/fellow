@@ -2,6 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { SyntheticEvent } from 'react';
 import { ChatMessage } from '../entities/chat';
+import { useGetUserQuery } from '../entities/user';
 import { Button } from '../shared';
 
 export interface ConversationPreviewProps {
@@ -36,6 +37,19 @@ export const ConversationPreview = ({
     onDelete?.();
   };
 
+  const { data, isSuccess, isLoading } = useGetUserQuery(chatName ?? '', {
+    skip: !chatName,
+    pollingInterval: 3000,
+  });
+
+  const getStatus = () => {
+    if (isSuccess && !isLoading && data?.status) {
+      return data.status;
+    }
+
+    return '';
+  };
+
   return (
     <div
       onClick={onClick}
@@ -46,7 +60,9 @@ export const ConversationPreview = ({
           : 'bg-neutral border-transparent hover:border-primary hover:border-opacity-50'
       )}
     >
-      <h2 className="text-lg font-semibold">{chatName}</h2>
+      <h2 className="text-lg font-semibold">
+        {chatName} <span className="text-accent pl-2">{getStatus()}</span>
+      </h2>
       <p className="text-ellipsis truncate">{messagePreview}</p>
 
       <div className="dropdown dropdown-end absolute right-0 top-0 mt-2 mr-2">

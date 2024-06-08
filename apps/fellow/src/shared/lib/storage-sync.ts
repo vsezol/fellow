@@ -3,6 +3,7 @@ import { Middleware } from '@reduxjs/toolkit';
 export interface StorageOptions {
   name: string;
   version: number;
+  stateKeys: string[];
 }
 
 const getStateKey = ({ name, version }: StorageOptions) => `${name}_${version}`;
@@ -25,9 +26,13 @@ export const saveStateToStorage: (options: StorageOptions) => Middleware =
   (options) =>
   ({ getState }) => {
     return (next) => (action) => {
-      const result = next(action);
-      localStorage.setItem(getStateKey(options), JSON.stringify(getState()));
+      const state = getState();
+      const stateToSave = Object.fromEntries(
+        options.stateKeys.map((k) => [k, state[k]])
+      );
 
-      return result;
+      localStorage.setItem(getStateKey(options), JSON.stringify(stateToSave));
+
+      return next(action);
     };
   };

@@ -8,10 +8,12 @@ interface HistoryData {
 export const chatMessageApi = createApi({
   reducerPath: 'chatMessageApi',
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_HTTP_API_URL }),
+  tagTypes: ['ChatMessage'],
   endpoints: (builder) => ({
     getHistory: builder.query<IncomingChatMessage[], string>({
       query: (userName) => `history/${userName}`,
       transformResponse: (data: HistoryData) => data.data,
+      providesTags: ['ChatMessage'],
     }),
   }),
 });

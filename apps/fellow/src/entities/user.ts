@@ -37,23 +37,24 @@ interface GetUserResponse {
 }
 
 interface EditStatusRequest {
-  userId: string;
+  username: string;
   status: string;
 }
 
 export const userMessageApi = createApi({
   reducerPath: 'userMessageApi',
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_HTTP_API_URL }),
+  tagTypes: ['User'],
   endpoints: (builder) => ({
     getUser: builder.query<User, string>({
-      query: (userName) => `user/${userName}`,
+      query: (userName) => `users/${userName}`,
       transformResponse: (data: GetUserResponse) => ({
         name: data.username,
         status: data.status,
       }),
     }),
     editStatus: builder.mutation<void, EditStatusRequest>({
-      query: (body) => ({ url: `changeStatus`, method: 'POST', body }),
+      query: (body) => ({ url: `users/status`, method: 'PATCH', body }),
     }),
   }),
 });
