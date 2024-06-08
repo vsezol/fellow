@@ -11,7 +11,8 @@ export const chatMessageApi = createApi({
   tagTypes: ['ChatMessage'],
   endpoints: (builder) => ({
     getHistory: builder.query<IncomingChatMessage[], string>({
-      query: (userName) => `history/${userName}`,
+      query: (userName) =>
+        `history/${userName}?pageNumber=${0}&pageSize=${1000}`,
       transformResponse: (data: HistoryData) => data.data,
       providesTags: ['ChatMessage'],
     }),
