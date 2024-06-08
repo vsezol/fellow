@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { IncomingChatMessage } from './types';
 
 interface HistoryData {
-  data: IncomingChatMessage[];
+  data: {
+    pages: IncomingChatMessage[];
+  };
+  total: number;
 }
 
 export const chatMessageApi = createApi({
@@ -11,9 +14,9 @@ export const chatMessageApi = createApi({
   tagTypes: ['ChatMessage'],
   endpoints: (builder) => ({
     getHistory: builder.query<IncomingChatMessage[], string>({
-      query: (userName) =>
-        `history/${userName}?pageNumber=${0}&pageSize=${1000}`,
-      transformResponse: (data: HistoryData) => data.data,
+      query: (chatName) =>
+        `history/${chatName}?pageNumber=${0}&pageSize=${1000}`,
+      transformResponse: (data: HistoryData) => data.data.pages,
       providesTags: ['ChatMessage'],
     }),
   }),

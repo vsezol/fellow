@@ -4,10 +4,8 @@ import { useParams } from 'react-router-dom';
 import { chatsSlice } from '../entities/chat';
 
 import { useApiEventHandler } from '../entities/api-event';
-import {
-  useChatMessageHandler,
-  useChatMessageHistory,
-} from '../entities/chat-message';
+import { useChatMessageHandler } from '../entities/chat-message';
+import { useSoundEffectHandler } from '../entities/sound-effect';
 import { useStatusChangeHandler } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
 import { BreakpointSwitcher } from '../shared';
@@ -26,8 +24,9 @@ export const Component: FC = () => {
   useApiEventHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
-  useChatMessageHistory();
+  // useChatMessageHistory();
   useStatusChangeHandler();
+  useSoundEffectHandler();
 
   return (
     <BreakpointSwitcher

@@ -2,7 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { chatsSlice } from '../entities/chat';
-import { chatMessageApi } from '../entities/chat-message/api/chat-message-api';
+import { chatMessageApi } from '../entities/chat-message';
 import { userApi, userSlice } from '../entities/user';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 

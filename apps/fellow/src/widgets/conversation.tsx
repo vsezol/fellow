@@ -1,15 +1,25 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { selectCurrentChatName, selectCurrentMessages } from '../entities/chat';
-import { dispatchOutgoingChatMessage } from '../entities/chat-message';
+import {
+  chatsSlice,
+  selectCurrentChatName,
+  selectCurrentMessages,
+} from '../entities/chat';
+import {
+  dispatchOutgoingChatMessage,
+  useGetHistoryQuery,
+} from '../entities/chat-message';
+import { incomingChatMessageToAddMessagePayload } from '../entities/chat-message/model/mappers';
 import { selectUserName, useGetUserQuery } from '../entities/user';
 import { Button, getDeclensionByNumber } from '../shared';
-import { useAppSelector } from '../store';
+import { useAppDispatch, useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
 
 export const Conversation = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
   const currentUserName = useAppSelector(selectUserName);
   const currentChatName = useAppSelector(selectCurrentChatName);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
@@ -18,6 +28,26 @@ export const Conversation = () => {
     currentChatName ?? '',
     { skip: !currentChatName }
   );
+
+  const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
+    currentChatName ?? '',
+    {
+      skip: !currentChatName,
+      refetchOnMountOrArgChange: true,
+    }
+  );
+
+  useEffect(() => {
+    if (!isHistorySuccess) {
+      return;
+    }
+
+    history
+      .map((x) =>
+        incomingChatMessageToAddMessagePayload(x, currentChatName ?? '')
+      )
+      .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
+  }, [isHistorySuccess, history]);
 
   const getStatus = () => {
     if (isSuccess && !isLoading && data?.status) {

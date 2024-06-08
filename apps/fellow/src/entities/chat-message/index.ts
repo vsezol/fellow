@@ -1,3 +1,4 @@
+export { chatMessageApi, useGetHistoryQuery } from './api/chat-message-api';
 export {
   dispatchOutgoingChatMessage,
   handleIncomingChatMessage,
