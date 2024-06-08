@@ -1,14 +1,15 @@
 import { FC, useEffect } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { useDispatch } from 'react-redux';
 import {
   selectUserName,
+  updateCachedUserStatus,
   useEditStatusMutation,
   useGetUserQuery,
   userSlice,
 } from '../entities/user';
+
 import { Button, InputText } from '../shared/ui';
-import { useAppSelector } from '../store';
+import { useAppDispatch, useAppSelector } from '../store';
 
 interface UserInput {
   name: string;
@@ -16,7 +17,7 @@ interface UserInput {
 }
 
 export const UserForm: FC = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const name = useAppSelector(selectUserName);
 
   const [editStatus] = useEditStatusMutation();
@@ -49,6 +50,7 @@ export const UserForm: FC = () => {
   const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
     editStatus({ username: name, status });
     dispatch(setUser({ name }));
+    dispatch(updateCachedUserStatus(name, status));
   };
 
   return (

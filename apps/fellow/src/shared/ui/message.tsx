@@ -33,7 +33,7 @@ export const Message: FC<MessageProps> = ({
         </div>
       )}
       {author && <div className="chat-header flex-row">{author}</div>}
-      <div className="chat-bubble">
+      <div className={clsx('chat-bubble', 'bg-base-300', 'text-base-content')}>
         <div className="break-words whitespace-pre-wrap">{text}</div>
 
         {timeString && (

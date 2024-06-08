@@ -69,8 +69,8 @@ export const Conversation = () => {
           {currentChatName && (
             <>
               <div className="text-lg font-semibold">
-                {currentChatName}
-                <span className="text-accent pl-2">{getStatus()}</span>
+                {currentChatName}{' '}
+                <span className="text-secondary">{getStatus()}</span>
               </div>
 
               <div className="text-sm font-light">

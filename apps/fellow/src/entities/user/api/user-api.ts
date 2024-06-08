@@ -32,3 +32,8 @@ export const userApi = createApi({
 });
 
 export const { useGetUserQuery, useEditStatusMutation } = userApi;
+
+export const updateCachedUserStatus = (userName: string, status: string) =>
+  userApi.util.updateQueryData('getUser', userName, (state) => {
+    state.status = status;
+  });

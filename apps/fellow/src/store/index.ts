@@ -9,7 +9,7 @@ import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
   version: 4,
-  stateKeys: [userSlice.name],
+  stateKeys: [userSlice.name, chatsSlice.name],
 };
 
 export const rootReducer = combineReducers({

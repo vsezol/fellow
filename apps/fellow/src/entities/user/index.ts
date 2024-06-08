@@ -1,5 +1,6 @@
 export { useStatusChangeHandler } from './api/use-status-change-handler';
 export {
+  updateCachedUserStatus,
   useEditStatusMutation,
   useGetUserQuery,
   userApi,

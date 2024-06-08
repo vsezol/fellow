@@ -53,14 +53,14 @@ export const ConversationPreview = ({
     <div
       onClick={onClick}
       className={clsx(
-        'w-full p-3 rounded-lg cursor-pointer transition-all duration-75 border-2 relative',
+        'w-full p-3 rounded-lg cursor-pointer transition-all duration-75 border-2 relative bg-base-200',
         selected
-          ? 'border-primary bg-base-200'
-          : 'bg-neutral border-transparent hover:border-primary hover:border-opacity-50'
+          ? 'border-primary'
+          : 'border-transparent hover:border-primary hover:border-opacity-50'
       )}
     >
       <h2 className="text-lg font-semibold">
-        {chatName} <span className="text-accent pl-2">{getStatus()}</span>
+        {chatName} <span className="text-secondary">{getStatus()}</span>
       </h2>
       <p className="text-ellipsis truncate">{messagePreview}</p>
 

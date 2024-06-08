@@ -4,7 +4,7 @@ import { useAppDispatch } from '../../../store';
 import { handleIncomingEvent } from '../../api-event';
 import { isStatusChangeEvent } from './is-status-change-event';
 import { StatusChangeEvent } from './types';
-import { userApi } from './user-api';
+import { updateCachedUserStatus } from './user-api';
 
 const handleStatusChangeEvent = (
   sub: Subscription<StatusChangeEvent>
@@ -22,15 +22,7 @@ export const useStatusChangeHandler = () => {
 
   useEffect(() => {
     return handleStatusChangeEvent((data) => {
-      const changeStatus = userApi.util.updateQueryData(
-        'getUser',
-        data.userId,
-        (state) => {
-          state.status = data.status;
-        }
-      );
-
-      dispatch(changeStatus);
+      dispatch(updateCachedUserStatus(data.userId, data.status));
     });
   }, []);
 };
