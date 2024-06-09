@@ -1,4 +1,4 @@
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   selectUserName,
@@ -8,7 +8,7 @@ import {
   userSlice,
 } from '../entities/user';
 
-import { Button, InputText } from '../shared/ui';
+import { Avatar, Button, InputText } from '../shared/ui';
 import { useAppDispatch, useAppSelector } from '../store';
 
 interface UserInput {
@@ -19,6 +19,7 @@ interface UserInput {
 export const UserForm: FC = () => {
   const dispatch = useAppDispatch();
   const name = useAppSelector(selectUserName);
+  const [userNameDraft, setUserNameDraft] = useState(name);
 
   const [editStatus] = useEditStatusMutation();
   const { data: userData, isSuccess } = useGetUserQuery(name, {
@@ -33,6 +34,7 @@ export const UserForm: FC = () => {
     handleSubmit,
     formState: { isValid },
     setValue,
+    getValues,
   } = useForm<UserInput>({
     defaultValues: {
       name,
@@ -58,6 +60,10 @@ export const UserForm: FC = () => {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-col gap-4 w-full"
     >
+      <div className="flex items-center justify-center">
+        <Avatar name={userNameDraft} size="lg" active={true} />
+      </div>
+
       <Controller
         name="name"
         control={control}
@@ -67,7 +73,14 @@ export const UserForm: FC = () => {
           maxLength: 15,
         }}
         render={({ field }) => (
-          <InputText {...field} placeholder="Введите ваш ник" />
+          <InputText
+            {...field}
+            onChange={(event) => {
+              setUserNameDraft(getValues('name'));
+              field.onChange(event);
+            }}
+            placeholder="Введите ваш ник"
+          />
         )}
       />
 

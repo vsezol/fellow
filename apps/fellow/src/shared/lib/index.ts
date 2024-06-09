@@ -7,9 +7,10 @@ export {
 } from './breakpoint';
 export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
 export { getDeclensionByNumber } from './get-declension-by-number';
+export { getHslColorFromString } from './get-hsl-color-from-string';
 export { isIOS } from './is-ios';
-export { playPenisEffect } from './play-penis-effect';
 export { playHeartEffect } from './play-heart-effect';
+export { playPenisEffect } from './play-penis-effect';
 export { disableMobileScroll, enableMobileScroll } from './scroll';
 export {
   createSelectFromSelf,

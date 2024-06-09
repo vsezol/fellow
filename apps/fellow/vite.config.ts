@@ -41,6 +41,7 @@ export default defineConfig(({ mode }) => {
         manifest: {
           name: 'fellow',
           short_name: 'fellow',
+          theme_color: 'oklch(0.253267 0.015896 252.418)',
         },
       }),
     ],

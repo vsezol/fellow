@@ -1,12 +1,13 @@
 import clsx from 'clsx';
 import { FC } from 'react';
+import { Avatar } from './avatar';
 
 export interface MessageProps {
   side: 'left' | 'right';
   text: string;
   author?: string;
   date?: Date;
-  avatar?: string;
+  avatar?: string | boolean;
 }
 
 export const Message: FC<MessageProps> = ({
@@ -27,12 +28,13 @@ export const Message: FC<MessageProps> = ({
     <div className={clsx('chat', sideClass)}>
       {avatar && (
         <div className="chat-image avatar">
-          <div className="w-10 rounded-full">
-            <img alt="Avatar" src={avatar} />
-          </div>
+          <Avatar
+            src={typeof avatar === 'string' ? avatar : undefined}
+            name={author}
+            size="sm"
+          ></Avatar>
         </div>
       )}
-      {author && <div className="chat-header flex-row">{author}</div>}
       <div className={clsx('chat-bubble', 'bg-base-300', 'text-base-content')}>
         <div className="break-words whitespace-pre-wrap">{text}</div>
 

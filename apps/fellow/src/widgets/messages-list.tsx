@@ -14,6 +14,8 @@ export default function MessagesList({
     <>
       {messages.map(({ text, from, timestamp }, index) => (
         <Message
+          avatar={true}
+          author={from}
           key={index}
           side={from === currentUserName ? 'right' : 'left'}
           text={text}

@@ -1,3 +1,5 @@
+export { Avatar } from './avatar';
+export type { AvatarProps } from './avatar';
 export { Button } from './button';
 export type { ButtonProps } from './button';
 export { InputText } from './input-text';
