@@ -1,12 +1,11 @@
-import { Navigate, createBrowserRouter } from 'react-router-dom';
+import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 import { withGuards } from '../shared';
 import { HasUserNameGuard } from './guards';
-import Layout from './layout';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Layout />,
+    element: <Outlet />,
     children: [
       {
         path: '',

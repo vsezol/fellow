@@ -29,4 +29,5 @@ export type { StorageOptions } from './storage-sync';
 export { Subject } from './subject';
 export type { Subscription, Unsubscribe } from './subject';
 export { usePreferredThemeMetaSync } from './theme';
+export { usePrevious } from './use-previous';
 export { withGuards } from './with-guards';

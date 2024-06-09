@@ -1,3 +1,4 @@
+import { AnimatePresence } from 'framer-motion';
 import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
@@ -17,7 +18,9 @@ export function App() {
     <StrictMode>
       <Provider store={store}>
         <BreakpointProvider>
-          <RouterProvider router={router} />
+          <AnimatePresence>
+            <RouterProvider router={router} />
+          </AnimatePresence>
         </BreakpointProvider>
       </Provider>
     </StrictMode>
