@@ -6,6 +6,7 @@ export {
   useIsMobile,
 } from './breakpoint';
 export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
+export { debounce } from './debounce';
 export { getDeclensionByNumber } from './get-declension-by-number';
 export { getHslColorFromString } from './get-hsl-color-from-string';
 export { isIOS } from './is-ios';
