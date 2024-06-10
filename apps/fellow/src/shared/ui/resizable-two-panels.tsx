@@ -95,7 +95,7 @@ export const ResizableTwoPanels = ({
       <div
         onMouseDown={onMouseDown}
         ref={resizeHandle}
-        className="cursor-col-resize w-1 h-full opacity-20 border-dashed border-white border-l-2 my-1"
+        className="cursor-col-resize w-1 h-full opacity-20 border-dashed hover:opacity-100 hover:border-primary transition-all duration-150 border-l-2 my-1"
       ></div>
 
       <div ref={rightPanel} className="h-full flex-1">
