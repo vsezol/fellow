@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer base {
+  @font-face {
+    font-family: 'Logo';
+    font-display: swap;
+    src: url(/src/assets/fonts/RubikMonoOne-Regular.ttf) format('woff2');
+  }
+}
+
 body,
 html {
   position: fixed;

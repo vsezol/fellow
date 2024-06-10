@@ -1,11 +1,17 @@
 import { Navigate, Outlet, createBrowserRouter } from 'react-router-dom';
 import { withGuards } from '../shared';
 import { HasUserNameGuard } from './guards';
+import { Preloader } from './preloader';
 
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <Outlet />,
+    element: (
+      <>
+        <Preloader />
+        <Outlet />
+      </>
+    ),
     children: [
       {
         path: '',

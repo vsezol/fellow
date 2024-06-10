@@ -25,6 +25,7 @@ export type {
   RootSliceState,
   SelectSelf,
 } from './slice-utils';
+export { Storage } from './storage';
 export { getStorageState, saveStateToStorage } from './storage-sync';
 export type { StorageOptions } from './storage-sync';
 export { Subject } from './subject';

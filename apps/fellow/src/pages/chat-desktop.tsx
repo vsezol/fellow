@@ -5,6 +5,7 @@ import {
   ResizableTwoPanelsInitial,
   ResizableTwoPanelsMin,
   ResizableTwoPanelsOnChange,
+  Storage,
   debounce,
 } from '../shared';
 import { useAppSelector } from '../store';
@@ -15,6 +16,8 @@ import { ConversationPreviewList } from '../widgets/conversation-preview-list';
 const DEFAULT_WIDTH = 256;
 const MIN_WIDTH: ResizableTwoPanelsMin = [256, 400];
 
+const STORAGE_KEY = 'ChatDesktopPanels';
+
 export default function ChatDesktop() {
   const currentChatName = useAppSelector(selectCurrentChatName);
 
@@ -23,19 +26,12 @@ export default function ChatDesktop() {
   ]);
 
   useLayoutEffect(() => {
-    try {
-      const data = localStorage.getItem('ChatDesktopPanels');
-      const widths = JSON.parse(data ?? '[]');
-      setInitial(widths);
-    } catch {
-      console.log(`[ChatDesktop] cannot get initial size`);
-    }
+    const widths = Storage.get<ResizableTwoPanelsInitial>(STORAGE_KEY);
+    widths && setInitial(widths);
   }, []);
 
   const onResize = debounce<ResizableTwoPanelsOnChange>(
-    (width: [number, number]) => {
-      localStorage.setItem('ChatDesktopPanels', JSON.stringify(width));
-    },
+    (widths: [number, number]) => Storage.set(STORAGE_KEY, widths),
     300
   );
 
