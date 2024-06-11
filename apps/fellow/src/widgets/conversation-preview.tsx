@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
-import { SyntheticEvent } from 'react';
+import { SyntheticEvent, useRef } from 'react';
 import { ChatMessage } from '../entities/chat';
 import { useGetUserQuery } from '../entities/user';
 import { Avatar, Button } from '../shared';
@@ -22,6 +22,8 @@ export const ConversationPreview = ({
   onClick,
   onDelete,
 }: ConversationPreviewProps) => {
+  const menuButtonRef = useRef<HTMLDivElement>(null);
+
   const fromPreview = message?.from === currentUserName ? 'Вы' : message?.from;
 
   const messagePreview = message
@@ -29,7 +31,9 @@ export const ConversationPreview = ({
     : 'Пока нет сообщений...';
 
   const handleOpenMenu = (event: SyntheticEvent) => {
+    event.preventDefault();
     event.stopPropagation();
+    menuButtonRef?.current?.focus();
   };
 
   const handleDelete = (event: SyntheticEvent) => {
@@ -46,12 +50,13 @@ export const ConversationPreview = ({
       return data.status;
     }
 
-    return '';
+    return 'bim bam bim bam';
   };
 
   return (
     <div
       onClick={onClick}
+      onContextMenu={handleOpenMenu}
       className={clsx(
         'w-full p-2 rounded-lg cursor-pointer transition-all duration-75 border-2 relative bg-base-200',
         selected
@@ -65,13 +70,21 @@ export const ConversationPreview = ({
         </div>
 
         <div className="flex flex-col overflow-hidden justify-around">
-          <h2 className="text-lg font-semibold">{chatName}</h2>
+          <h2 className="text-lg font-semibold text-ellipsis truncate">
+            {chatName} - <span className="text-secondary ">{getStatus()}</span>
+          </h2>
+
           <p className="text-ellipsis truncate">{messagePreview}</p>
         </div>
       </div>
 
       <div className="dropdown dropdown-end absolute right-0 top-0 mt-2 mr-2">
-        <div tabIndex={0} role="button" onClick={handleOpenMenu}>
+        <div
+          className="opacity-0"
+          tabIndex={0}
+          role="button"
+          ref={menuButtonRef}
+        >
           <Button size="sm">
             <FontAwesomeIcon size="sm" icon="ellipsis-vertical" />
           </Button>

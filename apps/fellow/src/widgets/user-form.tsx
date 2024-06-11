@@ -50,7 +50,7 @@ export const UserForm: FC = () => {
   }, [userData, setValue, isSuccess]);
 
   const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
-    editStatus({ username: name, status });
+    editStatus({ username: name, status: status ?? '' });
     dispatch(setUser({ name }));
     dispatch(updateCachedUserStatus(name, status));
   };
