@@ -8,7 +8,7 @@ import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 5,
+  version: 6,
   stateKeys: [userSlice.name, chatsSlice.name],
 };
 

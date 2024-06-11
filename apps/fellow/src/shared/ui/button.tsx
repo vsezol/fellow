@@ -47,7 +47,9 @@ export const Button = ({
         sizeClass?.[size]
       )}
     >
-      <div className="flex flex-row gap-2 items-center">{children}</div>
+      <div className="w-full flex flex-row gap-2 items-center justify-center">
+        {children}
+      </div>
     </button>
   );
 };

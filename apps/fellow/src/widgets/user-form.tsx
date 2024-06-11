@@ -24,6 +24,7 @@ export const UserForm: FC = () => {
   const navigate = useNavigate();
 
   const [editStatus] = useEditStatusMutation();
+
   const { data: userData, isSuccess } = useGetUserQuery(name, {
     skip: !name,
     refetchOnMountOrArgChange: true,

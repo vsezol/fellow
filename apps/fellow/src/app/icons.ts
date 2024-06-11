@@ -7,8 +7,10 @@ import {
   faGear,
   faMessage,
   faPaperPlane,
+  faPeopleGroup,
   faPlus,
   faTrashCan,
+  faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -19,5 +21,7 @@ library.add(
   faGear,
   faChevronLeft,
   faMessage,
-  faArrowTrendUp
+  faArrowTrendUp,
+  faUserGroup,
+  faPeopleGroup
 );

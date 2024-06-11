@@ -1,5 +1,6 @@
 import { useLayoutEffect, useState } from 'react';
-import { selectCurrentChatName } from '../entities/chat';
+
+import { selectCurrentChat } from '../entities/chat';
 import {
   ResizableTwoPanels,
   ResizableTwoPanelsInitial,
@@ -19,7 +20,7 @@ const MIN_WIDTH: ResizableTwoPanelsMin = [256, 400];
 const STORAGE_KEY = 'ChatDesktopPanels';
 
 export default function ChatDesktop() {
-  const currentChatName = useAppSelector(selectCurrentChatName);
+  const currentChat = useAppSelector(selectCurrentChat);
 
   const [initial, setInitial] = useState<ResizableTwoPanelsInitial>([
     DEFAULT_WIDTH,
@@ -41,7 +42,7 @@ export default function ChatDesktop() {
         left={<ConversationPreviewList />}
         right={
           <div className="bg-base-200 rounded-lg h-full w-full">
-            {currentChatName ? <Conversation /> : <ConversationPlaceholder />}
+            {currentChat ? <Conversation /> : <ConversationPlaceholder />}
           </div>
         }
         initial={initial}

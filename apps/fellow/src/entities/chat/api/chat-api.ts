@@ -4,6 +4,14 @@ export interface GetChatsResponse {
   lastMessages: ChatApi[];
 }
 
+export interface CreateChatRequest {
+  members: string[];
+}
+
+export interface CreateChatResponse {
+  id: string;
+}
+
 export interface ChatApi {
   id: string;
   chatName: string;
@@ -22,7 +30,14 @@ export const chatApi = createApi({
       query: (userName) => `users/${userName}/activity`,
       providesTags: ['Chats'],
     }),
+    createChat: builder.mutation<CreateChatResponse, CreateChatRequest>({
+      query: (body) => ({
+        url: `groups`,
+        method: 'POST',
+        body,
+      }),
+    }),
   }),
 });
 
-export const { useGetChatsQuery } = chatApi;
+export const { useGetChatsQuery, useCreateChatMutation } = chatApi;

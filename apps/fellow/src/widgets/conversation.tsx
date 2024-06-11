@@ -1,61 +1,52 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  chatsSlice,
-  selectCurrentChatName,
-  selectCurrentMessages,
-} from '../entities/chat';
-import {
-  dispatchOutgoingChatMessage,
-  useGetHistoryQuery,
-} from '../entities/chat-message';
-import { incomingChatMessageToAddMessagePayload } from '../entities/chat-message/model/mappers';
-import { selectUserName, useGetUserQuery } from '../entities/user';
+import { selectCurrentChat, selectCurrentMessages } from '../entities/chat';
+import { dispatchOutgoingChatMessage } from '../entities/chat-message';
+import { selectUserName } from '../entities/user';
 import { Button, getDeclensionByNumber } from '../shared';
-import { useAppDispatch, useAppSelector } from '../store';
+import { useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
 
 export const Conversation = () => {
   const navigate = useNavigate();
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const currentUserName = useAppSelector(selectUserName);
-  const currentChatName = useAppSelector(selectCurrentChatName);
+  const currentChat = useAppSelector(selectCurrentChat);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
 
-  const { data, isSuccess, isLoading } = useGetUserQuery(
-    currentChatName ?? '',
-    { skip: !currentChatName }
-  );
+  // const { data, isSuccess, isLoading } = useGetUserQuery(
+  //   currentChatName ?? '',
+  //   { skip: !currentChatName }
+  // );
 
-  const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
-    currentChatName ?? '',
-    {
-      skip: !currentChatName,
-      refetchOnMountOrArgChange: true,
-    }
-  );
+  // const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
+  //   currentChatName ?? '',
+  //   {
+  //     skip: !currentChatName,
+  //     refetchOnMountOrArgChange: true,
+  //   }
+  // );
 
-  useEffect(() => {
-    if (!isHistorySuccess || !history) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!isHistorySuccess || !history) {
+  //     return;
+  //   }
 
-    history
-      ?.map((x) =>
-        incomingChatMessageToAddMessagePayload(x, currentChatName ?? '')
-      )
-      .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
-  }, [isHistorySuccess, history]);
+  //   history
+  //     ?.map((x) =>
+  //       incomingChatMessageToAddMessagePayload(x, currentChatName ?? '')
+  //     )
+  //     .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
+  // }, [isHistorySuccess, history]);
 
-  const getStatus = () => {
-    if (isSuccess && !isLoading && data?.status) {
-      return data.status;
-    }
+  // const getStatus = () => {
+  //   if (isSuccess && !isLoading && data?.status) {
+  //     return data.status;
+  //   }
 
-    return '';
-  };
+  //   return '';
+  // };
 
   const messagesText = getDeclensionByNumber(messages.length, [
     'сообщение',
@@ -71,12 +62,12 @@ export const Conversation = () => {
   const goBack = () => navigate('/chat');
 
   const sendMessage = (text: string) => {
-    if (!currentChatName || !currentUserName || !text) {
+    if (!currentChat?.id || !text) {
       return;
     }
 
     dispatchOutgoingChatMessage({
-      to: currentChatName,
+      to: currentChat?.id,
       message: text,
     });
   };
@@ -96,11 +87,11 @@ export const Conversation = () => {
         </div>
 
         <div className="flex-1 flex flex-col items-center">
-          {currentChatName && (
+          {currentChat && (
             <>
               <div className="text-lg font-semibold">
-                {currentChatName}{' '}
-                <span className="text-secondary">{getStatus()}</span>
+                {currentChat?.members.join(' и ')}{' '}
+                {/* <span className="text-secondary">{getStatus()}</span> */}
               </div>
 
               <div className="text-sm font-light">

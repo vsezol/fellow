@@ -6,12 +6,19 @@ export interface ChatMessage {
 }
 
 export interface Chat {
+  id: string;
+  members: string[];
   messages: ChatMessage[];
 }
 
 export interface AddMessagePayload {
-  chat: string;
+  chatId: string;
   message: ChatMessage;
+}
+
+export interface AddChatPayload {
+  id: string;
+  members: string[];
 }
 
 export interface ChatsState {
@@ -20,6 +27,7 @@ export interface ChatsState {
 }
 
 export interface ChatPreview {
-  name: string;
+  id: string;
+  members: string[];
   lastMessage: ChatMessage | undefined;
 }

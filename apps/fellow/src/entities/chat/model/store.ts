@@ -4,7 +4,13 @@ import {
   createSelectSelf,
   createSliceSelectorWithTypes,
 } from '../../../shared';
-import { AddMessagePayload, ChatPreview, ChatsState } from './types';
+import {
+  AddChatPayload,
+  AddMessagePayload,
+  Chat,
+  ChatPreview,
+  ChatsState,
+} from './types';
 
 const initialState: ChatsState = {
   current: undefined,
@@ -18,8 +24,10 @@ export const chatsSlice = createSlice({
     setCurrent: (state, action: PayloadAction<string | undefined>) => {
       state.current = action.payload;
     },
-    addChat: (state, action: PayloadAction<string>) => {
-      state.chats[action.payload] ||= {
+    addChat: (state, action: PayloadAction<AddChatPayload>) => {
+      state.chats[action.payload.id] ||= {
+        id: action.payload.id,
+        members: action.payload.members,
         messages: [],
       };
     },
@@ -30,13 +38,13 @@ export const chatsSlice = createSlice({
       }
     },
     addMessage: (state, action: PayloadAction<AddMessagePayload>) => {
-      const { chat, message } = action.payload;
+      const { chatId, message } = action.payload;
 
-      state.chats[chat] ||= {
-        messages: [],
-      };
+      if (!state.chats?.[chatId]) {
+        return;
+      }
 
-      const isExists = state.chats?.[chat]?.messages.some(
+      const isExists = state.chats?.[chatId]?.messages.some(
         ({ id }) => id === message.id
       );
 
@@ -44,9 +52,9 @@ export const chatsSlice = createSlice({
         return;
       }
 
-      state.chats?.[chat]?.messages.push(message);
+      state.chats?.[chatId]?.messages.push(message);
 
-      state.chats?.[chat]?.messages.sort(
+      state.chats?.[chatId]?.messages.sort(
         (a, b) =>
           new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
       );
@@ -58,7 +66,15 @@ const selectSelf = createSelectSelf(chatsSlice);
 const selectFromSelf = createSelectFromSelf(chatsSlice);
 const createSliceSelector = createSliceSelectorWithTypes(chatsSlice);
 
-export const selectCurrentChatName = selectFromSelf((state) => state.current);
+export const selectCurrentChatId = selectFromSelf((state) => state.current);
+
+export const selectCurrentChat = selectFromSelf((state) => {
+  if (!state.current) {
+    return undefined;
+  }
+
+  return state.chats?.[state?.current];
+});
 
 export const selectCurrentMessages = selectFromSelf(
   ({ chats, current }) => chats?.[current ?? '']?.messages
@@ -67,9 +83,11 @@ export const selectCurrentMessages = selectFromSelf(
 export const selectChats: OutputSelector<[typeof selectSelf], ChatPreview[]> =
   createSliceSelector(selectSelf, (state) =>
     Object.keys(state.chats)
-      .filter((key) => state.chats[key] !== undefined)
-      .map((key) => ({
-        name: key,
-        lastMessage: state.chats?.[key]?.messages.at(-1),
+      .map((key) => state.chats[key])
+      .filter((chat): chat is Chat => chat !== undefined)
+      .map(({ id, members, messages }) => ({
+        id,
+        members,
+        lastMessage: messages.at(-1),
       }))
   );

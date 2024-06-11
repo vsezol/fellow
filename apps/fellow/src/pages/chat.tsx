@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import {
   chatsSlice,
-  selectCurrentChatName,
+  selectCurrentChatId,
   useGetChatsQuery,
 } from '../entities/chat';
 
@@ -25,10 +25,10 @@ export const Component: FC = () => {
   const { chatName } = useParams();
 
   const isMobile = useIsMobile();
-  const currentChatName = useAppSelector(selectCurrentChatName);
+  const currentChatId = useAppSelector(selectCurrentChatId);
   const userName = useAppSelector(selectUserName);
 
-  const isMobileConversation = isMobile && currentChatName;
+  const isMobileConversation = isMobile && currentChatId;
 
   const { data: chatsData } = useGetChatsQuery(userName);
 

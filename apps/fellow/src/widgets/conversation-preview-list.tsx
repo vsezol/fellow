@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import {
-  chatsSlice,
-  selectChats,
-  selectCurrentChatName,
-} from '../entities/chat';
+import { chatsSlice, selectChats, selectCurrentChatId } from '../entities/chat';
 import { selectUserName } from '../entities/user';
 import { useAppSelector } from '../store';
 import { AddChatInput } from './add-chat-input';
@@ -15,28 +11,28 @@ export const ConversationPreviewList = () => {
   const dispatch = useDispatch();
 
   const currentUserName = useAppSelector(selectUserName);
-  const currentChatName = useAppSelector(selectCurrentChatName);
+  const currentChatId = useAppSelector(selectCurrentChatId);
 
   const chats = useAppSelector(selectChats);
 
   const navigate = useNavigate();
 
-  const selectChat = (chatName: string) => {
-    navigate(`/chat/${chatName}`);
-    dispatch(chatsSlice.actions.setCurrent(chatName));
+  const selectChat = (chatId: string) => {
+    navigate(`/chat/${chatId}`);
+    dispatch(chatsSlice.actions.setCurrent(chatId));
   };
 
-  const deleteChat = (chatName: string) => {
+  const deleteChat = (chatId: string) => {
     navigate(`/chat`);
-    dispatch(chatsSlice.actions.deleteChat(chatName));
+    dispatch(chatsSlice.actions.deleteChat(chatId));
   };
 
   useEffect(() => {
-    if (!currentChatName) {
+    if (!currentChatId) {
       return;
     }
 
-    dispatch(chatsSlice.actions.setCurrent(currentChatName));
+    dispatch(chatsSlice.actions.setCurrent(currentChatId));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -46,13 +42,13 @@ export const ConversationPreviewList = () => {
       <div className="flex flex-col overflow-y-auto flex-1 gap-2 pr-2">
         {chats.map((chat) => (
           <ConversationPreview
-            key={chat.name}
-            chatName={chat.name}
+            key={chat.id}
+            chatName={chat.members.join(' и ')}
             currentUserName={currentUserName}
             message={chat.lastMessage}
-            selected={currentChatName === chat.name}
-            onClick={() => selectChat(chat.name)}
-            onDelete={() => deleteChat(chat.name)}
+            selected={currentChatId === chat.id}
+            onClick={() => selectChat(chat.id)}
+            onDelete={() => deleteChat(chat.id)}
           ></ConversationPreview>
         ))}
       </div>

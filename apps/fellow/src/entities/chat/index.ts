@@ -1,8 +1,13 @@
-export { chatApi, useGetChatsQuery } from './api/chat-api';
+export {
+  chatApi,
+  useCreateChatMutation,
+  useGetChatsQuery,
+} from './api/chat-api';
 export {
   chatsSlice,
   selectChats,
-  selectCurrentChatName,
+  selectCurrentChat,
+  selectCurrentChatId,
   selectCurrentMessages,
 } from './model/store';
 export type {

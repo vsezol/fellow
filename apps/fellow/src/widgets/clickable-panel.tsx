@@ -111,7 +111,7 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
     };
 
     const handleTouch = (event: TouchEvent) => {
-      Array.from(event.touches).forEach((x) =>
+      Array.from(event.changedTouches).forEach((x) =>
         spawnCircle(x.clientX, x.clientY)
       );
     };
