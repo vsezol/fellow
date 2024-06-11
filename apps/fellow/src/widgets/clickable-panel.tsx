@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { useIsMobile } from '../shared';
 import { usePreferredTheme } from '../shared/lib/theme';
 
 type RGBColor = [number, number, number];
@@ -20,6 +21,7 @@ export type ClickablePanelProps = {
 export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
   const canvasRef = useRef<HTMLCanvasElement>();
   const contextRef = useRef<CanvasRenderingContext2D>();
+  const isMobile = useIsMobile();
 
   const theme = usePreferredTheme();
   const circleColor = useRef<RGBColor>();
@@ -88,25 +90,44 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
   }, []);
 
   useEffect(() => {
-    const handleClick = (event: MouseEvent) => {
+    const spawnCircle = (x: number, y: number) => {
       onClick?.();
-
       const rect = canvasRef?.current?.getBoundingClientRect();
 
       if (!rect) {
         return;
       }
 
-      const x = event.clientX - rect.left;
-      const y = event.clientY - rect.top;
-
-      circlesRef.current.push({ x, y, radius: 0, opacity: 1 });
+      circlesRef.current.push({
+        x: x - rect.left,
+        y: y - rect.top,
+        radius: 0,
+        opacity: 1,
+      });
     };
 
-    window.addEventListener('click', handleClick);
+    const handleClick = (event: MouseEvent) => {
+      spawnCircle(event.clientX, event.clientY);
+    };
+
+    const handleTouch = (event: TouchEvent) => {
+      Array.from(event.touches).forEach((x) =>
+        spawnCircle(x.clientX, x.clientY)
+      );
+    };
+
+    if (isMobile) {
+      window.addEventListener('touchstart', handleTouch);
+    } else {
+      window.addEventListener('click', handleClick);
+    }
 
     return () => {
-      window.removeEventListener('click', handleClick);
+      if (isMobile) {
+        window.removeEventListener('touchstart', handleTouch);
+      } else {
+        window.removeEventListener('click', handleClick);
+      }
     };
   }, []);
 
