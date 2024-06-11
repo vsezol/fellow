@@ -32,6 +32,17 @@ export const Navbar = () => {
           <div className="hidden md:block">Сообщения</div>
         </Button>
       </NavLink>
+
+      <NavLink
+        to="/rep"
+        end
+        className={({ isActive }) => withActiveLinkClasses(isActive)}
+      >
+        <Button size="md" disabled={!userName}>
+          <FontAwesomeIcon size="lg" icon="arrow-trend-up" />
+          <div className="hidden md:block">Репутация</div>
+        </Button>
+      </NavLink>
     </div>
   );
 };

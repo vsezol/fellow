@@ -5,5 +5,5 @@ export {
   useGetUserQuery,
   userApi,
 } from './api/user-api';
-export { selectUserName, userSlice } from './model';
+export { selectUserName, selectUserReputation, userSlice } from './model';
 export type { User, UserState } from './model';

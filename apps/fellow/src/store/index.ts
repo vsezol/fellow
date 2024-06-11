@@ -1,14 +1,14 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { chatsSlice } from '../entities/chat';
+import { chatApi, chatsSlice } from '../entities/chat';
 import { chatMessageApi } from '../entities/chat-message';
 import { userApi, userSlice } from '../entities/user';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 4,
+  version: 5,
   stateKeys: [userSlice.name, chatsSlice.name],
 };
 
@@ -17,6 +17,7 @@ export const rootReducer = combineReducers({
   [chatsSlice.name]: chatsSlice.reducer,
   [chatMessageApi.reducerPath]: chatMessageApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
+  [chatApi.reducerPath]: chatApi.reducer,
 });
 
 export const store = configureStore({
@@ -26,7 +27,8 @@ export const store = configureStore({
     getDefaultMiddleware()
       .concat(saveStateToStorage(storageOptions))
       .concat(chatMessageApi.middleware)
-      .concat(userApi.middleware),
+      .concat(userApi.middleware)
+      .concat(chatApi.middleware),
 });
 
 setupListeners(store.dispatch);

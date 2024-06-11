@@ -1,13 +1,17 @@
 import { FC, Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { chatsSlice, selectCurrentChatName } from '../entities/chat';
+import {
+  chatsSlice,
+  selectCurrentChatName,
+  useGetChatsQuery,
+} from '../entities/chat';
 
 import Layout from '../app/layout';
 import { useApiEventHandler } from '../entities/api-event';
 import { useChatMessageHandler } from '../entities/chat-message';
 import { useSoundEffectHandler } from '../entities/sound-effect';
-import { useStatusChangeHandler } from '../entities/user';
+import { selectUserName, useStatusChangeHandler } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
 import { BreakpointSwitcher, useIsMobile } from '../shared';
 import { useAppSelector } from '../store';
@@ -22,12 +26,19 @@ export const Component: FC = () => {
 
   const isMobile = useIsMobile();
   const currentChatName = useAppSelector(selectCurrentChatName);
+  const userName = useAppSelector(selectUserName);
 
   const isMobileConversation = isMobile && currentChatName;
+
+  const { data: chatsData } = useGetChatsQuery(userName);
 
   useEffect(() => {
     dispatch(chatsSlice.actions.setCurrent(chatName));
   }, [chatName, dispatch]);
+
+  useEffect(() => {
+    console.log(chatsData);
+  }, []);
 
   useApiEventHandler();
   useChatMessageHandler();

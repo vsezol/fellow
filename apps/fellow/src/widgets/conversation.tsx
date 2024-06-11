@@ -38,12 +38,12 @@ export const Conversation = () => {
   );
 
   useEffect(() => {
-    if (!isHistorySuccess) {
+    if (!isHistorySuccess || !history) {
       return;
     }
 
     history
-      .map((x) =>
+      ?.map((x) =>
         incomingChatMessageToAddMessagePayload(x, currentChatName ?? '')
       )
       .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));

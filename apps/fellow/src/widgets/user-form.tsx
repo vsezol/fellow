@@ -8,6 +8,7 @@ import {
   userSlice,
 } from '../entities/user';
 
+import { useNavigate } from 'react-router-dom';
 import { Avatar, Button, InputText } from '../shared/ui';
 import { useAppDispatch, useAppSelector } from '../store';
 
@@ -20,6 +21,7 @@ export const UserForm: FC = () => {
   const dispatch = useAppDispatch();
   const name = useAppSelector(selectUserName);
   const [userNameDraft, setUserNameDraft] = useState(name);
+  const navigate = useNavigate();
 
   const [editStatus] = useEditStatusMutation();
   const { data: userData, isSuccess } = useGetUserQuery(name, {
@@ -27,7 +29,7 @@ export const UserForm: FC = () => {
     refetchOnMountOrArgChange: true,
   });
 
-  const { setUser } = userSlice.actions;
+  const { setUserName } = userSlice.actions;
 
   const {
     control,
@@ -51,8 +53,9 @@ export const UserForm: FC = () => {
 
   const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
     editStatus({ username: name, status: status ?? '' });
-    dispatch(setUser({ name }));
+    dispatch(setUserName(name));
     dispatch(updateCachedUserStatus(name, status));
+    navigate('/chat');
   };
 
   return (

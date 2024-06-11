@@ -50,7 +50,7 @@ export const ConversationPreview = ({
       return data.status;
     }
 
-    return 'bim bam bim bam';
+    return '';
   };
 
   return (
@@ -71,7 +71,8 @@ export const ConversationPreview = ({
 
         <div className="flex flex-col overflow-hidden justify-around">
           <h2 className="text-lg font-semibold text-ellipsis truncate">
-            {chatName} - <span className="text-secondary ">{getStatus()}</span>
+            {chatName}
+            <span className="pl-1 text-secondary">{getStatus()}</span>
           </h2>
 
           <p className="text-ellipsis truncate">{messagePreview}</p>

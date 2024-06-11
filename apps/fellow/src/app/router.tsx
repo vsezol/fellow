@@ -23,6 +23,13 @@ export const router = createBrowserRouter([
       },
       withGuards(
         {
+          path: 'rep',
+          lazy: () => import('../pages/rep'),
+        },
+        <HasUserNameGuard to="user" replace />
+      ),
+      withGuards(
+        {
           path: 'chat/:chatName?',
           lazy: () => import('../pages/chat'),
         },

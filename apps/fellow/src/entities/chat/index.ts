@@ -1,3 +1,4 @@
+export { chatApi, useGetChatsQuery } from './api/chat-api';
 export {
   chatsSlice,
   selectChats,
