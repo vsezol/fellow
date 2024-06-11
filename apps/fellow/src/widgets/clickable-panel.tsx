@@ -90,6 +90,8 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
   }, []);
 
   useEffect(() => {
+    const activeTouches = new Set();
+
     const spawnCircle = (x: number, y: number) => {
       onClick?.();
       const rect = canvasRef?.current?.getBoundingClientRect();
@@ -111,13 +113,23 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
     };
 
     const handleTouch = (event: TouchEvent) => {
-      Array.from(event.changedTouches).forEach((x) =>
-        spawnCircle(x.clientX, x.clientY)
+      Array.from(event.changedTouches)
+        .filter((touch) => !activeTouches.has(touch.identifier))
+        .forEach((touch) => {
+          activeTouches.add(touch.identifier);
+          spawnCircle(touch.clientX, touch.clientY);
+        });
+    };
+
+    const handleTouchEnd = (event: TouchEvent) => {
+      Array.from(event.changedTouches).forEach((touch) =>
+        activeTouches.delete(touch.identifier)
       );
     };
 
     if (isMobile) {
       window.addEventListener('touchstart', handleTouch);
+      window.addEventListener('touchend', handleTouchEnd);
     } else {
       window.addEventListener('click', handleClick);
     }
@@ -125,6 +137,7 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
     return () => {
       if (isMobile) {
         window.removeEventListener('touchstart', handleTouch);
+        window.removeEventListener('touchend', handleTouchEnd);
       } else {
         window.removeEventListener('click', handleClick);
       }
