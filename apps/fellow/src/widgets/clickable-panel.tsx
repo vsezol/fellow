@@ -92,6 +92,9 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
   useEffect(() => {
     const spawnCircle = (x: number, y: number) => {
       onClick?.();
+
+      navigator?.vibrate?.(50);
+
       const rect = canvasRef?.current?.getBoundingClientRect();
 
       if (!rect) {
