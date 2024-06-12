@@ -38,6 +38,7 @@ export const AddChatInput = () => {
   };
 
   const closeModal = () => {
+    reset();
     modalControlsRef?.current?.close?.();
   };
 
@@ -62,7 +63,6 @@ export const AddChatInput = () => {
         })
       );
 
-      reset();
       closeModal();
     } catch {
       console.error('[AddChatInput] Error while chat creating');
@@ -80,20 +80,21 @@ export const AddChatInput = () => {
         </div>
 
         <ul
+          tabIndex={0}
           className={clsx(
-            'dropdown-content z-[1] menu p-2 mt-2 shadow bg-base-100 rounded-lg w-50 border-primary '
+            'dropdown-content z-10 menu p-2 mt-2 shadow bg-base-100 rounded-lg w-50 border-primary'
           )}
         >
-          <li>
-            <Button size="md" type="submit" onClick={openModal}>
+          <li onClick={openModal}>
+            <Button size="md" type="submit">
               <div className="w-full flex flex-row gap-2">
                 <FontAwesomeIcon size="sm" icon="user-group" />
                 Чат
               </div>
             </Button>
           </li>
-          <li>
-            <Button size="md" type="submit" onClick={openModal} disabled>
+          <li onClick={openModal}>
+            <Button size="md" type="submit" disabled>
               <div className="w-full flex flex-row gap-2">
                 <FontAwesomeIcon size="sm" icon="people-group" />
                 Группа
