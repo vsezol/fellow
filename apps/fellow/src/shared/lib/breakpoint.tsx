@@ -8,8 +8,6 @@ import {
 } from 'react';
 import { useWindowSize } from './use-window-size';
 
-// TODO move to package
-
 export type Breakpoint = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 
 const BreakpointContext = createContext<Breakpoint>('xs');
