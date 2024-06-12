@@ -9,7 +9,10 @@ import {
 
 import Layout from '../app/layout';
 import { useApiEventHandler } from '../entities/api-event';
-import { useChatMessageHandler } from '../entities/chat-message';
+import {
+  useChatMessageHandler,
+  useChatMessageHistory,
+} from '../entities/chat-message';
 import { useSoundEffectHandler } from '../entities/sound-effect';
 import { selectUserName, useStatusChangeHandler } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
@@ -37,13 +40,20 @@ export const Component: FC = () => {
   }, [chatName, dispatch]);
 
   useEffect(() => {
-    console.log(chatsData);
-  }, []);
+    chatsData?.lastMessages?.forEach((chat) => {
+      dispatch(
+        chatsSlice.actions.addChat({
+          id: chat.id,
+          members: chat.members,
+        })
+      );
+    });
+  }, [chatsData]);
 
   useApiEventHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
-  // useChatMessageHistory();
+  useChatMessageHistory();
   useStatusChangeHandler();
   useSoundEffectHandler();
 

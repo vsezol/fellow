@@ -7,8 +7,6 @@ export const isIncomingChatMessage = (
     return false;
   }
 
-  console.log(data);
-
   const keys: (keyof IncomingChatMessage)[] = [
     'id',
     'from',

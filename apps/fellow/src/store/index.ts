@@ -9,7 +9,7 @@ import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 7,
+  version: 8,
   stateKeys: [userSlice.name, userSettingsSlice.name],
 };
 

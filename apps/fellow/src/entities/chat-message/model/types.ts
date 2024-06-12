@@ -1,5 +1,5 @@
 export interface IncomingChatMessage {
-  id: number;
+  id: string;
   from: string;
   to: number;
   message: string;
@@ -7,6 +7,6 @@ export interface IncomingChatMessage {
 }
 
 export interface OutgoingChatMessage {
-  to: number;
+  to: string;
   message: string;
 }

@@ -11,9 +11,8 @@ export const chatMessageApi = createApi({
   baseQuery: fetchBaseQuery({ baseUrl: import.meta.env.VITE_HTTP_API_URL }),
   tagTypes: ['ChatMessage'],
   endpoints: (builder) => ({
-    getHistory: builder.query<IncomingChatMessage[], string>({
-      query: (chatName) =>
-        `history/${chatName}?pageNumber=${0}&pageSize=${1000}`,
+    getHistory: builder.query<IncomingChatMessage[], number>({
+      query: (groupId) => `history/${groupId}?pageNumber=${0}&pageSize=${1000}`,
       transformResponse: (data: HistoryData) => data.pages,
       providesTags: ['ChatMessage'],
     }),

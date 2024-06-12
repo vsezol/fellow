@@ -1,21 +1,21 @@
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from '../../../store';
-import { chatsSlice } from '../../chat/model/store';
-import { selectUserName } from '../../user';
+import { chatsSlice, selectCurrentChatId } from '../../chat/model/store';
 import { useGetHistoryQuery } from '../api/chat-message-api';
 import { incomingChatMessageToAddMessagePayload } from './mappers';
 
 export const useChatMessageHistory = () => {
-  const userName = useAppSelector(selectUserName);
+  const currentChatId = useAppSelector(selectCurrentChatId);
   const dispatch = useDispatch();
 
-  const { isSuccess, data } = useGetHistoryQuery(userName, {
+  const { isSuccess, data } = useGetHistoryQuery(currentChatId ?? 0, {
     refetchOnMountOrArgChange: true,
+    skip: !currentChatId,
   });
 
   useEffect(() => {
-    if (!isSuccess) {
+    if (!isSuccess || !data) {
       return;
     }
 

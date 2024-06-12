@@ -6,7 +6,8 @@ export const incomingChatMessageToAddMessagePayload = (
 ): AddMessagePayload => ({
   chatId: message.to,
   message: {
-    id: message.id,
+    // TODO: remove after api fix
+    id: Number(message.id),
     from: message.from,
     text: message.message,
     timestamp: message.timestamp,

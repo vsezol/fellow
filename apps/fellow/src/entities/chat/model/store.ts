@@ -31,7 +31,7 @@ export const chatsSlice = createSlice({
         messages: [],
       };
     },
-    deleteChat: (state, action: PayloadAction<string>) => {
+    deleteChat: (state, action: PayloadAction<number>) => {
       state.chats[action.payload] = undefined;
       if (state.current === action.payload) {
         state.current = undefined;
