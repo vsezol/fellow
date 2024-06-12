@@ -27,7 +27,7 @@ export const Conversation = () => {
     }
 
     if (currentChat?.members?.every((x) => x === currentUserName)) {
-      return 'Сохраненные сообщения';
+      return currentUserName;
     }
 
     return currentChat?.members?.filter((x) => x !== currentUserName)[0];
