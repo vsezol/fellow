@@ -3,7 +3,9 @@ import {
   forwardRef,
   useImperativeHandle,
   useRef,
+  useState,
 } from 'react';
+import { createPortal } from 'react-dom';
 
 export type ModalProps = PropsWithChildren;
 
@@ -15,15 +17,18 @@ export interface ModalControls {
 export const Modal = forwardRef<ModalControls, ModalProps>(
   ({ children }: ModalProps, ref) => {
     const modalRef = useRef<HTMLDialogElement>(null);
+    const [isVisible, setIsVisible] = useState(false);
 
     useImperativeHandle(
       ref,
       () => {
         return {
           open: () => {
+            setIsVisible(true);
             modalRef.current?.showModal?.();
           },
           close: () => {
+            setIsVisible(false);
             modalRef.current?.close?.();
           },
         };
@@ -31,10 +36,11 @@ export const Modal = forwardRef<ModalControls, ModalProps>(
       []
     );
 
-    return (
+    return createPortal(
       <dialog ref={modalRef} className="modal">
-        {children}
-      </dialog>
+        {isVisible && children}
+      </dialog>,
+      document.body
     );
   }
 );
