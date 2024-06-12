@@ -21,6 +21,7 @@ export const Conversation = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentChat = useAppSelector(selectCurrentChat);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
+
   const chatName = useMemo(() => {
     if ((currentChat?.members?.length ?? 0) > 2) {
       return currentChat?.members?.join(', ');
@@ -96,7 +97,7 @@ export const Conversation = () => {
         <div className="flex-1 flex flex-col items-center">
           {currentChat && (
             <>
-              <div className="text-lg font-semibold">
+              <div className="text-lg font-semibold truncate text-ellipsis max-w-xs overflow-hidden">
                 {chatName}
                 {/* <span className="text-secondary">{getStatus()}</span> */}
               </div>
