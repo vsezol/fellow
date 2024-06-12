@@ -1,11 +1,7 @@
 import { FC, Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import {
-  chatsSlice,
-  selectCurrentChatId,
-  useGetChatsQuery,
-} from '../entities/chat';
+import { chatsSlice, selectCurrentChatId } from '../entities/chat';
 
 import Layout from '../app/layout';
 import { useApiEventHandler } from '../entities/api-event';
@@ -14,6 +10,7 @@ import { useSoundEffectHandler } from '../entities/sound-effect';
 import { selectUserName, useStatusChangeHandler } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
 import { BreakpointSwitcher, useIsMobile } from '../shared';
+import { useGetUserActivityQuery } from '../shared/api';
 import { useAppSelector } from '../store';
 import { Navbar } from '../widgets/navbar';
 
@@ -30,7 +27,7 @@ export const Component: FC = () => {
 
   const isMobileConversation = isMobile && currentChatId;
 
-  const { data: chatsData } = useGetChatsQuery(userName);
+  const { data: chatsData } = useGetUserActivityQuery({ username: userName });
 
   useEffect(() => {
     dispatch(chatsSlice.actions.setCurrent(chatName));

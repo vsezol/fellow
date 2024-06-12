@@ -4,7 +4,9 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "build": "nx run fellow:build && cp ./dist/apps/fellow/index.html ./dist/apps/fellow/404.html"
+    "build": "nx run fellow:build && cp ./dist/apps/fellow/index.html ./dist/apps/fellow/404.html",
+    "serve": "npx nx run fellow:serve --mode development",
+    "codegen": "nx run-many --target=codegen"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.5.1",

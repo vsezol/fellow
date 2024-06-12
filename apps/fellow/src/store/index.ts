@@ -1,12 +1,11 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { setupListeners } from '@reduxjs/toolkit/query';
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
-import { chatApi, chatsSlice } from '../entities/chat';
-import { chatMessageApi } from '../entities/chat-message';
-import { userApi, userSlice } from '../entities/user';
+import { chatsSlice } from '../entities/chat';
+import { userSlice } from '../entities/user';
 import { userSettingsSlice } from '../entities/user-settings';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
-import { fellowApi } from './fellow-api';
+import { fellowApi } from '../shared/api';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
@@ -15,14 +14,9 @@ const storageOptions: StorageOptions = {
 };
 
 export const rootReducer = combineReducers({
-  // stores
   [userSlice.name]: userSlice.reducer,
   [chatsSlice.name]: chatsSlice.reducer,
   [userSettingsSlice.name]: userSettingsSlice.reducer,
-  // api
-  [chatMessageApi.reducerPath]: chatMessageApi.reducer,
-  [userApi.reducerPath]: userApi.reducer,
-  [chatApi.reducerPath]: chatApi.reducer,
   [fellowApi.reducerPath]: fellowApi.reducer,
 });
 
@@ -32,9 +26,6 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(saveStateToStorage(storageOptions))
-      .concat(chatMessageApi.middleware)
-      .concat(userApi.middleware)
-      .concat(chatApi.middleware)
       .concat(fellowApi.middleware),
 });
 

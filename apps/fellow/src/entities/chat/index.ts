@@ -1,9 +1,4 @@
 export {
-  chatApi,
-  useCreateChatMutation,
-  useGetChatsQuery,
-} from './api/chat-api';
-export {
   chatsSlice,
   selectChats,
   selectCurrentChat,

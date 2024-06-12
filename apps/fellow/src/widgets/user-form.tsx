@@ -3,12 +3,11 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import {
   selectUserName,
   updateCachedUserStatus,
-  useEditStatusMutation,
-  useGetUserQuery,
   userSlice,
 } from '../entities/user';
 
 import { useNavigate } from 'react-router-dom';
+import { useChangeStatusMutation, useGetUserQuery } from '../shared/api';
 import { Avatar, Button, InputText } from '../shared/ui';
 import { useAppDispatch, useAppSelector } from '../store';
 
@@ -23,12 +22,15 @@ export const UserForm: FC = () => {
   const [userNameDraft, setUserNameDraft] = useState(name);
   const navigate = useNavigate();
 
-  const [editStatus] = useEditStatusMutation();
+  const [editStatus] = useChangeStatusMutation();
 
-  const { data: userData, isSuccess } = useGetUserQuery(name, {
-    skip: !name,
-    refetchOnMountOrArgChange: true,
-  });
+  const { data: userData, isSuccess } = useGetUserQuery(
+    { username: name },
+    {
+      skip: !name,
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const { setUserName } = userSlice.actions;
 
@@ -53,7 +55,9 @@ export const UserForm: FC = () => {
   }, [userData, setValue, isSuccess]);
 
   const onSubmit: SubmitHandler<UserInput> = ({ name, status }) => {
-    editStatus({ username: name, status: status ?? '' });
+    editStatus({
+      changeStatusRequest: { username: name, status: status ?? '' },
+    });
     dispatch(setUserName(name));
     dispatch(updateCachedUserStatus(name, status));
     navigate('/chat');

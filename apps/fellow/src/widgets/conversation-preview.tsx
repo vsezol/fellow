@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import { SyntheticEvent, useMemo, useRef } from 'react';
 import { ChatMessage } from '../entities/chat';
 import { Avatar, Button } from '../shared';
+import { useGetUserQuery } from '../shared/api';
 
 export interface ConversationPreviewProps {
   currentUserName: string;
@@ -40,17 +41,38 @@ export const ConversationPreview = ({
     onDelete?.();
   };
 
+  const isPersonal = (chatMembers?.length ?? 0) <= 2;
+
+  const receiverName = useMemo(() => {
+    if (!isPersonal) {
+      return undefined;
+    }
+
+    if (chatMembers?.every((x) => x === currentUserName)) {
+      return currentUserName;
+    }
+
+    return chatMembers?.filter((x) => x !== currentUserName)[0];
+  }, [isPersonal, chatMembers]);
+
+  const { data: receiver } = useGetUserQuery(
+    { username: receiverName ?? '' },
+    { skip: !receiverName }
+  );
+
   const chatName = useMemo(() => {
     if ((chatMembers?.length ?? 0) > 2) {
       return chatMembers?.join(', ');
     }
 
     if (chatMembers?.every((x) => x === currentUserName)) {
-      return 'Сохраненные сообщения';
+      return currentUserName;
     }
 
     return chatMembers?.filter((x) => x !== currentUserName)[0];
   }, [chatMembers, currentUserName]);
+
+  const status = receiver?.status ?? '';
 
   return (
     <div
@@ -71,6 +93,9 @@ export const ConversationPreview = ({
         <div className="flex flex-col overflow-hidden justify-around">
           <h2 className="text-lg font-semibold text-ellipsis truncate">
             {chatName}
+            {isPersonal && (
+              <span className="pl-1 text-secondary">{status}</span>
+            )}
           </h2>
 
           <p className="text-ellipsis truncate">{messagePreview}</p>

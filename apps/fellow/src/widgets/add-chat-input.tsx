@@ -2,9 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
-import { chatsSlice, useCreateChatMutation } from '../entities/chat';
+import { chatsSlice } from '../entities/chat';
 import { selectUserName } from '../entities/user';
 import { Button, InputText } from '../shared';
+import { useCreateGroupMutation } from '../shared/api/generated-api';
 import { useAppSelector } from '../store';
 
 interface AddChatInputForm {
@@ -15,7 +16,7 @@ export const AddChatInput = () => {
   const dispatch = useDispatch();
   const userName = useAppSelector(selectUserName);
 
-  const [createChat] = useCreateChatMutation();
+  const [createChat] = useCreateGroupMutation();
 
   const { addChat } = chatsSlice.actions;
 
@@ -35,7 +36,9 @@ export const AddChatInput = () => {
       const members = [userName, chatName];
 
       const data = await createChat({
-        members,
+        createGroupRequest: {
+          members,
+        },
       }).unwrap();
 
       dispatch(

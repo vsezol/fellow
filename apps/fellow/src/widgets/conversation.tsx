@@ -6,13 +6,11 @@ import {
   selectCurrentChat,
   selectCurrentMessages,
 } from '../entities/chat';
-import {
-  dispatchOutgoingChatMessage,
-  useGetHistoryQuery,
-} from '../entities/chat-message';
+import { dispatchOutgoingChatMessage } from '../entities/chat-message';
 import { incomingChatMessageToAddMessagePayload } from '../entities/chat-message/model/mappers';
 import { selectUserName } from '../entities/user';
 import { Button, getDeclensionByNumber } from '../shared';
+import { useGetHistoryQuery } from '../shared/api';
 import { useAppDispatch, useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
@@ -41,7 +39,11 @@ export const Conversation = () => {
   // );
 
   const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
-    currentChat?.id ?? '',
+    {
+      groupId: currentChat?.id ?? '',
+      pageNumber: 0,
+      pageSize: 100,
+    },
     {
       skip: !currentChat?.id,
       refetchOnMountOrArgChange: true,
@@ -49,34 +51,20 @@ export const Conversation = () => {
   );
 
   useEffect(() => {
-    console.log('ddd', history);
     if (!isHistorySuccess || !history) {
       return;
     }
 
-    history
-      ?.map((x) => incomingChatMessageToAddMessagePayload(x))
+    history.page
+      .map((x) => incomingChatMessageToAddMessagePayload(x))
       .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
   }, [isHistorySuccess, history]);
-
-  // const getStatus = () => {
-  //   if (isSuccess && !isLoading && data?.status) {
-  //     return data.status;
-  //   }
-
-  //   return '';
-  // };
 
   const messagesText = getDeclensionByNumber(messages.length, [
     'сообщение',
     'сообщения',
     'сообщений',
   ]);
-
-  // const [messageBox, setMessageBox] = useState<HTMLDivElement | null>(null);
-  // const onMessageBoxRefChange = useCallback((box: HTMLDivElement | null) => {
-  //   setMessageBox(box);
-  // }, []);
 
   const goBack = () => navigate('/chat');
 

@@ -43,7 +43,7 @@ const injectedRtkApi = api.injectEndpoints({
   }),
   overrideExisting: false,
 });
-export { injectedRtkApi as fellowApi };
+export { injectedRtkApi as generatedApi };
 export type CreateUserApiResponse = /** status 200 OK */ Unit;
 export type CreateUserApiArg = {
   createUserRequest: CreateUserRequest;
@@ -68,7 +68,7 @@ export type GetUserActivityApiArg = {
 export type GetHistoryApiResponse =
   /** status 200 OK */ PageableHistoryResponse;
 export type GetHistoryApiArg = {
-  groupId: number;
+  groupId: string;
   pageNumber: number;
   pageSize: number;
 };
