@@ -132,7 +132,9 @@ export const AddChatInput = () => {
 
           <div className="modal-action">
             <form method="dialog" className="flex flex-row gap-2">
-              <Button color="neutral">Отмена</Button>
+              <Button color="neutral" onClick={closeModal}>
+                Отмена
+              </Button>
               <Button color="primary" type="submit" disabled={!isValid}>
                 Добавить
               </Button>
