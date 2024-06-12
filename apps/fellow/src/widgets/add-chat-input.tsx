@@ -1,10 +1,11 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
+import { useRef } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { chatsSlice } from '../entities/chat';
 import { selectUserName } from '../entities/user';
-import { Button, InputText } from '../shared';
+import { Button, InputText, Modal, ModalControls } from '../shared';
 import { useCreateGroupMutation } from '../shared/api/generated-api';
 import { useAppSelector } from '../store';
 
@@ -15,6 +16,7 @@ interface AddChatInputForm {
 export const AddChatInput = () => {
   const dispatch = useDispatch();
   const userName = useAppSelector(selectUserName);
+  const modalControlsRef = useRef<ModalControls>(null);
 
   const [createChat] = useCreateGroupMutation();
 
@@ -31,7 +33,19 @@ export const AddChatInput = () => {
     },
   });
 
+  const openModal = () => {
+    modalControlsRef?.current?.open?.();
+  };
+
+  const closeModal = () => {
+    modalControlsRef?.current?.close?.();
+  };
+
   const onSubmit: SubmitHandler<AddChatInputForm> = async ({ chatName }) => {
+    if (!isValid) {
+      return;
+    }
+
     try {
       const members = [userName, chatName];
 
@@ -49,49 +63,29 @@ export const AddChatInput = () => {
       );
 
       reset();
+      closeModal();
     } catch {
       console.error('[AddChatInput] Error while chat creating');
     }
   };
 
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-row gap-2 w-full p-1"
-    >
-      <Controller
-        name="chatName"
-        control={control}
-        rules={{
-          required: true,
-          minLength: 3,
-          maxLength: 15,
-        }}
-        render={({ field }) => (
-          <InputText
-            {...field}
-            size="sm"
-            color="neutral"
-            placeholder="Добавить новый чат"
-          />
-        )}
-      />
-
+    <>
       <div className="dropdown dropdown-end">
-        <div tabIndex={0} role="button">
-          <Button size="sm" color="primary" disabled={!isValid}>
+        <div tabIndex={0} role="button" className="flex flex-row mr-2">
+          <Button size="sm" color="primary" fullWidth>
             <FontAwesomeIcon size="sm" icon="plus" />
+            Создать
           </Button>
         </div>
 
         <ul
           className={clsx(
-            'dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-lg w-50',
-            !isValid && 'hidden'
+            'dropdown-content z-[1] menu p-2 mt-2 shadow bg-base-100 rounded-lg w-50 border-primary '
           )}
         >
           <li>
-            <Button size="sm" type="submit">
+            <Button size="md" type="submit" onClick={openModal}>
               <div className="w-full flex flex-row gap-2">
                 <FontAwesomeIcon size="sm" icon="user-group" />
                 Чат
@@ -99,7 +93,7 @@ export const AddChatInput = () => {
             </Button>
           </li>
           <li>
-            <Button size="sm" type="submit" disabled={true}>
+            <Button size="md" type="submit" onClick={openModal} disabled>
               <div className="w-full flex flex-row gap-2">
                 <FontAwesomeIcon size="sm" icon="people-group" />
                 Группа
@@ -108,6 +102,44 @@ export const AddChatInput = () => {
           </li>
         </ul>
       </div>
-    </form>
+
+      <Modal ref={modalControlsRef}>
+        <div className="modal-box w-11/12 max-w-xl">
+          <h3 className="font-bold text-lg mb-2">Создать чат</h3>
+
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-row gap-2 w-full p-1"
+          >
+            <Controller
+              name="chatName"
+              control={control}
+              rules={{
+                required: true,
+                minLength: 3,
+                maxLength: 15,
+              }}
+              render={({ field }) => (
+                <InputText
+                  {...field}
+                  size="sm"
+                  color="neutral"
+                  placeholder="Имя кореша"
+                />
+              )}
+            />
+          </form>
+
+          <div className="modal-action">
+            <form method="dialog" className="flex flex-row gap-2">
+              <Button color="neutral">Отмена</Button>
+              <Button color="primary" type="submit" disabled={!isValid}>
+                Добавить
+              </Button>
+            </form>
+          </div>
+        </div>
+      </Modal>
+    </>
   );
 };

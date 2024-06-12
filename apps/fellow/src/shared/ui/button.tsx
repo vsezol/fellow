@@ -9,6 +9,7 @@ export type ButtonProps = {
   type?: 'submit' | 'reset' | 'button';
   disabled?: boolean;
   onClick?: (event: SyntheticEvent) => unknown;
+  fullWidth?: boolean;
 } & PropsWithChildren;
 
 const sizeClass: Partial<Record<Size, string>> = {
@@ -33,6 +34,7 @@ export const Button = ({
   color = 'ghost',
   type = 'button',
   disabled = false,
+  fullWidth = false,
   onClick,
 }: ButtonProps) => {
   return (
@@ -44,7 +46,8 @@ export const Button = ({
         'btn',
         disabled && 'btn-disabled',
         colorClass?.[color],
-        sizeClass?.[size]
+        sizeClass?.[size],
+        fullWidth && 'w-full'
       )}
     >
       <div className="w-full flex flex-row gap-2 items-center justify-center">

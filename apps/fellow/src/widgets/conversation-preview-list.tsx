@@ -39,6 +39,7 @@ export const ConversationPreviewList = () => {
   return (
     <div className="flex flex-col h-full w-full gap-2">
       <AddChatInput />
+
       <div className="flex flex-col overflow-y-auto flex-1 gap-2 pr-2">
         {chats.map((chat) => (
           <ConversationPreview
