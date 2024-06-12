@@ -8,6 +8,7 @@ export interface MessageProps {
   author?: string;
   date?: Date;
   avatar?: string | boolean;
+  withAuthor?: boolean;
 }
 
 export const Message: FC<MessageProps> = ({
@@ -16,6 +17,7 @@ export const Message: FC<MessageProps> = ({
   date,
   text,
   avatar,
+  withAuthor = false,
 }) => {
   const sideClass = side === 'left' ? 'chat-start' : 'chat-end';
   const timeString = date?.toLocaleTimeString([], {
@@ -35,11 +37,14 @@ export const Message: FC<MessageProps> = ({
           ></Avatar>
         </div>
       )}
+
       <div className={clsx('chat-bubble', 'bg-base-300', 'text-base-content')}>
+        {withAuthor && <div className="text-primary">{author}</div>}
+
         <div className="break-words whitespace-pre-wrap">{text}</div>
 
         {timeString && (
-          <div className="opacity-50 text-xs text-end pt-1">{timeString}</div>
+          <time className="opacity-50 text-xs text-end pt-1">{timeString}</time>
         )}
       </div>
     </div>

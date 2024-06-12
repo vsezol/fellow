@@ -9,7 +9,7 @@ import {
 import { dispatchOutgoingChatMessage } from '../entities/chat-message';
 import { incomingChatMessageToAddMessagePayload } from '../entities/chat-message/model/mappers';
 import { selectUserName } from '../entities/user';
-import { Button, getDeclensionByNumber } from '../shared';
+import { Button, getChatName, getDeclensionByNumber } from '../shared';
 import { useGetHistoryQuery } from '../shared/api';
 import { useAppDispatch, useAppSelector } from '../store';
 import MessageInput from './message-input';
@@ -22,22 +22,12 @@ export const Conversation = () => {
   const currentChat = useAppSelector(selectCurrentChat);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
 
-  const chatName = useMemo(() => {
-    if ((currentChat?.members?.length ?? 0) > 2) {
-      return currentChat?.members?.join(', ');
-    }
+  const chatName = useMemo(
+    () => getChatName(currentChat?.members ?? [], currentUserName),
+    [currentChat?.members, currentUserName]
+  );
 
-    if (currentChat?.members?.every((x) => x === currentUserName)) {
-      return currentUserName;
-    }
-
-    return currentChat?.members?.filter((x) => x !== currentUserName)[0];
-  }, [currentChat?.members, currentUserName]);
-
-  // const { data, isSuccess, isLoading } = useGetUserQuery(
-  //   currentChatName ?? '',
-  //   { skip: !currentChatName }
-  // );
+  const isGroup = (currentChat?.members?.length ?? 0) > 2;
 
   const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
     {
@@ -90,8 +80,6 @@ export const Conversation = () => {
               Назад
             </Button>
           </div>
-
-          {/* <PoopingMan target={messageBox} /> */}
         </div>
 
         <div className="flex-1 flex flex-col items-center">
@@ -112,7 +100,11 @@ export const Conversation = () => {
       </div>
 
       <div className="flex-grow flex-1 overflow-y-auto px-8">
-        <MessagesList currentUserName={currentUserName} messages={messages} />
+        <MessagesList
+          isGroup={isGroup}
+          currentUserName={currentUserName}
+          messages={messages}
+        />
       </div>
 
       <div className="flex-initial px-4 pb-4">
