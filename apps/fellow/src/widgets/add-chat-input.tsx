@@ -38,14 +38,14 @@ export const AddChatInput = () => {
         members,
       }).unwrap();
 
-      console.log(data);
-
       dispatch(
         addChat({
           id: data.id,
           members,
         })
       );
+
+      reset();
     } catch {
       console.error('[AddChatInput] Error while chat creating');
     }
