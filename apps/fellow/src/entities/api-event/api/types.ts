@@ -1,9 +1,10 @@
 export enum IncomingApiEventType {
   Message = 'MESSAGE',
   StatusChange = 'STATUS_CHANGE',
+  GroupCreate = 'GROUP_CREATE',
 }
 
-export interface IncomingApiEvent<T> {
+export interface IncomingApiEvent {
   type: IncomingApiEventType;
-  data: T;
+  data: unknown;
 }

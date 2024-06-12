@@ -20,7 +20,7 @@ export const AddPersonalChatModal = (props: AddPersonalChatModalProps) => {
   const dispatch = useDispatch();
   const userName = useAppSelector(selectUserName);
 
-  const [createChat] = useCreateGroupMutation();
+  const [createGroupMutation] = useCreateGroupMutation();
 
   const { addChat } = chatsSlice.actions;
 
@@ -29,6 +29,7 @@ export const AddPersonalChatModal = (props: AddPersonalChatModalProps) => {
     handleSubmit,
     reset,
     formState: { isValid },
+    getValues,
   } = useForm<AddPersonalChatForm>({
     defaultValues: {
       chatName: '',
@@ -41,7 +42,15 @@ export const AddPersonalChatModal = (props: AddPersonalChatModalProps) => {
     props?.onFinal?.();
   };
 
-  const onSubmit: SubmitHandler<AddPersonalChatForm> = async ({ chatName }) => {
+  const onSubmit: SubmitHandler<AddPersonalChatForm> = ({ chatName }) => {
+    onCreateChat(chatName);
+  };
+
+  const onAdd = () => {
+    onCreateChat(getValues('chatName'));
+  };
+
+  const onCreateChat = async (chatName: string) => {
     if (!isValid) {
       return;
     }
@@ -49,7 +58,7 @@ export const AddPersonalChatModal = (props: AddPersonalChatModalProps) => {
     try {
       const members = [userName, chatName];
 
-      const data = await createChat({
+      const data = await createGroupMutation({
         createGroupRequest: {
           members,
         },
@@ -101,7 +110,12 @@ export const AddPersonalChatModal = (props: AddPersonalChatModalProps) => {
           <Button color="neutral" onClick={onCancel}>
             Отмена
           </Button>
-          <Button color="primary" type="submit" disabled={!isValid}>
+          <Button
+            color="primary"
+            type="submit"
+            onClick={onAdd}
+            disabled={!isValid}
+          >
             Создать
           </Button>
         </form>

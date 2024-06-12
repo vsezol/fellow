@@ -1,8 +1,6 @@
 import { IncomingApiEvent } from './types';
 
-export const isIncomingApiEvent = <T = unknown>(
-  data: unknown
-): data is IncomingApiEvent<T> => {
+export const isIncomingApiEvent = (data: unknown): data is IncomingApiEvent => {
   if (!data || typeof data !== 'object') {
     return false;
   }

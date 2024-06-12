@@ -1,17 +1,17 @@
 import { Subscription, Unsubscribe } from '../../../shared';
 import { dispatchOutgoingEvent, handleIncomingEvent } from '../../api-event';
-import { isIncomingChatMessage } from '../api/is-incoming-chat-message';
+import { isIncomingChatMessageEvent } from '../api/is-incoming-chat-message';
 import { IncomingChatMessage, OutgoingChatMessage } from './types';
 
 export const handleIncomingChatMessage = (
   sub: Subscription<IncomingChatMessage>
 ): Unsubscribe =>
-  handleIncomingEvent(({ data }) => {
-    if (!isIncomingChatMessage(data)) {
+  handleIncomingEvent((event) => {
+    if (!isIncomingChatMessageEvent(event)) {
       return;
     }
 
-    sub(data);
+    sub(event.data);
   });
 
 export const dispatchOutgoingChatMessage = (data: OutgoingChatMessage) =>

@@ -10,3 +10,4 @@ export type {
   ChatMessage,
   ChatPreview,
 } from './model/types';
+export { useGroupCreateHandler } from './model/use-group-create-handler';

@@ -1,19 +1,7 @@
-import { IncomingChatMessage } from '../model/types';
+import { IncomingApiEvent, IncomingApiEventType } from '../../api-event';
+import { IncomingChatMessageEvent } from '../model/types';
 
-export const isIncomingChatMessage = (
-  data: unknown
-): data is IncomingChatMessage => {
-  if (!data || typeof data !== 'object') {
-    return false;
-  }
-
-  const keys: (keyof IncomingChatMessage)[] = [
-    'id',
-    'from',
-    'to',
-    'message',
-    'timestamp',
-  ];
-
-  return keys.every((k) => Object.hasOwn(data, k));
-};
+export const isIncomingChatMessageEvent = (
+  data: IncomingApiEvent
+): data is IncomingChatMessageEvent =>
+  data.type === IncomingApiEventType.Message;

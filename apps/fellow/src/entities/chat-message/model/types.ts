@@ -1,3 +1,10 @@
+import { IncomingApiEvent, IncomingApiEventType } from '../../api-event';
+
+export interface IncomingChatMessageEvent extends IncomingApiEvent {
+  type: IncomingApiEventType.Message;
+  data: IncomingChatMessage;
+}
+
 export interface IncomingChatMessage {
   id: string;
   from: string;

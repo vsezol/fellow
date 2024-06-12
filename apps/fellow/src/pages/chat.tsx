@@ -1,7 +1,11 @@
 import { FC, Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { chatsSlice, selectCurrentChatId } from '../entities/chat';
+import {
+  chatsSlice,
+  selectCurrentChatId,
+  useGroupCreateHandler,
+} from '../entities/chat';
 
 import Layout from '../app/layout';
 import { useApiEventHandler } from '../entities/api-event';
@@ -57,6 +61,7 @@ export const Component: FC = () => {
   }, [chatsData]);
 
   useApiEventHandler();
+  useGroupCreateHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
   // useChatMessageHistory();
