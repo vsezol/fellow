@@ -14,6 +14,7 @@ export interface CreateChatResponse {
 
 export interface ChatApi {
   id: string;
+  chatId: string;
   chatName: string;
   sender: string;
   members: string[];

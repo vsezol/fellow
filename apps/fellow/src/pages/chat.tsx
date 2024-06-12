@@ -40,11 +40,23 @@ export const Component: FC = () => {
   }, [chatName, dispatch]);
 
   useEffect(() => {
-    chatsData?.lastMessages?.forEach((chat) => {
+    chatsData?.lastMessages?.forEach((lastMessage) => {
       dispatch(
         chatsSlice.actions.addChat({
-          id: chat.id,
-          members: chat.members,
+          id: lastMessage.chatId,
+          members: lastMessage.members,
+        })
+      );
+
+      dispatch(
+        chatsSlice.actions.addMessage({
+          chatId: lastMessage.chatId,
+          message: {
+            id: lastMessage.id,
+            text: lastMessage.message,
+            from: lastMessage.sender,
+            timestamp: lastMessage.timestamp,
+          },
         })
       );
     });

@@ -6,6 +6,7 @@ import { chatMessageApi } from '../entities/chat-message';
 import { userApi, userSlice } from '../entities/user';
 import { userSettingsSlice } from '../entities/user-settings';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
+import { fellowApi } from './fellow-api';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
@@ -22,6 +23,7 @@ export const rootReducer = combineReducers({
   [chatMessageApi.reducerPath]: chatMessageApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [chatApi.reducerPath]: chatApi.reducer,
+  [fellowApi.reducerPath]: fellowApi.reducer,
 });
 
 export const store = configureStore({
@@ -32,7 +34,8 @@ export const store = configureStore({
       .concat(saveStateToStorage(storageOptions))
       .concat(chatMessageApi.middleware)
       .concat(userApi.middleware)
-      .concat(chatApi.middleware),
+      .concat(chatApi.middleware)
+      .concat(fellowApi.middleware),
 });
 
 setupListeners(store.dispatch);
