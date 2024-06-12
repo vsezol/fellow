@@ -13,6 +13,7 @@ interface UIChatMessage {
   author: string;
   showAuthor: boolean;
   showAvatar: boolean;
+  withAvatarPlaceholder: boolean;
   directional: boolean;
   side: MessageSide;
   text: string;
@@ -36,6 +37,7 @@ export default function MessagesList({
           key={x.id}
           author={x.author}
           withAuthor={x.showAuthor}
+          withAvatarPlaceholder={x.withAvatarPlaceholder}
           avatar={x.showAvatar}
           directional={x.directional}
           side={x.side}
@@ -56,10 +58,10 @@ function toUIChatMessages(
 
   return messages.map(({ id, text, from, timestamp }, index) => {
     const nextAuthor: string | undefined = messages?.[index + 1]?.from;
-
     const showAuthor =
       isGroup && currentUserName !== from && lastAuthor !== from;
-    const showAvatar = nextAuthor !== from;
+    const showAvatar = nextAuthor !== from && currentUserName !== from;
+    const withAvatarPlaceholder = currentUserName !== from;
     const directional = nextAuthor !== from;
 
     lastAuthor = from;
@@ -69,6 +71,7 @@ function toUIChatMessages(
       author: from,
       showAuthor,
       showAvatar,
+      withAvatarPlaceholder,
       directional,
       side: from === currentUserName ? 'right' : 'left',
       text,

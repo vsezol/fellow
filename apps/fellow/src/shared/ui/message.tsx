@@ -13,6 +13,7 @@ export interface MessageProps {
   withAvatar?: boolean;
   withAuthor?: boolean;
   directional?: boolean;
+  withAvatarPlaceholder?: boolean;
 }
 
 export const Message: FC<MessageProps> = ({
@@ -23,6 +24,7 @@ export const Message: FC<MessageProps> = ({
   avatar,
   withAuthor = false,
   directional = true,
+  withAvatarPlaceholder = false,
 }) => {
   const sideClass = side === 'left' ? 'chat-start' : 'chat-end';
   const timeString = date?.toLocaleTimeString([], {
@@ -41,7 +43,7 @@ export const Message: FC<MessageProps> = ({
             size="sm"
           ></Avatar>
         ) : (
-          <div className="w-10" />
+          withAvatarPlaceholder && <div className="w-10" />
         )}
       </div>
 
