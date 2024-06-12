@@ -99,7 +99,6 @@ export const Conversation = () => {
             <>
               <div className="text-lg font-semibold truncate text-ellipsis max-w-xs overflow-hidden">
                 {chatName}
-                {/* <span className="text-secondary">{getStatus()}</span> */}
               </div>
 
               <div className="text-sm font-light">

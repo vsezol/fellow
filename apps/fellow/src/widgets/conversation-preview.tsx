@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { SyntheticEvent, useMemo, useRef } from 'react';
 import { ChatMessage } from '../entities/chat';
-import { Avatar, Button } from '../shared';
+import { Avatar, Button, getChatName } from '../shared';
 import { useGetUserQuery } from '../shared/api';
 
 export interface ConversationPreviewProps {
@@ -60,17 +60,10 @@ export const ConversationPreview = ({
     { skip: !receiverName }
   );
 
-  const chatName = useMemo(() => {
-    if ((chatMembers?.length ?? 0) > 2) {
-      return chatMembers?.join(', ');
-    }
-
-    if (chatMembers?.every((x) => x === currentUserName)) {
-      return currentUserName;
-    }
-
-    return chatMembers?.filter((x) => x !== currentUserName)[0];
-  }, [chatMembers, currentUserName]);
+  const chatName = useMemo(
+    () => getChatName(chatMembers ?? [], currentUserName),
+    [chatMembers, currentUserName]
+  );
 
   const status = receiver?.status ?? '';
 
@@ -114,7 +107,10 @@ export const ConversationPreview = ({
           </Button>
         </div>
 
-        <ul className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-lg w-50">
+        <ul
+          tabIndex={0}
+          className="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-lg w-50"
+        >
           <li className="text-error">
             <Button size="sm" onClick={handleDelete}>
               <FontAwesomeIcon size="sm" icon="trash-can" />

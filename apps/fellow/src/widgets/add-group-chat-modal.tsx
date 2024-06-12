@@ -110,7 +110,7 @@ export const AddGroupChatModal = (props: AddGroupChatModalProps) => {
           )}
         />
 
-        <Button size="sm" color="primary" disabled={!isValid}>
+        <Button size="sm" color="primary" type="submit" disabled={!isValid}>
           <FontAwesomeIcon size="sm" icon="plus" />
         </Button>
       </form>
