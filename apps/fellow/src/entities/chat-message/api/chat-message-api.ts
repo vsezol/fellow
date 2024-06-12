@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IncomingChatMessage } from './types';
+import { IncomingChatMessage } from '../model/types';
 
 interface HistoryData {
   pages: IncomingChatMessage[];

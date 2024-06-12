@@ -4,17 +4,21 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { chatApi, chatsSlice } from '../entities/chat';
 import { chatMessageApi } from '../entities/chat-message';
 import { userApi, userSlice } from '../entities/user';
+import { userSettingsSlice } from '../entities/user-settings';
 import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 6,
-  stateKeys: [userSlice.name, chatsSlice.name],
+  version: 7,
+  stateKeys: [userSlice.name, userSettingsSlice.name],
 };
 
 export const rootReducer = combineReducers({
+  // stores
   [userSlice.name]: userSlice.reducer,
   [chatsSlice.name]: chatsSlice.reducer,
+  [userSettingsSlice.name]: userSettingsSlice.reducer,
+  // api
   [chatMessageApi.reducerPath]: chatMessageApi.reducer,
   [userApi.reducerPath]: userApi.reducer,
   [chatApi.reducerPath]: chatApi.reducer,

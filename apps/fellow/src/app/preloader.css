@@ -4,7 +4,7 @@
 
 .preloader {
   animation: slide-up 1s forwards;
-  animation-delay: 4.5s;
+  animation-delay: 2.75s;
   transform: translateY(0);
 }
 
@@ -27,8 +27,8 @@
   --finish: calc(-2.5 * var(--size));
   position: absolute;
   z-index: 1000;
-  animation: slide-and-back 2.5s;
-  animation-delay: 1.5s;
+  animation: slide-and-back 1.75s;
+  animation-delay: 0.5s;
 }
 
 .slide-right-long {
@@ -36,8 +36,8 @@
   --finish: calc(2.5 * var(--size));
   position: absolute;
   z-index: 1000;
-  animation: slide-and-back 2.5s;
-  animation-delay: 1.5s;
+  animation: slide-and-back 1.75s;
+  animation-delay: 0.5s;
 }
 
 .slide-left-short {
@@ -45,8 +45,8 @@
   --finish: calc(-1.5 * var(--size));
   position: absolute;
   z-index: 999;
-  animation: slide-and-back-short 2.5s;
-  animation-delay: 1.5s;
+  animation: slide-and-back-short 1.75s;
+  animation-delay: 0.5s;
 }
 
 .slide-right-short {
@@ -54,8 +54,8 @@
   --finish: calc(1.5 * var(--size));
   position: absolute;
   z-index: 999;
-  animation: slide-and-back-short 2.5s;
-  animation-delay: 1.5s;
+  animation: slide-and-back-short 1.75s;
+  animation-delay: 0.5s;
 }
 
 .rotate-left {
@@ -65,8 +65,8 @@
 }
 
 .rotate-left-inner {
-  animation: rotate-left 2.5s;
-  animation-delay: 1.5s;
+  animation: rotate-left 1.75s;
+  animation-delay: 0.5s;
 }
 
 .rotate-right {
@@ -76,8 +76,8 @@
 }
 
 .rotate-right-inner {
-  animation: rotate-right 2.5s;
-  animation-delay: 1.5s;
+  animation: rotate-right 1.75s;
+  animation-delay: 0.5s;
 }
 
 @keyframes slide-and-back-short {

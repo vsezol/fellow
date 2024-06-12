@@ -20,7 +20,7 @@ export const useChatMessageHistory = () => {
     }
 
     data
-      .map((x) => incomingChatMessageToAddMessagePayload(x, userName))
+      .map((x) => incomingChatMessageToAddMessagePayload(x))
       .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
   }, [isSuccess, data]);
 };

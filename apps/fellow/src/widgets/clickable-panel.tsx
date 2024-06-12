@@ -74,7 +74,7 @@ export const ClickablePanel = ({ onClick }: ClickablePanelProps) => {
         .map((circle) => ({
           ...circle,
           radius: circle.radius + 1,
-          opacity: circle.opacity - 0.003,
+          opacity: circle.opacity - 0.004,
         }))
         .filter((circle) => circle.opacity > 0);
 

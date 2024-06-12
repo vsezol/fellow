@@ -2,10 +2,9 @@ import { AddMessagePayload } from '../../chat';
 import { IncomingChatMessage } from './types';
 
 export const incomingChatMessageToAddMessagePayload = (
-  message: IncomingChatMessage,
-  userName: string
+  message: IncomingChatMessage
 ): AddMessagePayload => ({
-  chatId: userName === message.from ? message.to : message.from,
+  chatId: message.to,
   message: {
     id: message.id,
     from: message.from,

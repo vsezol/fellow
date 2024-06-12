@@ -1,12 +1,12 @@
-export interface OutgoingChatMessage {
-  to: string;
-  message: string;
-}
-
 export interface IncomingChatMessage {
-  id: string;
+  id: number;
   from: string;
-  to: string;
+  to: number;
   message: string;
   timestamp: string;
+}
+
+export interface OutgoingChatMessage {
+  to: number;
+  message: string;
 }

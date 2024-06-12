@@ -1,23 +1,23 @@
 export interface ChatMessage {
-  id: string;
+  id: number;
   from: string;
   text: string;
   timestamp: string;
 }
 
 export interface Chat {
-  id: string;
+  id: number;
   members: string[];
   messages: ChatMessage[];
 }
 
 export interface AddMessagePayload {
-  chatId: string;
+  chatId: number;
   message: ChatMessage;
 }
 
 export interface AddChatPayload {
-  id: string;
+  id: number;
   members: string[];
 }
 
@@ -27,7 +27,7 @@ export interface ChatsState {
 }
 
 export interface ChatPreview {
-  id: string;
+  id: number;
   members: string[];
   lastMessage: ChatMessage | undefined;
 }

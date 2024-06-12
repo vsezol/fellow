@@ -1,12 +1,23 @@
+import { useEffect, useState } from 'react';
+import { selectAlwaysShowLogoAnimation } from '../entities/user-settings';
 import { Storage } from '../shared';
+import { useAppSelector } from '../store';
 import './preloader.css';
 
-const isVisible = !Storage.get('preloader');
-if (isVisible) {
-  Storage.set('preloader', Date.now());
+const STORAGE_KEY = 'PRELOADER_SHOWN';
+const hasShown = Storage.get(STORAGE_KEY);
+if (!hasShown) {
+  Storage.set(STORAGE_KEY, Date.now());
 }
 
 export const Preloader = () => {
+  const showAnimation = useAppSelector(selectAlwaysShowLogoAnimation);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    setIsVisible(showAnimation || !hasShown);
+  }, []);
+
   return (
     isVisible && (
       <div className="preloader h-full w-full absolute bg-base-300 z-40 flex items-center justify-center">
