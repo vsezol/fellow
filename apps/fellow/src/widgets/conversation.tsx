@@ -1,44 +1,63 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { selectCurrentChat, selectCurrentMessages } from '../entities/chat';
-import { dispatchOutgoingChatMessage } from '../entities/chat-message';
+import {
+  chatsSlice,
+  selectCurrentChat,
+  selectCurrentMessages,
+} from '../entities/chat';
+import {
+  dispatchOutgoingChatMessage,
+  useGetHistoryQuery,
+} from '../entities/chat-message';
+import { incomingChatMessageToAddMessagePayload } from '../entities/chat-message/model/mappers';
 import { selectUserName } from '../entities/user';
 import { Button, getDeclensionByNumber } from '../shared';
-import { useAppSelector } from '../store';
+import { useAppDispatch, useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
 
 export const Conversation = () => {
   const navigate = useNavigate();
-  // const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
   const currentUserName = useAppSelector(selectUserName);
   const currentChat = useAppSelector(selectCurrentChat);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
+  const chatName = useMemo(() => {
+    if ((currentChat?.members?.length ?? 0) > 2) {
+      return currentChat?.members?.join(', ');
+    }
+
+    if (currentChat?.members?.every((x) => x === currentUserName)) {
+      return 'Сохраненные сообщения';
+    }
+
+    return currentChat?.members?.filter((x) => x !== currentUserName)[0];
+  }, [currentChat?.members, currentUserName]);
 
   // const { data, isSuccess, isLoading } = useGetUserQuery(
   //   currentChatName ?? '',
   //   { skip: !currentChatName }
   // );
 
-  // const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
-  //   currentChatName ?? '',
-  //   {
-  //     skip: !currentChatName,
-  //     refetchOnMountOrArgChange: true,
-  //   }
-  // );
+  const { data: history, isSuccess: isHistorySuccess } = useGetHistoryQuery(
+    currentChat?.id ?? '',
+    {
+      skip: !currentChat?.id,
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
-  // useEffect(() => {
-  //   if (!isHistorySuccess || !history) {
-  //     return;
-  //   }
+  useEffect(() => {
+    console.log('ddd', history);
+    if (!isHistorySuccess || !history) {
+      return;
+    }
 
-  //   history
-  //     ?.map((x) =>
-  //       incomingChatMessageToAddMessagePayload(x, currentChatName ?? '')
-  //     )
-  //     .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
-  // }, [isHistorySuccess, history]);
+    history
+      ?.map((x) => incomingChatMessageToAddMessagePayload(x))
+      .forEach((x) => dispatch(chatsSlice.actions.addMessage(x)));
+  }, [isHistorySuccess, history]);
 
   // const getStatus = () => {
   //   if (isSuccess && !isLoading && data?.status) {
@@ -90,7 +109,7 @@ export const Conversation = () => {
           {currentChat && (
             <>
               <div className="text-lg font-semibold">
-                {currentChat?.members.join(' и ')}{' '}
+                {chatName}
                 {/* <span className="text-secondary">{getStatus()}</span> */}
               </div>
 

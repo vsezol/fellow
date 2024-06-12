@@ -1,12 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
-import { SyntheticEvent, useRef } from 'react';
+import { SyntheticEvent, useMemo, useRef } from 'react';
 import { ChatMessage } from '../entities/chat';
 import { Avatar, Button } from '../shared';
 
 export interface ConversationPreviewProps {
   currentUserName: string;
-  chatName: string;
+  chatMembers: string[];
   message: ChatMessage | undefined;
   selected?: boolean;
   onClick?: () => void;
@@ -14,7 +14,7 @@ export interface ConversationPreviewProps {
 }
 
 export const ConversationPreview = ({
-  chatName,
+  chatMembers,
   currentUserName,
   message,
   selected = false,
@@ -39,6 +39,18 @@ export const ConversationPreview = ({
     event.stopPropagation();
     onDelete?.();
   };
+
+  const chatName = useMemo(() => {
+    if ((chatMembers?.length ?? 0) > 2) {
+      return chatMembers?.join(', ');
+    }
+
+    if (chatMembers?.every((x) => x === currentUserName)) {
+      return 'Сохраненные сообщения';
+    }
+
+    return chatMembers?.filter((x) => x !== currentUserName)[0];
+  }, [chatMembers, currentUserName]);
 
   return (
     <div

@@ -9,10 +9,7 @@ import {
 
 import Layout from '../app/layout';
 import { useApiEventHandler } from '../entities/api-event';
-import {
-  useChatMessageHandler,
-  useChatMessageHistory,
-} from '../entities/chat-message';
+import { useChatMessageHandler } from '../entities/chat-message';
 import { useSoundEffectHandler } from '../entities/sound-effect';
 import { selectUserName, useStatusChangeHandler } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
@@ -65,7 +62,7 @@ export const Component: FC = () => {
   useApiEventHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
-  useChatMessageHistory();
+  // useChatMessageHistory();
   useStatusChangeHandler();
   useSoundEffectHandler();
 

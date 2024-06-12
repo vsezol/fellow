@@ -43,7 +43,7 @@ export const ConversationPreviewList = () => {
         {chats.map((chat) => (
           <ConversationPreview
             key={chat.id}
-            chatName={chat.members.join(' и ')}
+            chatMembers={chat.members}
             currentUserName={currentUserName}
             message={chat.lastMessage}
             selected={currentChatId === chat.id}
