@@ -1,5 +1,8 @@
+import { useEffect, useRef } from 'react';
 import Layout from '../app/layout';
+import congratsAudioSrc from '../assets/congrats.mp3';
 import { selectUserReputation, userSlice } from '../entities/user';
+import { selectAnimeModeEnabled } from '../entities/user-settings';
 import { useAppDispatch, useAppSelector } from '../store';
 import { ClickablePanel } from '../widgets/clickable-panel';
 import { Navbar } from '../widgets/navbar';
@@ -7,8 +10,18 @@ import { Navbar } from '../widgets/navbar';
 export const Component = () => {
   const dispatch = useAppDispatch();
   const reputation = useAppSelector(selectUserReputation);
+  const animeMode = useAppSelector(selectAnimeModeEnabled);
+  const congratsAudio = useRef<HTMLAudioElement>(new Audio(congratsAudioSrc));
 
-  const addReputation = () => dispatch(userSlice.actions.addReputation(1));
+  useEffect(() => {
+    if (animeMode && reputation % 100 === 0) {
+      congratsAudio.current?.play();
+    }
+  }, [reputation, animeMode]);
+
+  const addReputation = () => {
+    dispatch(userSlice.actions.addReputation(1));
+  };
 
   return (
     <>
