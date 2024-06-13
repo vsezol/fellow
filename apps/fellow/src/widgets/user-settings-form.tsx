@@ -42,9 +42,7 @@ export const UserSettingsForm: FC = () => {
         render={({ field: { onChange, value } }) => (
           <div className="form-control">
             <label className="cursor-pointer label">
-              <span className="label-text text-lg">
-                Показывать анимацию при входе
-              </span>
+              <span className="label-text text-lg">Анимация при входе</span>
               <input
                 type="checkbox"
                 checked={value}
@@ -61,9 +59,7 @@ export const UserSettingsForm: FC = () => {
         render={({ field: { onChange, value } }) => (
           <div className="form-control">
             <label className="cursor-pointer label">
-              <span className="label-text text-lg">
-                Включить звук уведомлений
-              </span>
+              <span className="label-text text-lg">Звук уведомлений</span>
               <input
                 className="toggle toggle-primary toggle-md"
                 type="checkbox"
@@ -81,7 +77,7 @@ export const UserSettingsForm: FC = () => {
         render={({ field: { onChange, value } }) => (
           <div className="form-control">
             <label className="cursor-pointer label">
-              <span className="label-text text-lg">Включить режим аниме</span>
+              <span className="label-text text-lg">Аниме режим</span>
               <input
                 className="toggle toggle-primary toggle-md"
                 type="checkbox"

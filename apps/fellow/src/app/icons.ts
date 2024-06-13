@@ -10,6 +10,7 @@ import {
   faPeopleGroup,
   faPlus,
   faTrashCan,
+  faUser,
   faUserGroup,
 } from '@fortawesome/free-solid-svg-icons';
 
@@ -23,5 +24,6 @@ library.add(
   faMessage,
   faArrowTrendUp,
   faUserGroup,
-  faPeopleGroup
+  faPeopleGroup,
+  faUser
 );

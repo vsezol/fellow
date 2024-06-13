@@ -18,6 +18,7 @@ export interface InputTextProps {
   placeholder?: string;
   size?: Size;
   color?: Color;
+  transparent?: boolean;
 }
 
 const sizeClass: Record<Size, string> = {
@@ -38,7 +39,12 @@ const colorClass: Record<Color, string> = {
 
 export const InputText = forwardRef(
   (
-    { size = 'md', color = 'primary', ...props }: InputTextProps,
+    {
+      size = 'md',
+      color = 'primary',
+      transparent = false,
+      ...props
+    }: InputTextProps,
     ref: ForwardedRef<HTMLInputElement>
   ) => {
     return (
@@ -49,7 +55,8 @@ export const InputText = forwardRef(
         className={clsx(
           'input input-bordered w-full',
           sizeClass?.[size],
-          colorClass?.[color]
+          colorClass?.[color],
+          transparent && 'bg-opacity-50'
         )}
       />
     );

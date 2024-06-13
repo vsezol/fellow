@@ -7,6 +7,7 @@ import {
 } from '../entities/user';
 
 import { useNavigate } from 'react-router-dom';
+import { selectAnimeModeEnabled } from '../entities/user-settings';
 import { useChangeStatusMutation, useGetUserQuery } from '../shared/api';
 import { Avatar, Button, InputText } from '../shared/ui';
 import { useAppDispatch, useAppSelector } from '../store';
@@ -21,6 +22,7 @@ export const UserForm: FC = () => {
   const name = useAppSelector(selectUserName);
   const [userNameDraft, setUserNameDraft] = useState(name);
   const navigate = useNavigate();
+  const animeMode = useAppSelector(selectAnimeModeEnabled);
 
   const [editStatus] = useChangeStatusMutation();
 
@@ -88,6 +90,7 @@ export const UserForm: FC = () => {
               field.onChange(event);
             }}
             placeholder="Введите ваш ник"
+            transparent={animeMode}
           />
         )}
       />
@@ -99,7 +102,11 @@ export const UserForm: FC = () => {
           maxLength: 15,
         }}
         render={({ field }) => (
-          <InputText {...field} placeholder="Введите ваш стаус" />
+          <InputText
+            {...field}
+            placeholder="Введите ваш стаус"
+            transparent={animeMode}
+          />
         )}
       />
 

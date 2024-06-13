@@ -11,7 +11,8 @@ export const RootLayout = () => {
     <div
       className={clsx(
         'absolute h-full w-full',
-        animeMode && 'dark:bg-anime-dark bg-anime-light bg-[center_top]'
+        animeMode &&
+          'md:dark:bg-anime-dark md:bg-anime-light dark:bg-anime-mobile-dark bg-anime-mobile-light bg-cover'
       )}
     >
       <Preloader />

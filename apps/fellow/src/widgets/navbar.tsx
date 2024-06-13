@@ -17,8 +17,8 @@ export const Navbar = () => {
         className={({ isActive }) => withActiveLinkClasses(isActive)}
       >
         <Button size="md">
-          <FontAwesomeIcon size="lg" icon="gear" />
-          <div className="hidden md:block">Настройки</div>
+          <FontAwesomeIcon size="lg" icon="user" />
+          <div className="hidden md:block">Профиль</div>
         </Button>
       </NavLink>
 
@@ -41,6 +41,16 @@ export const Navbar = () => {
         <Button size="md" disabled={!userName}>
           <FontAwesomeIcon size="lg" icon="arrow-trend-up" />
           <div className="hidden md:block">Репутация</div>
+        </Button>
+      </NavLink>
+
+      <NavLink
+        to="/settings"
+        className={({ isActive }) => withActiveLinkClasses(isActive)}
+      >
+        <Button size="md">
+          <FontAwesomeIcon size="lg" icon="gear" />
+          <div className="hidden md:block">Настройки</div>
         </Button>
       </NavLink>
     </div>

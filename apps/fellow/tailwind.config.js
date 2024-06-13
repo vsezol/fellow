@@ -10,9 +10,13 @@ module.exports = {
     extend: {
       backgroundImage: {
         'anime-dark':
-          "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/assets/wallpaper.png')",
+          "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/assets/wallpaper.jpeg')",
         'anime-light':
-          "linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('/src/assets/wallpaper.png')",
+          "linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('/src/assets/wallpaper.jpeg')",
+        'anime-mobile-dark':
+          "linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/src/assets/wallpaper-mobile.jpeg')",
+        'anime-mobile-light':
+          "linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url('/src/assets/wallpaper-mobile.jpeg')",
       },
     },
     fontFamily: {

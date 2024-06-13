@@ -16,6 +16,10 @@ export const router = createBrowserRouter([
         path: 'user',
         lazy: () => import('../pages/user'),
       },
+      {
+        path: 'settings',
+        lazy: () => import('../pages/settings'),
+      },
       withGuards(
         {
           path: 'rep',
