@@ -71,7 +71,7 @@ export const UserForm: FC = () => {
       className="flex flex-col gap-4 w-full"
     >
       <div className="flex items-center justify-center">
-        <Avatar name={userNameDraft} size="lg" active={true} />
+        <Avatar name={userNameDraft} size="lg" />
       </div>
 
       <Controller

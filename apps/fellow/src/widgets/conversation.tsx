@@ -70,7 +70,11 @@ export const Conversation = () => {
   };
 
   const loadInitial = () => {
-    getHistory(currentChat?.id ?? '', 0).then((data) => {
+    if (!currentChatId) {
+      return;
+    }
+
+    getHistory(currentChatId, 0).then((data) => {
       const newMessages =
         data?.data?.page?.map(chatMessageResponseToChatMessage) ?? [];
 
@@ -182,7 +186,7 @@ export const Conversation = () => {
             loader={<p className="text-center">Пинаю бекендера...</p>}
             endMessage={<p className="text-center">Начало чата</p>}
             scrollableTarget="scrollableDiv"
-            inverse={true}
+            inverse
           >
             <MessagesList
               isGroup={isGroup}

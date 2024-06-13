@@ -24,7 +24,12 @@ const textSizeClass: Partial<Record<Size, string>> = {
   lg: 'text-5xl font-semibold',
 };
 
-export const Avatar = ({ name = 'Unknown', src, size = 'md' }: AvatarProps) => {
+export const Avatar = ({
+  name = 'Unknown',
+  src,
+  size = 'md',
+  active,
+}: AvatarProps) => {
   const theme = usePreferredTheme();
 
   const nameInitials = name
@@ -40,7 +45,13 @@ export const Avatar = ({ name = 'Unknown', src, size = 'md' }: AvatarProps) => {
   const backgroundColor = getHslColorFromString(name, saturation, lightness);
 
   return (
-    <div className="avatar">
+    <div
+      className={clsx(
+        'avatar',
+        active === true && 'online',
+        active === false && 'offline'
+      )}
+    >
       <div
         className={clsx(
           '!flex items-center justify-center rounded-full transition-all',
