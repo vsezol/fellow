@@ -170,27 +170,17 @@ export const Conversation = () => {
 
       <div className="flex-grow flex-1 overflow-hidden relative flex flex-col">
         <div
-          className="h-full w-full overflow-y-auto md:px-4 px-2"
+          className="h-full w-full flex flex-col-reverse overflow-y-auto md:px-4 px-2"
           id="scrollableDiv"
-          style={{
-            overflowY: 'scroll',
-            display: 'flex',
-            flexDirection: 'column-reverse',
-            margin: 'auto',
-          }}
         >
           <div ref={listEndRef}></div>
           <InfiniteScroll
+            className="flex flex-col-reverse"
             dataLength={messages.length}
             next={loadMore}
             hasMore={(pageNumber + 1) * PAGE_SIZE < total}
             loader={<p className="text-center">Пинаю бекендера...</p>}
             endMessage={<p className="text-center">Начало чата</p>}
-            style={{
-              display: 'flex',
-              flexDirection: 'column-reverse',
-              overflow: 'visible',
-            }}
             scrollableTarget="scrollableDiv"
             inverse={true}
           >
