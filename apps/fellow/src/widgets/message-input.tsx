@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
 import { KeyboardEvent } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { disableMobileScroll, enableMobileScroll, isIOS } from '../shared';
@@ -10,9 +11,13 @@ interface MessageInputForm {
 
 interface MessageInputProps {
   onSend: (text: string) => unknown;
+  animeMode?: boolean;
 }
 
-export default function MessageInput({ onSend }: MessageInputProps) {
+export default function MessageInput({
+  onSend,
+  animeMode = false,
+}: MessageInputProps) {
   const {
     register,
     handleSubmit,
@@ -53,7 +58,10 @@ export default function MessageInput({ onSend }: MessageInputProps) {
           onBlur,
         })}
         rows={1}
-        className="textarea textarea-primary w-full max-h-28"
+        className={clsx(
+          'textarea textarea-primary w-full max-h-28',
+          animeMode && 'bg-opacity-50'
+        )}
         placeholder="Введите сообщение"
       ></textarea>
 

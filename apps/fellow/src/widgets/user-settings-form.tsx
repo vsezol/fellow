@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../store';
 interface UserSettingsInput {
   alwaysShowLogoAnimation: boolean;
   notificationSoundEnabled: boolean;
+  animeModeEnabled: boolean;
 }
 
 export const UserSettingsForm: FC = () => {
@@ -63,6 +64,24 @@ export const UserSettingsForm: FC = () => {
               <span className="label-text text-lg">
                 Включить звук уведомлений
               </span>
+              <input
+                className="toggle toggle-primary toggle-md"
+                type="checkbox"
+                checked={value}
+                onChange={onChange}
+              />
+            </label>
+          </div>
+        )}
+      />
+
+      <Controller
+        name="animeModeEnabled"
+        control={control}
+        render={({ field: { onChange, value } }) => (
+          <div className="form-control">
+            <label className="cursor-pointer label">
+              <span className="label-text text-lg">Включить режим аниме</span>
               <input
                 className="toggle toggle-primary toggle-md"
                 type="checkbox"

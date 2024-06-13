@@ -2,8 +2,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { SyntheticEvent, useMemo, useRef } from 'react';
 import { ChatMessage } from '../entities/chat';
+import { selectAnimeModeEnabled } from '../entities/user-settings';
 import { Avatar, Button, getChatName } from '../shared';
 import { useGetUserQuery } from '../shared/api';
+import { useAppSelector } from '../store';
 
 export interface ConversationPreviewProps {
   currentUserName: string;
@@ -23,6 +25,7 @@ export const ConversationPreview = ({
   onDelete,
 }: ConversationPreviewProps) => {
   const menuButtonRef = useRef<HTMLDivElement>(null);
+  const animeMode = useAppSelector(selectAnimeModeEnabled);
 
   const fromPreview = message?.from === currentUserName ? 'Вы' : message?.from;
 
@@ -75,7 +78,8 @@ export const ConversationPreview = ({
         'w-full p-2 rounded-lg cursor-pointer transition-all duration-75 border-2 relative bg-base-200',
         selected
           ? 'border-primary'
-          : 'border-transparent hover:border-primary hover:border-opacity-50'
+          : 'border-transparent hover:border-primary hover:border-opacity-50',
+        animeMode && 'bg-opacity-50'
       )}
     >
       <div className="flex flex-row gap-3 py-1">

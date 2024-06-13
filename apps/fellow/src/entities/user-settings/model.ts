@@ -4,11 +4,13 @@ import { createSelectFromSelf, createSelectSelf } from '../../shared';
 export interface UserSettingsState {
   alwaysShowLogoAnimation: boolean;
   notificationSoundEnabled: boolean;
+  animeModeEnabled: boolean;
 }
 
 const initialState: UserSettingsState = {
   alwaysShowLogoAnimation: false,
   notificationSoundEnabled: true,
+  animeModeEnabled: false,
 };
 
 export const userSettingsSlice = createSlice({
@@ -16,11 +18,15 @@ export const userSettingsSlice = createSlice({
   initialState,
   reducers: {
     setState: (state, action: PayloadAction<UserSettingsState>) => {
-      const { alwaysShowLogoAnimation, notificationSoundEnabled } =
-        action.payload;
+      const {
+        alwaysShowLogoAnimation,
+        notificationSoundEnabled,
+        animeModeEnabled,
+      } = action.payload;
 
       state.alwaysShowLogoAnimation = alwaysShowLogoAnimation;
       state.notificationSoundEnabled = notificationSoundEnabled;
+      state.animeModeEnabled = animeModeEnabled;
     },
   },
 });
@@ -34,4 +40,7 @@ export const selectAlwaysShowLogoAnimation = selectFromSelf(
 );
 export const selectNotificationSoundEnabled = selectFromSelf(
   (state) => state.notificationSoundEnabled
+);
+export const selectAnimeModeEnabled = selectFromSelf(
+  (state) => state.animeModeEnabled
 );

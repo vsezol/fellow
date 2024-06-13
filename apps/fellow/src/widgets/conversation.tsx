@@ -1,4 +1,5 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import clsx from 'clsx';
 import { useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -9,6 +10,7 @@ import {
 import { dispatchOutgoingChatMessage } from '../entities/chat-message';
 import { incomingChatMessageToAddMessagePayload } from '../entities/chat-message/model/mappers';
 import { selectUserName } from '../entities/user';
+import { selectAnimeModeEnabled } from '../entities/user-settings';
 import { Button, getChatName, getDeclensionByNumber } from '../shared';
 import { useGetHistoryQuery } from '../shared/api';
 import { useAppDispatch, useAppSelector } from '../store';
@@ -21,6 +23,7 @@ export const Conversation = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentChat = useAppSelector(selectCurrentChat);
   const messages = useAppSelector(selectCurrentMessages) ?? [];
+  const animeMode = useAppSelector(selectAnimeModeEnabled);
 
   const chatName = useMemo(
     () => getChatName(currentChat?.members ?? [], currentUserName),
@@ -72,7 +75,12 @@ export const Conversation = () => {
 
   return (
     <div className="flex flex-col h-full w-full gap-4 overflow-hidden rounded-lg">
-      <div className="flex-initial flex flex-row justify-between bg-base-300 w-full p-2">
+      <div
+        className={clsx(
+          'flex-initial flex flex-row justify-between bg-base-300 w-full p-2',
+          animeMode && 'bg-opacity-50'
+        )}
+      >
         <div className="text-primary flex flex-row flex-1">
           <div className="md:hidden">
             <Button size="md" onClick={goBack}>
@@ -108,7 +116,7 @@ export const Conversation = () => {
       </div>
 
       <div className="flex-initial px-4 pb-4">
-        <MessageInput onSend={sendMessage} />
+        <MessageInput onSend={sendMessage} animeMode={animeMode} />
       </div>
     </div>
   );
