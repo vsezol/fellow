@@ -64,7 +64,6 @@ export const Component: FC = () => {
   useGroupCreateHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
-  // useChatMessageHistory();
   useStatusChangeHandler();
   useSoundEffectHandler();
 
