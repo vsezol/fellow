@@ -1,6 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import InfiniteScroll from 'react-infinite-scroll-component';
 import { useNavigate } from 'react-router-dom';
 import {
   ChatMessage,
@@ -19,14 +20,13 @@ import {
   getChatName,
   getDeclensionByNumber,
   useIsVisible,
-  usePrevious,
 } from '../shared';
 import { fellowApi } from '../shared/api';
 import { useAppDispatch, useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
 
-const PAGE_SIZE = 25;
+const PAGE_SIZE = 50;
 
 export const Conversation = () => {
   const navigate = useNavigate();
@@ -40,39 +40,20 @@ export const Conversation = () => {
   const [total, setTotal] = useState(0);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
 
-  const listStartRef = useRef<HTMLDivElement>(null);
   const listEndRef = useRef<HTMLDivElement>(null);
-  const listRef = useRef<HTMLDivElement>(null);
-  const isListStartVisible = useIsVisible(listStartRef);
   const isListEndVisible = useIsVisible(listEndRef);
-  const [isListStartVisiblePrevious] = usePrevious(isListStartVisible);
 
   useEffect(() => {
     return handleIncomingChatMessage((data) => {
       setMessages((prev) => [
-        ...prev,
         {
           id: data.id,
           from: data.from,
           text: data.message,
           timestamp: data.timestamp,
         },
+        ...prev,
       ]);
-
-      const isNearToBottom =
-        Math.abs(
-          (listRef.current?.scrollTop ?? 0) -
-            ((listRef.current?.scrollHeight ?? 0) -
-              (listRef.current?.offsetHeight ?? 0))
-        ) < 200;
-
-      if (isNearToBottom) {
-        setTimeout(() => {
-          requestAnimationFrame(() => {
-            scrollToBottom('smooth');
-          });
-        });
-      }
     });
   }, []);
 
@@ -91,73 +72,41 @@ export const Conversation = () => {
   const loadInitial = () => {
     getHistory(currentChat?.id ?? '', 0).then((data) => {
       const newMessages =
-        data?.data?.page?.map(chatMessageResponseToChatMessage)?.reverse() ??
-        [];
+        data?.data?.page?.map(chatMessageResponseToChatMessage) ?? [];
 
       setTotal(data.data?.total ?? 0);
       setMessages(newMessages);
-
-      requestAnimationFrame(() => {
-        scrollToBottom('auto');
-      });
     });
   };
 
   const loadMore = () => {
-    const prevScrollHeight = listRef?.current?.scrollHeight ?? 0;
-
     getHistory(currentChat?.id ?? '', pageNumber + 1).then((data) => {
       const newMessages =
-        data?.data?.page?.map(chatMessageResponseToChatMessage)?.reverse() ??
-        [];
+        data?.data?.page?.map(chatMessageResponseToChatMessage) ?? [];
 
       setPageNumber(pageNumber + 1);
-      setMessages([...newMessages, ...messages]);
-
-      setTimeout(() => {
-        requestAnimationFrame(() => {
-          const currentScrollHeight = listRef?.current?.scrollHeight ?? 0;
-
-          listRef?.current?.scrollTo({
-            top: currentScrollHeight - prevScrollHeight,
-          });
-        });
-      });
+      setTotal(data?.data?.total ?? 0);
+      setMessages([...messages, ...newMessages]);
     });
   };
 
-  useEffect(() => {
-    const shouldFetchMore =
-      isListStartVisible &&
-      isListStartVisible !== isListStartVisiblePrevious &&
-      pageNumber * PAGE_SIZE < total &&
-      messages.length > 0;
+  const cleanUp = () => {
+    setTotal(0);
+    setPageNumber(0);
+  };
 
-    if (!shouldFetchMore) {
-      return;
-    }
-
-    loadMore();
-  }, [isListStartVisible, isListStartVisiblePrevious]);
-
-  const scrollToBottom = (behavior: ScrollBehavior) =>
+  const scrollToBottom = (behavior: ScrollBehavior = 'smooth') =>
     listEndRef.current?.scrollIntoView({
       behavior,
       block: 'end',
     });
 
   useEffect(() => {
-    setTotal(0);
-    setPageNumber(0);
+    cleanUp();
     loadInitial();
   }, [currentChatId]);
 
-  useEffect(() => {
-    return () => {
-      setTotal(0);
-      setPageNumber(0);
-    };
-  }, []);
+  useEffect(() => cleanUp, []);
 
   const chatName = useMemo(
     () => getChatName(currentChat?.members ?? [], currentUserName),
@@ -222,17 +171,35 @@ export const Conversation = () => {
       <div className="flex-grow flex-1 overflow-hidden relative flex flex-col">
         <div
           className="h-full w-full overflow-y-auto md:px-4 px-2"
-          ref={listRef}
+          id="scrollableDiv"
+          style={{
+            overflowY: 'scroll',
+            display: 'flex',
+            flexDirection: 'column-reverse',
+            margin: 'auto',
+          }}
         >
-          <div className="h-1" ref={listStartRef}></div>
-
-          <MessagesList
-            isGroup={isGroup}
-            currentUserName={currentUserName}
-            messages={messages}
-          />
-
-          <div className="h-1" ref={listEndRef}></div>
+          <div ref={listEndRef}></div>
+          <InfiniteScroll
+            dataLength={messages.length}
+            next={loadMore}
+            hasMore={(pageNumber + 1) * PAGE_SIZE < total}
+            loader={<p className="text-center">Пинаю бекендера...</p>}
+            endMessage={<p className="text-center">Начало чата</p>}
+            style={{
+              display: 'flex',
+              flexDirection: 'column-reverse',
+              overflow: 'visible',
+            }}
+            scrollableTarget="scrollableDiv"
+            inverse={true}
+          >
+            <MessagesList
+              isGroup={isGroup}
+              currentUserName={currentUserName}
+              messages={messages}
+            />
+          </InfiniteScroll>
         </div>
 
         <div
@@ -241,11 +208,7 @@ export const Conversation = () => {
             isListEndVisible && 'hidden'
           )}
         >
-          <Button
-            size="sm"
-            color="primary"
-            onClick={() => scrollToBottom('smooth')}
-          >
+          <Button size="sm" color="primary" onClick={() => scrollToBottom()}>
             <FontAwesomeIcon size="sm" icon="chevron-down"></FontAwesomeIcon>
           </Button>
         </div>

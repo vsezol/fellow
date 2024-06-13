@@ -59,10 +59,10 @@ function toUIChatMessages(
   return messages.map(({ id, text, from, timestamp }, index) => {
     const nextAuthor: string | undefined = messages?.[index + 1]?.from;
     const showAuthor =
-      isGroup && currentUserName !== from && lastAuthor !== from;
-    const showAvatar = nextAuthor !== from && currentUserName !== from;
+      isGroup && currentUserName !== from && nextAuthor !== from;
+    const showAvatar = lastAuthor !== from && currentUserName !== from;
     const withAvatarPlaceholder = currentUserName !== from;
-    const directional = nextAuthor !== from;
+    const directional = lastAuthor !== from;
 
     lastAuthor = from;
 
