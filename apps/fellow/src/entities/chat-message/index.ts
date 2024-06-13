@@ -1,3 +1,4 @@
+export { chatMessageResponseToChatMessage } from './model/mappers';
 export {
   dispatchOutgoingChatMessage,
   handleIncomingChatMessage,

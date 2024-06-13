@@ -3,6 +3,7 @@ import Layout from '../app/layout';
 import congratsAudioSrc from '../assets/congrats.mp3';
 import { selectUserReputation, userSlice } from '../entities/user';
 import { selectAnimeModeEnabled } from '../entities/user-settings';
+import { formatBigNumber } from '../shared';
 import { useAppDispatch, useAppSelector } from '../store';
 import { ClickablePanel } from '../widgets/clickable-panel';
 import { Navbar } from '../widgets/navbar';
@@ -14,7 +15,7 @@ export const Component = () => {
   const congratsAudio = useRef<HTMLAudioElement>(new Audio(congratsAudioSrc));
 
   useEffect(() => {
-    if (animeMode && reputation % 100 === 0) {
+    if (animeMode && reputation > 0 && reputation % 100 === 0) {
       congratsAudio.current?.play();
     }
   }, [reputation, animeMode]);
@@ -36,7 +37,7 @@ export const Component = () => {
               Ваша репутация
             </h1>
             <div className="text-8xl font-bold font-logo select-none">
-              {reputation}
+              {formatBigNumber(reputation)}
             </div>
           </div>
 

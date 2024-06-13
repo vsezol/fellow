@@ -1,4 +1,5 @@
-import { AddMessagePayload } from '../../chat';
+import { ChatMessageResponse } from '../../../shared';
+import { AddMessagePayload, ChatMessage } from '../../chat';
 import { IncomingChatMessage } from './types';
 
 export const incomingChatMessageToAddMessagePayload = (
@@ -11,4 +12,13 @@ export const incomingChatMessageToAddMessagePayload = (
     text: message.message,
     timestamp: message.timestamp,
   },
+});
+
+export const chatMessageResponseToChatMessage = (
+  message: ChatMessageResponse
+): ChatMessage => ({
+  id: message.id,
+  from: message.from,
+  text: message.message,
+  timestamp: message.timestamp,
 });

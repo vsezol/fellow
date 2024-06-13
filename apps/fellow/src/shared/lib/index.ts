@@ -7,6 +7,7 @@ export {
 } from './breakpoint';
 export type { Breakpoint, BreakpointSwitcherProps } from './breakpoint';
 export { debounce } from './debounce';
+export { formatBigNumber } from './format-big-number';
 export { getChatName } from './get-chat-name';
 export { getDeclensionByNumber } from './get-declension-by-number';
 export { getHslColorFromString } from './get-hsl-color-from-string';
@@ -33,5 +34,6 @@ export { Subject } from './subject';
 export type { Subscription, Unsubscribe } from './subject';
 export { usePreferredThemeMetaSync } from './theme';
 export { toLocalTimeZone } from './to-local-time-zone';
+export { useIsVisible } from './use-is-visible';
 export { usePrevious } from './use-previous';
 export { withGuards } from './with-guards';

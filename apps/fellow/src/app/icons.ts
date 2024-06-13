@@ -2,6 +2,7 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import '@fortawesome/fontawesome-svg-core/styles.css';
 import {
   faArrowTrendUp,
+  faChevronDown,
   faChevronLeft,
   faEllipsisVertical,
   faGear,
@@ -25,5 +26,6 @@ library.add(
   faArrowTrendUp,
   faUserGroup,
   faPeopleGroup,
-  faUser
+  faUser,
+  faChevronDown
 );
