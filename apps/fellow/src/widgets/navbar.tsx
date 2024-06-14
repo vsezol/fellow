@@ -27,7 +27,7 @@ export const Navbar = () => {
     () => [
       {
         name: 'Профиль',
-        to: '/user',
+        to: '/profile',
         icon: 'user',
       },
       {
@@ -58,7 +58,7 @@ export const Navbar = () => {
   return (
     <div
       className={clsx(
-        'flex flex-row items-center justify-center md:p-2 gap-4 md:flex-col md:justify-start md:items-start md:gap-2 bg-base-300',
+        'flex flex-row items-center justify-center md:p-2 gap-4 md:flex-col md:justify-start md:items-start md:gap-2 md:bg-transparent bg-base-300',
         animeMode && 'bg-opacity-50'
       )}
     >

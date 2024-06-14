@@ -13,7 +13,11 @@ export const router = createBrowserRouter([
         element: <Navigate to="chat" />,
       },
       {
-        path: 'user',
+        path: 'profile',
+        lazy: () => import('../pages/profile'),
+      },
+      {
+        path: 'user/:userName',
         lazy: () => import('../pages/user'),
       },
       {
@@ -25,14 +29,14 @@ export const router = createBrowserRouter([
           path: 'rep',
           lazy: () => import('../pages/rep'),
         },
-        <HasUserNameGuard to="user" replace />
+        <HasUserNameGuard to="profile" replace />
       ),
       withGuards(
         {
           path: 'chat/:chatName?',
           lazy: () => import('../pages/chat'),
         },
-        <HasUserNameGuard to="user" replace />
+        <HasUserNameGuard to="profile" replace />
       ),
     ],
   },
