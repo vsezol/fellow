@@ -10,6 +10,7 @@ import {
   faPaperPlane,
   faPeopleGroup,
   faPlus,
+  faQrcode,
   faTrashCan,
   faUser,
   faUserGroup,
@@ -27,5 +28,6 @@ library.add(
   faUserGroup,
   faPeopleGroup,
   faUser,
-  faChevronDown
+  faChevronDown,
+  faQrcode
 );
