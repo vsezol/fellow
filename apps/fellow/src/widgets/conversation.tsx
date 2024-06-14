@@ -127,6 +127,18 @@ export const Conversation = () => {
 
   const goBack = () => navigate('/chat');
 
+  const onUserClick = (name: string) => {
+    navigate(`/user/${name}`);
+  };
+
+  const onChatNameClick = () => {
+    if (isGroup) {
+      return;
+    }
+
+    onUserClick(chatName);
+  };
+
   const sendMessage = (text: string) => {
     if (!currentChat?.id || !text) {
       return;
@@ -158,7 +170,10 @@ export const Conversation = () => {
         <div className="flex-1 flex flex-col items-center">
           {currentChat && (
             <>
-              <div className="text-lg font-semibold truncate text-ellipsis max-w-xs overflow-hidden">
+              <div
+                className="text-lg font-semibold truncate text-ellipsis max-w-xs overflow-hidden"
+                onClick={onChatNameClick}
+              >
                 {chatName}
               </div>
 
@@ -189,6 +204,7 @@ export const Conversation = () => {
             inverse
           >
             <MessagesList
+              onUserClick={onUserClick}
               isGroup={isGroup}
               currentUserName={currentUserName}
               messages={messages}

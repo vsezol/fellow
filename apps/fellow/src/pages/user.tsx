@@ -11,6 +11,7 @@ import {
   Avatar,
   Button,
   Modal,
+  ModalCloseByClickOutside,
   ModalControls,
   useCreateGroupMutation,
   useGetUserQuery,
@@ -112,20 +113,23 @@ export const Component = () => {
       </Layout>
 
       <Modal ref={qrCodeModalRef}>
-        <div className="bg-white p-4">
-          <div className="max-w-64 aspect-square">
-            <QRCode
-              size={256}
-              style={{
-                height: 'auto',
-                maxWidth: '100%',
-                width: '100%',
-              }}
-              value={`https://chat.vsezol.com/user/${userName}`}
-              viewBox={`0 0 512 512`}
-            />
+        <div className="modal-box">
+          <div className="bg-white p-4">
+            <div className="max-w-64 aspect-square">
+              <QRCode
+                size={256}
+                style={{
+                  height: 'auto',
+                  maxWidth: '100%',
+                  width: '100%',
+                }}
+                value={`https://chat.vsezol.com/user/${userName}`}
+                viewBox={`0 0 512 512`}
+              />
+            </div>
           </div>
         </div>
+        <ModalCloseByClickOutside />
       </Modal>
     </>
   );

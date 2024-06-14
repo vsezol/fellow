@@ -8,6 +8,7 @@ export type AvatarProps = {
   src?: string;
   size?: Size;
   active?: boolean;
+  onClick?: () => void;
 };
 
 const sizeClass: Partial<Record<Size, string>> = {
@@ -29,6 +30,7 @@ export const Avatar = ({
   src,
   size = 'md',
   active,
+  onClick,
 }: AvatarProps) => {
   const theme = usePreferredTheme();
 
@@ -46,6 +48,7 @@ export const Avatar = ({
 
   return (
     <div
+      onClick={() => onClick?.()}
       className={clsx(
         'avatar',
         active === true && 'online',

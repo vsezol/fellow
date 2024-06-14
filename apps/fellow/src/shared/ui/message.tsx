@@ -14,6 +14,7 @@ export interface MessageProps {
   withAuthor?: boolean;
   directional?: boolean;
   withAvatarPlaceholder?: boolean;
+  onAvatarClick?: () => void;
 }
 
 export const Message: FC<MessageProps> = ({
@@ -25,6 +26,7 @@ export const Message: FC<MessageProps> = ({
   withAuthor = false,
   directional = true,
   withAvatarPlaceholder = false,
+  onAvatarClick,
 }) => {
   const sideClass = side === 'left' ? 'chat-start' : 'chat-end';
   const timeString = date?.toLocaleTimeString([], {
@@ -38,6 +40,7 @@ export const Message: FC<MessageProps> = ({
       <div className="chat-image avatar">
         {avatar ? (
           <Avatar
+            onClick={onAvatarClick}
             src={typeof avatar === 'string' ? avatar : undefined}
             name={author}
             size="sm"

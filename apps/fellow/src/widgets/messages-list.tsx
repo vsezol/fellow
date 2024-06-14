@@ -6,6 +6,7 @@ export interface MessagesListProps {
   messages: ChatMessage[];
   currentUserName: string;
   isGroup: boolean;
+  onUserClick?: (user: string) => void;
 }
 
 interface UIChatMessage {
@@ -24,6 +25,7 @@ export default function MessagesList({
   messages,
   currentUserName,
   isGroup,
+  onUserClick,
 }: MessagesListProps) {
   const items: UIChatMessage[] = useMemo(
     () => toUIChatMessages(messages, currentUserName, isGroup),
@@ -34,6 +36,7 @@ export default function MessagesList({
     <>
       {items.map((x) => (
         <Message
+          onAvatarClick={() => onUserClick?.(x.author)}
           key={x.id}
           author={x.author}
           withAuthor={x.showAuthor}

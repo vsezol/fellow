@@ -14,6 +14,14 @@ export interface ModalControls {
   close: () => void;
 }
 
+export const ModalCloseByClickOutside = () => {
+  return (
+    <form method="dialog" className="modal-backdrop">
+      <button>close</button>
+    </form>
+  );
+};
+
 export const Modal = forwardRef<ModalControls, ModalProps>(
   ({ children }: ModalProps, ref) => {
     const modalRef = useRef<HTMLDialogElement>(null);
