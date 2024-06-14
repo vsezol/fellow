@@ -87,7 +87,9 @@ export const Component = () => {
               </div>
               <div className="md:pl-48 md:pr-4 md:pb-8 md:pt-4 pb-4 pt-20 flex md:flex-row flex-col md:justify-between items-center justify-center">
                 <div>
-                  <h1 className="font-bold text-4xl">{user?.username}</h1>
+                  <h1 className="font-bold text-4xl text-center md:text-left">
+                    {user?.username}
+                  </h1>
                   {user?.status && (
                     <p className="text-secondary text-xl text-center md:text-left">
                       {user?.status}
