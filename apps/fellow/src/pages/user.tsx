@@ -96,7 +96,11 @@ export const Component = () => {
                 </div>
 
                 <div className="flex flex-row md:pt-0 pt-4 gap-2">
-                  <Button color="primary" onClick={onCreateChat}>
+                  <Button
+                    color="primary"
+                    onClick={onCreateChat}
+                    disabled={!currentUserName}
+                  >
                     Написать
                   </Button>
 

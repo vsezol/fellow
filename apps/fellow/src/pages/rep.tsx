@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { useEffect, useRef } from 'react';
 import Layout from '../app/layout';
 import congratsAudioSrc from '../assets/congrats.mp3';
@@ -33,10 +34,14 @@ export const Component = () => {
       <div className="absolute z-10 h-full w-full">
         <Layout>
           <div className="overflow-hidden flex-1 flex-grow flex flex-col items-center justify-center">
-            <h1 className="text-3xl font-bold font-logo select-none">
+            <h1 className="md:text-3xl text-xl font-bold font-logo select-none">
               Ваша репутация
             </h1>
-            <div className="text-8xl font-bold font-logo select-none">
+            <div
+              className={clsx(
+                'md:text-8xl text-5xl font-bold font-logo select-none'
+              )}
+            >
               {formatBigNumber(reputation)}
             </div>
           </div>

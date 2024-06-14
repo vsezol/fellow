@@ -38,6 +38,10 @@ export const router = createBrowserRouter([
         },
         <HasUserNameGuard to="profile" replace />
       ),
+      {
+        path: '*',
+        element: <Navigate to="chat" />,
+      },
     ],
   },
 ]);

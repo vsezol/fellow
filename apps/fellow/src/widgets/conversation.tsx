@@ -171,7 +171,10 @@ export const Conversation = () => {
           {currentChat && (
             <>
               <div
-                className="text-lg font-semibold truncate text-ellipsis max-w-xs overflow-hidden"
+                className={clsx(
+                  'text-lg font-semibold truncate text-ellipsis max-w-xs overflow-hidden',
+                  !isGroup && 'cursor-pointer'
+                )}
                 onClick={onChatNameClick}
               >
                 {chatName}
