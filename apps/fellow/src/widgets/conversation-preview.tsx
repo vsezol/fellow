@@ -84,7 +84,7 @@ export const ConversationPreview = ({
     >
       <div className="flex flex-row gap-3 py-1">
         <div>
-          <Avatar name={chatName} size="md" />
+          <Avatar name={chatName} size="md" active={receiver?.isOnline} />
         </div>
 
         <div className="flex flex-col overflow-hidden justify-around">

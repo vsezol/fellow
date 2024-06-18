@@ -27,6 +27,7 @@
     "react-use-websocket": "^4.8.1"
   },
   "devDependencies": {
+    "@feature-sliced/eslint-config": "^0.1.1",
     "@nx/cypress": "18.2.3",
     "@nx/devkit": "18.2.3",
     "@nx/eslint": "18.2.3",
@@ -58,7 +59,8 @@
     "daisyui": "^4.7.3",
     "eslint": "~8.57.0",
     "eslint-config-prettier": "^9.0.0",
-    "eslint-plugin-import": "2.27.5",
+    "eslint-plugin-boundaries": "^4.2.1",
+    "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-jsx-a11y": "6.7.1",
     "eslint-plugin-playwright": "^0.15.3",
     "eslint-plugin-react": "7.32.2",

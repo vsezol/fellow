@@ -91,6 +91,8 @@ export type UserResponse = {
   id: string;
   username: string;
   status: string;
+  isOnline: boolean;
+  lastLoginTimestamp?: string;
 };
 export type LastChatMessageResponse = {
   id: string;
