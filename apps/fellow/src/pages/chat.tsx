@@ -1,18 +1,19 @@
 import { FC, Suspense, lazy, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+
+import Layout from '../app/layout';
+import { useApiEventHandler } from '../entities/api-event';
 import {
   chatsSlice,
   selectCurrentChatId,
   useGroupCreateHandler,
 } from '../entities/chat';
-
-import Layout from '../app/layout';
-import { useApiEventHandler } from '../entities/api-event';
 import { useChatMessageHandler } from '../entities/chat-message';
 import { useSoundEffectHandler } from '../entities/sound-effect';
-import { selectUserName, useStatusChangeHandler } from '../entities/user';
+import { selectUserName } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
+import { useUserStatusChangeHandler } from '../features/user/update-status';
 import { BreakpointSwitcher, useIsMobile } from '../shared';
 import { useGetUserActivityQuery } from '../shared/api';
 import { useAppSelector } from '../store';
@@ -64,7 +65,7 @@ export const Component: FC = () => {
   useGroupCreateHandler();
   useChatMessageHandler();
   useVisualEffectHandler();
-  useStatusChangeHandler();
+  useUserStatusChangeHandler();
   useSoundEffectHandler();
 
   return (

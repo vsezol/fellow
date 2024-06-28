@@ -1,12 +1,9 @@
 import { FC, useEffect, useState } from 'react';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import {
-  selectUserName,
-  updateCachedUserStatus,
-  userSlice,
-} from '../entities/user';
-
 import { useNavigate } from 'react-router-dom';
+import { selectUserName, userSlice } from '../entities/user';
+
+import { updateUserStatus } from '../features/user/update-status';
 import { useChangeStatusMutation, useGetUserQuery } from '../shared/api';
 import { Avatar, Button, InputText } from '../shared/ui';
 import { useAppDispatch, useAppSelector } from '../store';
@@ -59,7 +56,7 @@ export const UserForm: FC = () => {
       changeStatusRequest: { username: name, status: status ?? '' },
     });
     dispatch(setUserName(name));
-    dispatch(updateCachedUserStatus(name, status));
+    dispatch(updateUserStatus(name, status));
     navigate('/chat');
   };
 
