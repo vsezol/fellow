@@ -1,7 +1,1 @@
-{
-  "recommendations": [
-    "nrwl.angular-console",
-    "esbenp.prettier-vscode",
-    "ms-playwright.playwright"
-  ]
-}
+{}
