@@ -6,7 +6,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Layout from '../app/layout';
 import { chatsSlice } from '../entities/chat';
 import { selectUserName } from '../entities/user';
-import { selectAnimeModeEnabled } from '../entities/user-settings';
 import {
   Avatar,
   Button,
@@ -26,7 +25,6 @@ export const Component = () => {
     { skip: !userName }
   );
   const currentUserName = useAppSelector(selectUserName);
-  const animeMode = useAppSelector(selectAnimeModeEnabled);
   const dispatch = useAppDispatch();
   const [createGroupMutation] = useCreateGroupMutation();
   const navigate = useNavigate();
@@ -68,12 +66,7 @@ export const Component = () => {
       <Layout>
         <div className="overflow-hidden flex-1 flex-grow">
           <div className="flex flex-col h-full mx-auto md:p-4 gap-12 md:max-w-4xl">
-            <div
-              className={clsx(
-                'bg-base-200 rounded w-full',
-                animeMode && 'bg-opacity-50'
-              )}
-            >
+            <div className={clsx('bg-base-200 rounded w-full')}>
               <div
                 className={clsx(
                   'w-full p-4 bg-primary/60 relative h-40 rounded'

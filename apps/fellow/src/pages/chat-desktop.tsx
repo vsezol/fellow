@@ -2,7 +2,6 @@ import { useLayoutEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { selectCurrentChat } from '../entities/chat';
-import { selectAnimeModeEnabled } from '../entities/user-settings';
 import {
   ResizableTwoPanels,
   ResizableTwoPanelsInitial,
@@ -23,7 +22,6 @@ const STORAGE_KEY = 'ChatDesktopPanels';
 
 export default function ChatDesktop() {
   const currentChat = useAppSelector(selectCurrentChat);
-  const animeMode = useAppSelector(selectAnimeModeEnabled);
 
   const [initial, setInitial] = useState<ResizableTwoPanelsInitial>([
     DEFAULT_WIDTH,
@@ -44,12 +42,7 @@ export default function ChatDesktop() {
       <ResizableTwoPanels
         left={<ConversationPreviewList />}
         right={
-          <div
-            className={clsx(
-              'bg-base-200 rounded-lg h-full w-full',
-              animeMode && 'bg-opacity-30'
-            )}
-          >
+          <div className={clsx('bg-base-200 rounded-lg h-full w-full')}>
             {currentChat ? <Conversation /> : <ConversationPlaceholder />}
           </div>
         }

@@ -9,7 +9,7 @@ import { fellowApi } from '../shared/api';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',
-  version: 9,
+  version: 10,
   stateKeys: [userSlice.name, userSettingsSlice.name],
 };
 

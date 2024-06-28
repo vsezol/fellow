@@ -14,7 +14,6 @@ import {
   handleIncomingChatMessage,
 } from '../entities/chat-message';
 import { selectUserName } from '../entities/user';
-import { selectAnimeModeEnabled } from '../entities/user-settings';
 import {
   Button,
   getChatName,
@@ -34,7 +33,6 @@ export const Conversation = () => {
   const currentUserName = useAppSelector(selectUserName);
   const currentChat = useAppSelector(selectCurrentChat);
   const currentChatId = useAppSelector(selectCurrentChatId);
-  const animeMode = useAppSelector(selectAnimeModeEnabled);
 
   const [pageNumber, setPageNumber] = useState(0);
   const [total, setTotal] = useState(0);
@@ -154,8 +152,7 @@ export const Conversation = () => {
     <div className="flex flex-col h-full w-full gap-4 overflow-hidden md:rounded-lg">
       <div
         className={clsx(
-          'flex-initial flex flex-row justify-between bg-base-300 w-full p-2',
-          animeMode && 'bg-opacity-50'
+          'flex-initial flex flex-row justify-between bg-base-300 w-full p-2'
         )}
       >
         <div className="text-primary flex flex-row flex-1">
@@ -228,7 +225,7 @@ export const Conversation = () => {
       </div>
 
       <div className="flex-initial px-4 pb-4">
-        <MessageInput onSend={sendMessage} animeMode={animeMode} />
+        <MessageInput onSend={sendMessage} />
       </div>
     </div>
   );

@@ -26,12 +26,18 @@ export const Component = () => {
   };
 
   return (
-    <>
+    <div
+      className={clsx(
+        'h-full w-full',
+        animeMode &&
+          'md:dark:bg-anime-dark md:bg-anime-light dark:bg-anime-mobile-dark bg-anime-mobile-light bg-cover'
+      )}
+    >
       <div className="absolute h-full w-full">
         <ClickablePanel onClick={addReputation} />
       </div>
 
-      <div className="absolute z-10 h-full w-full">
+      <div className={clsx('absolute z-10 h-full w-full')}>
         <Layout>
           <div className="overflow-hidden flex-1 flex-grow flex flex-col items-center justify-center">
             <h1 className="md:text-3xl text-xl font-bold font-logo select-none">
@@ -49,6 +55,6 @@ export const Component = () => {
           <Navbar />
         </Layout>
       </div>
-    </>
+    </div>
   );
 };
