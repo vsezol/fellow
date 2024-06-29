@@ -12,6 +12,7 @@ export {
   IncomingEventType,
   dispatchIncomingEvent,
   handleIncomingEvent,
+  isIncomingEvent,
 } from './incoming-event';
 export type { IncomingEvent } from './incoming-event';
 export type { OutgoingChatMessage } from './outgoing-chat-message-event';

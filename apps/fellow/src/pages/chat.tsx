@@ -12,8 +12,8 @@ import {
 import { useChatMessageHandler } from '../entities/chat-message';
 import { useSoundEffectHandler } from '../entities/sound-effect';
 import { selectUserName } from '../entities/user';
-import { useVisualEffectHandler } from '../entities/visual-effect';
 import { useUserStatusChangeHandler } from '../features/user/update-user-status';
+import { useVisualEffectHandler } from '../features/visual-effect';
 import { BreakpointSwitcher, useIsMobile } from '../shared';
 import { useGetUserActivityQuery } from '../shared/api';
 import { useAppSelector } from '../store';
@@ -64,7 +64,7 @@ export const Component: FC = () => {
   useApiEventHandler();
   useGroupCreateHandler();
   useChatMessageHandler();
-  useVisualEffectHandler();
+  useVisualEffectHandler(userName);
   useUserStatusChangeHandler();
   useSoundEffectHandler();
 

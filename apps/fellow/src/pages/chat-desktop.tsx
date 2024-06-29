@@ -1,15 +1,14 @@
+import clsx from 'clsx';
 import { useLayoutEffect, useState } from 'react';
 
-import clsx from 'clsx';
 import { selectCurrentChat } from '../entities/chat';
+import { Storage, debounce } from '../shared/lib';
 import {
   ResizableTwoPanels,
   ResizableTwoPanelsInitial,
   ResizableTwoPanelsMin,
   ResizableTwoPanelsOnChange,
-  Storage,
-  debounce,
-} from '../shared';
+} from '../shared/ui';
 import { useAppSelector } from '../store';
 import { Conversation } from '../widgets/conversation';
 import { ConversationPlaceholder } from '../widgets/conversation-placeholder';

@@ -1,11 +1,16 @@
-import { selectUserName } from 'apps/fellow/src/entities/user';
+import { useEffect } from 'react';
+import { selectUserName } from '../../../entities/user';
 import {
   selectAnimeModeEnabled,
   selectNotificationSoundEnabled,
-} from 'apps/fellow/src/entities/user-settings';
-import { useEffect } from 'react';
+} from '../../../entities/user-settings';
+import {
+  handleIncomingEvent,
+  isIncomingChatMessageEvent,
+} from '../../../shared/api/ws';
 import { useAppSelector } from '../../../store';
-import { handleIncomingChatMessage } from '../../chat/handle-incoming-chat-message';
+import { notificationAnimeAudioSrc } from './notification-anime.mp3';
+import { notificationAudioSrc } from './notification-sound.mp3';
 
 export const useNotificationSoundHandler = () => {
   const userName = useAppSelector(selectUserName);
@@ -13,16 +18,26 @@ export const useNotificationSoundHandler = () => {
   const animeMode = useAppSelector(selectAnimeModeEnabled);
 
   useEffect(() => {
-    const notificationAudio = animeMode
-      ? new Audio(notificationAnimeAudioSrc)
-      : new Audio(notificationAudioSrc);
-
-    return handleIncomingChatMessage((data) => {
-      if (data.from === userName || !isSoundEnabled) {
+    return handleIncomingEvent((event) => {
+      if (!isIncomingChatMessageEvent(event)) {
         return;
       }
 
-      notificationAudio.play();
+      const notificationAudio = animeMode
+        ? new Audio(notificationAnimeAudioSrc)
+        : new Audio(notificationAudioSrc);
+
+      return handleIncomingEvent((data) => {
+        if (!isIncomingChatMessageEvent(data)) {
+          return;
+        }
+
+        if (data.data.from === userName || !isSoundEnabled) {
+          return;
+        }
+
+        notificationAudio.play();
+      });
     });
   }, []);
 };

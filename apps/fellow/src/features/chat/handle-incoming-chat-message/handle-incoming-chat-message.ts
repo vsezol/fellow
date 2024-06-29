@@ -1,7 +1,16 @@
 import { useEffect } from 'react';
 import { AddMessagePayload, chatsSlice } from '../../../entities/chat';
-import { handleIncomingEvent } from '../../../shared/api/ws';
-import { Subscription, Unsubscribe } from '../../../shared/lib';
+import {
+  IncomingChatMessage,
+  handleIncomingEvent,
+  isIncomingChatMessageEvent,
+} from '../../../shared/api/ws';
+import {
+  Subscription,
+  Unsubscribe,
+  playHeartEffect,
+  playPenisEffect,
+} from '../../../shared/lib';
 import { useAppDispatch } from '../../../store';
 
 export const handleIncomingChatMessage = (
@@ -11,6 +20,9 @@ export const handleIncomingChatMessage = (
     if (!isIncomingChatMessageEvent(event)) {
       return;
     }
+
+    penisEffectHandler(event.data.message);
+    heartEffectHandler(event.data.message);
 
     sub(event.data);
   });
@@ -39,4 +51,20 @@ export const useChatMessageHandler = () => {
       dispatch(addMessage(payload));
     });
   }, []);
+};
+
+export const penisEffectHandler = (text: string) => {
+  if (!text.includes(':penis:')) {
+    return;
+  }
+
+  setTimeout(playPenisEffect, 300);
+};
+
+export const heartEffectHandler = (text: string) => {
+  if (!text.includes(':heart:')) {
+    return;
+  }
+
+  setTimeout(playHeartEffect, 300);
 };
