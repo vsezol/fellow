@@ -1,15 +1,13 @@
-import { useEffect } from 'react';
-import notificationAnimeAudioSrc from '../../../assets/notification-anime.mp3';
-import notificationAudioSrc from '../../../assets/notification.mp3';
-import { useAppSelector } from '../../../store';
-import { handleIncomingChatMessage } from '../../chat-message';
-import { selectUserName } from '../../user';
+import { selectUserName } from 'apps/fellow/src/entities/user';
 import {
   selectAnimeModeEnabled,
   selectNotificationSoundEnabled,
-} from '../../user-settings';
+} from 'apps/fellow/src/entities/user-settings';
+import { useEffect } from 'react';
+import { useAppSelector } from '../../../store';
+import { handleIncomingChatMessage } from '../../chat/handle-incoming-chat-message';
 
-export const useSoundEffectHandler = () => {
+export const useNotificationSoundHandler = () => {
   const userName = useAppSelector(selectUserName);
   const isSoundEnabled = useAppSelector(selectNotificationSoundEnabled);
   const animeMode = useAppSelector(selectAnimeModeEnabled);

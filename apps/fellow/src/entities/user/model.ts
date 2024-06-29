@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createSelectFromSelf } from '../../shared';
+import { createSelectFromSelf } from '../../shared/lib';
 
 export interface User {
   name: string;

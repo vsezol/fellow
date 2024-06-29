@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { createSelectFromSelf, createSelectSelf } from '../../shared';
+import { createSelectFromSelf, createSelectSelf } from '../../shared/lib';
 
 export interface UserSettingsState {
   alwaysShowLogoAnimation: boolean;

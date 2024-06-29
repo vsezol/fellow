@@ -4,8 +4,12 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux';
 import { chatsSlice } from '../entities/chat';
 import { userSlice } from '../entities/user';
 import { userSettingsSlice } from '../entities/user-settings';
-import { StorageOptions, getStorageState, saveStateToStorage } from '../shared';
-import { fellowApi } from '../shared/api';
+import { fellowApi } from '../shared/api/rest';
+import {
+  StorageOptions,
+  getStorageState,
+  saveStateToStorage,
+} from '../shared/lib';
 
 const storageOptions: StorageOptions = {
   name: 'FELLOW',

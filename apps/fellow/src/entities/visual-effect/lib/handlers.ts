@@ -1,5 +1,5 @@
-import { playHeartEffect, playPenisEffect } from '../../../shared';
-import { IncomingChatMessage } from '../../chat-message';
+import { IncomingChatMessage } from '../../../shared/api/ws';
+import { playHeartEffect, playPenisEffect } from '../../../shared/lib';
 
 export const penisEffectHandler = ({ message }: IncomingChatMessage) => {
   if (!message.includes(':penis:')) {

@@ -1,5 +1,5 @@
 import { Navigate, createBrowserRouter } from 'react-router-dom';
-import { withGuards } from '../shared';
+import { withGuards } from '../shared/lib';
 import { HasUserNameGuard } from './guards';
 import { RootLayout } from './root-layout';
 

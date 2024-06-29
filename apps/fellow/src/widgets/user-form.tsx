@@ -3,7 +3,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import { selectUserName, userSlice } from '../entities/user';
 
-import { updateUserStatus } from '../features/user/update-status';
+import { updateUserStatus } from '../features/user/update-user-status';
 import { useChangeStatusMutation, useGetUserQuery } from '../shared/api';
 import { Avatar, Button, InputText } from '../shared/ui';
 import { useAppDispatch, useAppSelector } from '../store';

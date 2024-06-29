@@ -20,10 +20,19 @@ import {
   getDeclensionByNumber,
   useIsVisible,
 } from '../shared';
-import { fellowApi } from '../shared/api';
+import { ChatMessageResponse, fellowApi } from '../shared/api';
 import { useAppDispatch, useAppSelector } from '../store';
 import MessageInput from './message-input';
 import MessagesList from './messages-list';
+
+const chatMessageResponseToChatMessage = (
+  message: ChatMessageResponse
+): ChatMessage => ({
+  id: message.id,
+  from: message.from,
+  text: message.message,
+  timestamp: message.timestamp,
+});
 
 const PAGE_SIZE = 50;
 

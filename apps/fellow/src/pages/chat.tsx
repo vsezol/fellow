@@ -13,7 +13,7 @@ import { useChatMessageHandler } from '../entities/chat-message';
 import { useSoundEffectHandler } from '../entities/sound-effect';
 import { selectUserName } from '../entities/user';
 import { useVisualEffectHandler } from '../entities/visual-effect';
-import { useUserStatusChangeHandler } from '../features/user/update-status';
+import { useUserStatusChangeHandler } from '../features/user/update-user-status';
 import { BreakpointSwitcher, useIsMobile } from '../shared';
 import { useGetUserActivityQuery } from '../shared/api';
 import { useAppSelector } from '../store';

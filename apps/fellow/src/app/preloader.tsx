@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { selectAlwaysShowLogoAnimation } from '../entities/user-settings';
-import { Storage } from '../shared';
+import { Storage } from '../shared/lib';
 import { useAppSelector } from '../store';
 import './preloader.css';
 

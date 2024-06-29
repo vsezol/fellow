@@ -3,7 +3,7 @@ import {
   createSelectFromSelf,
   createSelectSelf,
   createSliceSelectorWithTypes,
-} from '../../../shared';
+} from '../../shared/lib';
 import {
   AddChatPayload,
   AddMessagePayload,

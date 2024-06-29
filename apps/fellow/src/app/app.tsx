@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { Provider } from 'react-redux';
 import { RouterProvider } from 'react-router-dom';
-import { BreakpointProvider, usePreferredThemeMetaSync } from '../shared';
+import { BreakpointProvider, usePreferredThemeMetaSync } from '../shared/lib';
 import { setVhVariable } from '../shared/lib/set-vh-variable';
 import { useWindowResize } from '../shared/lib/use-window-resize';
 import { store } from '../store';
